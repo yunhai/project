@@ -1,0 +1,9 @@
+<?php
+$lang = array (
+  'pageTitle' => 'files',
+  'main_title' => 'files',
+  'file_err_name_blank' => 'File name cannot be blank!',
+);
+$userLang = array (
+);
+?>

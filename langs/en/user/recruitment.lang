@@ -1,0 +1,12 @@
+<?php
+$lang = array (
+  'pageTitle' => 'Recruitment',
+  'main_title' => 'Recruitment',
+  'group_global_module' => '',
+  'recruitment_title' => 'Recruitment',
+  'recruitment_others' => 'Other recruitment',
+  'posttime' => 'Post date',
+);
+$userLang = array (
+);
+?>

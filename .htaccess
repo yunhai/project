@@ -1,0 +1,49 @@
+#   backward compatibility ruleset for rewriting document.html to document.php
+#   when and only when document.php exists but no longer document.html
+<IfModule mod_rewrite.c>
+  RewriteEngine on	
+  RewriteBase /
+
+  
+  RewriteCond %{HTTP_HOST} !^www.domain.com [NC]
+  RewriteRule ^(.*)$ http://www.domain.com/$1 [L,R=301]
+ 
+
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  #RewriteCond %{REQUEST_URI} !\..+$
+  RewriteRule ^(.*)$ index.php?vs=$1 [L,QSA]
+
+  
+</IfModule>
+
+<IfModule mod_php5.c>
+  php_value post_max_size 32M
+  php_value upload_max_filesize 32M
+  php_value max_execution_time 800
+  php_value memory_limit 32M
+</IfModule>
+
+order allow,deny
+allow from all
+<FilesMatch "\.(php|pl|py|jsp|asp|htm|shtml|sh|cgi)$">
+#deny from all
+</FilesMatch>
+<Files index.php>
+allow from all
+</Files>
+<Files admin.php>
+allow from all
+</Files>
+<Files info.php>
+allow from all
+</Files>
+<Files CheckOnline.Api.php>
+allow from all
+</Files>
+<Files timthumb.php>
+allow from all
+</Files>
+<Files securimage_show.php>
+allow from all
+</Files>

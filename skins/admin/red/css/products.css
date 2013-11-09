@@ -1,0 +1,11 @@
+div.rowitem{
+	margin: 5px;
+}
+span.button,
+input.button{
+	cursor: pointer;
+	margin-left: 10px;
+}
+div.option{
+	margin: 20px 0 10px 5px;
+}

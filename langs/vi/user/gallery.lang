@@ -1,0 +1,12 @@
+<?php
+$lang = array (
+  'pageTitle' => 'Nhân Viên Của Chúng tõi',
+  'main_title' => 'Nhân Viên Của Chúng tõi',
+  'group_global_module' => 'Nhân Viên Của Chúng tõi',
+  'gallery_title' => 'Nhân Viên Của Chúng tõi',
+  'posttime' => 'Ngày đăng',
+  'gallery_others' => 'Hình ảnh khác',
+);
+$userLang = array (
+);
+?>

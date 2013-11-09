@@ -1,0 +1,7 @@
+<?php
+$lang = array (
+  'pageTitle' => 'slidehome',
+  'main_title' => 'slidehome',
+);
+$userLang = array();
+?>

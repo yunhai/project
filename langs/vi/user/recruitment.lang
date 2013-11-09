@@ -1,0 +1,12 @@
+<?php
+$lang = array (
+  'pageTitle' => 'Tuyển dụng',
+  'main_title' => 'Tuyển dụng',
+  'group_global_module' => '',
+  'recruitment_title' => 'Tuyển dụng',
+  'recruitment_others' => 'Tuyển dụng khác',
+  'posttime' => 'Ngày đăng',
+);
+$userLang = array (
+);
+?>

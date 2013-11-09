@@ -1,0 +1,14 @@
+<?php
+$lang = array (
+  'pageTitle' => 'Chi nhánh',
+  'main_title' => 'Chi nhánh',
+  'branch_title' => 'Chi nhánh',
+  'group_global_module' => 'global',
+  'branch_others' => 'Các chi nhánh khác',
+  'map' => 'Bản đồ',
+  'contacts_title' => 'branch',
+  'contacts_map_title' => 'Bản đồ',
+);
+$userLang = array (
+);
+?>

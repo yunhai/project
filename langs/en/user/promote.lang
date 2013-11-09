@@ -1,0 +1,13 @@
+<?php
+$lang = array (
+  'pageTitle' => 'promote',
+  'main_title' => 'promote',
+  'promote_title' => 'promote',
+  'posttime' => 'Postdate',
+  'promote_others' => 'Other Promotions',
+  'contacts_title' => 'promote',
+  'contacts_map_title' => 'Bản đồ',
+);
+$userLang = array (
+);
+?>

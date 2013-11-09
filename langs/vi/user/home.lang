@@ -1,0 +1,18 @@
+<?php
+$lang = array (
+  'pageTitle' => 'Trang chủ',
+  'main_title' => 'Trang chủ',
+  'gloabl_hotline' => 'Hỗ trợ ',
+  'gloabl_support' => 'Trực tuyến',
+  'service' => 'Dịch vụ',
+  'group_global_module' => 'global',
+  'branch' => 'Chuỗi chi nhánh',
+  'posttime' => 'Ngày đăng',
+  'news' => 'Tin tức mới',
+  'callprice' => 'Call',
+  'contacts_title' => 'home',
+  'contacts_map_title' => 'Bản đồ',
+);
+$userLang = array (
+);
+?>

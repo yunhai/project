@@ -1,0 +1,38 @@
+<?php
+$lang = array (
+  'pageTitle' => 'Liên hệ',
+  'main_title' => 'Liên hệ',
+  'contacts' => 'Liên hệ',
+  'contact_note' => 'Vui lòng liên hệ với chúng tôi qua form sau:',
+  'contact_fullname' => 'Họ tên',
+  'contact_address' => 'Địa chỉ',
+  'contact_phone' => 'Điện thoại',
+  'contact_email' => 'Email',
+  'contact_title' => 'Tiêu đề',
+  'contact_message' => 'Nội dung',
+  'contact_captcha' => 'Mã bảo vệ',
+  'contact_security' => 'Tạo mã mới',
+  'contact_sends' => 'Gửi',
+  'contact_reset' => 'Làm lại',
+  'err_contact_name_blank' => 'Vui lòng nhập họ tên!',
+  'err_contact_address_blank' => 'Vui lòng nhập địa chỉ!',
+  'err_contact_phone_blank' => 'Vui lòng nhập số điện thoại!',
+  'err_contact_email_blank' => 'Vui lòng nhập đúng loại email!',
+  'err_contact_title_blank' => 'Vui lòng nhập câu hỏi!',
+  'err_contact_message_blank' => 'Thông tin quá ngắn!',
+  'err_contact_phone_security' => 'Vui lòng nhập mã bảo vệ!',
+  'group_global_module' => 'global',
+  'contacts_ErrorNameEmpty' => '* Name cannot be blank!',
+  'contacts_ErrorTitleEmpty' => '* Title cannot be blank!',
+  'contacts_redirectText' => 'Cám ơn quý khách đã liên hệ chúng tôi.',
+  'title_text' => 'Thông tin liên hệ',
+  'redirect_title' => 'Chuyển trang...',
+  'redirect_immediate' => 'Click vào đây nếu không muốn chờ lâu',
+  'contact_email_subject' => 'Liên hệ',
+  'contacts_title' => 'Liên hệ',
+  'contactSubject' => 'Subject:',
+  'contacts_map_title' => 'Bản đồ',
+);
+$userLang = array (
+);
+?>

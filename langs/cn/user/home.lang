@@ -1,0 +1,18 @@
+<?php
+$lang = array (
+  'pageTitle' => '主頁',
+  'main_title' => '主頁',
+  'gloabl_hotline' => 'Hotline ',
+  'gloabl_support' => 'Support',
+  'service' => '服務行業',
+  'group_global_module' => 'global',
+  'branch' => '分店',
+  'posttime' => '刊登日期',
+  'news' => '更新信息',
+  'contacts_title' => 'home',
+  'contacts_map_title' => 'Bản đồ',
+  'callprice' => 'Call',
+);
+$userLang = array (
+);
+?>

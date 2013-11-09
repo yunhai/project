@@ -1,0 +1,11 @@
+<?php
+$lang = array (
+  'pageTitle' => 'Our team',
+  'main_title' => 'Our team',
+  'gallery_title' => 'Our team',
+  'posttime' => 'Postdate',
+  'gallery_others' => 'Others',
+);
+$userLang = array (
+);
+?>

@@ -1,0 +1,11 @@
+<?php
+$lang = array (
+  'pageTitle' => '特惠活動',
+  'main_title' => '特惠活動',
+  'promote_title' => '特惠活動',
+  'promote_others' => '其他活動',
+  'posttime' => 'Ngày đăng',
+);
+$userLang = array (
+);
+?>
