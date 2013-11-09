@@ -8,26 +8,19 @@ function showDefault($option=array()) {global $bw, $vsLang;
 
 //--starthtml--//
 $BWHTML .= <<<EOF
-        <div class='row'>
-<div class="span6 well">
+        <div id="center">
         <h3 class="center_title">
-        <span>
-<img class="noodle-icon" src='{$bw->vars['img_url']}/noodle.png' alt='icon' />
-</span>
-        <a href="#" title='{$vsLang->getWords($bw->input[0]."_title", $bw->input[0])}'>
+        <a href="{$bw->base_url}{$bw->input[0]}" title='{$vsLang->getWords($bw->input[0]."_title", $bw->input[0])}'>
 {$vsLang->getWords($bw->input[0]."_title", $bw->input[0])}
 </a>
 </h3>
         <div class="center_group">
-        {$this->__foreach_loop__id_527bc19a12680($option)}
+        {$this->__foreach_loop__id_52480d27bf79d($option)}
         </div>
         <div class='paging'>
         {$option['paging']}
         </div>
-        </div>
-        
-    <!-- CONTACT MAPS -->    
-        </div>
+    </div>
 EOF;
 //--endhtml--//
 return $BWHTML;
@@ -36,7 +29,7 @@ return $BWHTML;
 //===========================================================================
 // Foreach loop function 
 //===========================================================================
-function __foreach_loop__id_527bc19a12680($option=array())
+function __foreach_loop__id_52480d27bf79d($option=array())
 {
 global $bw, $vsLang;
     $BWHTML = '';
@@ -48,14 +41,13 @@ global $bw, $vsLang;
     $BWHTML .= <<<EOF
         
         <div class="item">
-        <h3><a href="#" title='{$obj->getTitle()}'>{$obj->getTitle()}</a></h3>
         
 EOF;
 if( $obj->file ) {
 $BWHTML .= <<<EOF
 
-            <a href="#" class="promote_image" title='{$obj->getTitle()}'>
-            {$obj->createImageCache($obj->file, 200, 200, 0)}
+            <a href="{$obj->getUrl($bw->input[0])}" class="promote_img" title='{$obj->getTitle()}'>
+            {$obj->createImageCache($obj->file, 100, 100)}
             </a>
             
 EOF;
@@ -63,8 +55,10 @@ EOF;
 
 $BWHTML .= <<<EOF
 
+                <h3><a href="{$obj->getUrl($bw->input[0])}" title='{$obj->getTitle()}'>{$obj->getTitle()}</a></h3>
                 <p>{$obj->getContent(500)}</p>
-                <div class="clear"></div>
+                <p class="news_date">{$vsLang->getWords('posttime','Ngày đăng')} {$obj->getPostDate('SHORT')}</p>
+                <div class="clear_left"></div>
             </div>
             
 EOF;
@@ -79,18 +73,18 @@ function showDetail($obj="",$option=array()) {global $bw, $vsLang;
 
 //--starthtml--//
 $BWHTML .= <<<EOF
-        <div class='row'>
-<div class="span6 well">
-        <h3 class="center_title">
-        <span>
-<img class="noodle-icon" src='{$bw->vars['img_url']}/noodle.png' alt='icon' />
-</span>
-        <a href="#" title='{$vsLang->getWords($bw->input[0]."_title", $bw->input[0])}'>
-{$obj->getTitle()}
+        <div id="center">
+        <h3 class="center_title detail_title">
+        <a href="{$bw->base_url}{$bw->input[0]}" title='{$vsLang->getWords($bw->input[0]."_title", $bw->input[0])}'>
+{$vsLang->getWords($bw->input[0]."_title", $bw->input[0])}
 </a>
 </h3>
-        <div class="detail"> 
+<div class="detail"> 
+        <h1 class='title'>{$obj->getTitle()}</h1>
 {$obj->getContent()}
+<div class='qr-code'>
+{$obj->createImageCache($obj->file, 300, 300)}
+</div>
 </div>
         
         
@@ -99,8 +93,8 @@ if( $option['other'] ) {
 $BWHTML .= <<<EOF
 
         <div class="other">
-        <h4>{$vsLang->getWords($bw->input[0].'_others', 'Bài viết khác')}</h4>
-        {$this->__foreach_loop__id_527bc19a12a6d($obj,$option)}
+        <h3>{$vsLang->getWords($bw->input[0].'_others', 'Khuyến mãi khác')}</h3>
+        {$this->__foreach_loop__id_52480d27bff6d($obj,$option)}
         </div>
         
 EOF;
@@ -108,9 +102,7 @@ EOF;
 
 $BWHTML .= <<<EOF
 
-        </div>
-    <!-- CONTACT MAPS -->        
-        </div>
+</div>
 EOF;
 //--endhtml--//
 return $BWHTML;
@@ -119,7 +111,7 @@ return $BWHTML;
 //===========================================================================
 // Foreach loop function 
 //===========================================================================
-function __foreach_loop__id_527bc19a12a6d($obj="",$option=array())
+function __foreach_loop__id_52480d27bff6d($obj="",$option=array())
 {
 global $bw, $vsLang;
     $BWHTML = '';
@@ -130,10 +122,7 @@ global $bw, $vsLang;
         $vsf_class = $vsf_count%2?'odd':'even';
     $BWHTML .= <<<EOF
         
-            <a href="{$item->getUrl($bw->input[0])}" title="{$item->getTitle()}">
-            <i class='icon-heart'></i>
-            {$item->getTitle()}
-            </a>
+            <a href="{$item->getUrl($bw->input[0])}" title="{$item->getTitle()}">{$item->getTitle()}</a>
             
 EOF;
 $vsf_count++;

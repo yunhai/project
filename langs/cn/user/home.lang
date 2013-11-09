@@ -9,9 +9,6 @@ $lang = array (
   'branch' => '分店',
   'posttime' => '刊登日期',
   'news' => '更新信息',
-  'contacts_title' => 'home',
-  'contacts_map_title' => 'Bản đồ',
-  'callprice' => 'Call',
 );
 $userLang = array (
 );

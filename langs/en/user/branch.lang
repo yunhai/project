@@ -4,8 +4,6 @@ $lang = array (
   'main_title' => 'branch',
   'branch_title' => 'branch',
   'branch_others' => 'Other branches',
-  'contacts_title' => 'branch',
-  'contacts_map_title' => 'Bản đồ',
 );
 $userLang = array (
 );

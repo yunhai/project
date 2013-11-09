@@ -31,8 +31,6 @@ $lang = array (
   'type_public' => 'Public',
   'index_label' => 'Index',
   'root_label' => 'Root',
-  'delete_error' => 'Delete error',
-  'delete_successful' => 'Delete successful',
 );
 $userLang = array (
 );

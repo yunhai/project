@@ -134,7 +134,7 @@ EOF;
 if( $option['category'] ) {
 $BWHTML .= <<<EOF
 
-    {$this->__foreach_loop__id_527bbfb478071($obj,$option)}
+    {$this->__foreach_loop__id_51e0f904b08e1($obj,$option)}
     
 EOF;
 }
@@ -181,7 +181,7 @@ EOF;
 if( $option['input'] ) {
 $BWHTML .= <<<EOF
 
-    {$this->__foreach_loop__id_527bbfb47836d($obj,$option)}
+    {$this->__foreach_loop__id_51e0f904b0cca($obj,$option)}
     
 EOF;
 }
@@ -315,7 +315,7 @@ return $BWHTML;
 //===========================================================================
 // Foreach loop function 
 //===========================================================================
-function __foreach_loop__id_527bbfb478071($obj="",$option="")
+function __foreach_loop__id_51e0f904b08e1($obj="",$option="")
 {
 global $bw, $vsUser, $vsLang;
     $BWHTML = '';
@@ -340,7 +340,7 @@ $vsf_count++;
 //===========================================================================
 // Foreach loop function 
 //===========================================================================
-function __foreach_loop__id_527bbfb47836d($obj="",$option="")
+function __foreach_loop__id_51e0f904b0cca($obj="",$option="")
 {
 global $bw, $vsUser, $vsLang;
     $BWHTML = '';
@@ -408,7 +408,7 @@ EOF;
 if( $option['pageList'] ) {
 $BWHTML .= <<<EOF
 
-    {$this->__foreach_loop__id_527bbfb478d93($option)}
+    {$this->__foreach_loop__id_51e0f904b1498($option)}
 
 EOF;
 }
@@ -442,7 +442,7 @@ return $BWHTML;
 //===========================================================================
 // Foreach loop function 
 //===========================================================================
-function __foreach_loop__id_527bbfb478d93($option="")
+function __foreach_loop__id_51e0f904b1498($option="")
 {
 global $vsLang,$vsUser;
     $BWHTML = '';
@@ -494,7 +494,7 @@ EOF;
 if( $arrayCat ) {
 $BWHTML .= <<<EOF
 
-{$this->__foreach_loop__id_527bbfb4797ea($listObj,$arrayCat,$message)}
+{$this->__foreach_loop__id_51e0f904b1ca3($listObj,$arrayCat,$message)}
 
 EOF;
 }
@@ -519,7 +519,7 @@ return $BWHTML;
 //===========================================================================
 // Foreach loop function 
 //===========================================================================
-function __foreach_loop__id_527bbfb4797ea($listObj="",$arrayCat="",$message="")
+function __foreach_loop__id_51e0f904b1ca3($listObj="",$arrayCat="",$message="")
 {
 global $vsLang;
     $BWHTML = '';

@@ -1,0 +1,48 @@
+#slide_dichvu .next_home,#slide_dichvu .prev_home{
+	display:block;
+	position:absolute;
+	top:57px;
+	width:18px;
+	height:148px;
+	cursor:pointer;
+	text-indent:-99999px;
+}
+#slide_dichvu .next_home{
+	background:url(../images/btn_prev.jpg) no-repeat;
+	left:9px;
+}
+#slide_dichvu .prev_home{
+	background:url(../images/btn_next.jpg) no-repeat;
+	right:9px;
+}
+
+#slide_dichvu .slide_item_home{
+	margin-left:25px;
+	height:208px;
+}
+.slide_item_home ul li{
+	width:205px;
+	height:208px;
+	list-style:none;
+	display:block;
+	position:relative;
+	margin:0px 14px;
+}
+.slide_item_home ul li a.service_img{
+	display:block;
+	width:205px;
+	height:127px;
+	overflow:hidden;
+	text-align:center;
+}
+.slide_item_home ul li img{
+	height:127px;
+}
+.slide_item_home ul li h3 a{
+	display:block;
+	line-height:26px;
+	color:#f01863;
+	font-size:20px;
+	font-family: 'uvn_bai_sauregular';
+	font-weight:normal;
+}

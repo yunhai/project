@@ -1,15 +1,11 @@
 <?php
 class skin_objectpublic{
 	function showDefault($option = array()){
-		global $bw, $vsLang, $vsTemplate;
+		global $bw, $vsLang;
 		
 		$BWHTML .= <<<EOF
-		<div class='row'>
-			<div class="span6 well">
+			<div id="center">
 		        <h3 class="center_title">
-		        	<span>
-						<img class="noodle-icon" src='{$bw->vars['img_url']}/noodle.png' alt='icon' />
-					</span>
 		        	<a href="{$bw->base_url}{$bw->input[0]}" title='{$vsLang->getWords($bw->input[0]."_title", $bw->input[0])}'>
 						{$vsLang->getWords($bw->input[0]."_title", $bw->input[0])}
 					</a>
@@ -24,17 +20,14 @@ class skin_objectpublic{
 		            	</if>
 		                <h3><a href="{$obj->getUrl($bw->input[0])}" title='{$obj->getTitle()}'>{$obj->getTitle()}</a></h3>
 		                <p>{$obj->getContent(500)}</p>
-		                <div class="clear"></div>
+		                <div class="clear_left"></div>
 		            </div>
 		            </foreach>
 		        </div>
 		        <div class='paging'>
 		        	{$option['paging']}
 		        </div>
-        	</div>
-		        			
-            <!-- CONTACT MAPS -->       			
-        </div>
+		    </div>
 EOF;
 		return $BWHTML;
 	}
@@ -43,37 +36,28 @@ EOF;
 		global $bw, $vsLang;
 		
 		$BWHTML .= <<<EOF
-		<div class='row'>
-			<div class="span6 well">
-		        <h3 class="center_title">
-		        	<span>
-						<img class="noodle-icon" src='{$bw->vars['img_url']}/noodle.png' alt='icon' />
-					</span>
-		        	<a href="#" title='{$vsLang->getWords($bw->input[0]."_title", $bw->input[0])}'>
-						{$obj->getTitle()}
-					</a>
-				</h3>
-		        <div class="detail"> 
-						{$obj->getContent()}
-					</div>
-			        
-			        <if=" $option['other'] ">
-			        <div class="other">
-			        	<h4>{$vsLang->getWords($bw->input[0].'_others', 'Bài viết khác')}</h4>
-			        	<foreach=" $option['other'] as $item ">
-			            <a href="{$item->getUrl($bw->input[0])}" title="{$item->getTitle()}">
-			            	<i class='icon-heart'></i>
-			            	{$item->getTitle()}
-			            </a>
-			            </foreach>
-			        </div>
-		        </if>
-        	</div>
-
-			<!-- CONTACT MAPS -->
-	            			
-        </div>
+		<div id="center">
+	        <h3 class="center_title detail_title">
+	        	<a href="{$bw->base_url}{$bw->input[0]}" title='{$vsLang->getWords($bw->input[0]."_title", $bw->input[0])}'>
+					{$vsLang->getWords($bw->input[0]."_title", $bw->input[0])}
+				</a>
+			</h3>
+			<div class="detail"> 
+	        	<h1 class='title'>{$obj->getTitle()}</h1>
+				{$obj->getContent()}
+			</div>
+	        
+	        <if=" $option['other'] ">
+	        <div class="other">
+	        	<h3>{$vsLang->getWords($bw->input[0].'_others', 'Bài viết khác')}</h3>
+	        	<foreach=" $option['other'] as $item ">
+	            <a href="{$item->getUrl($bw->input[0])}" title="{$item->getTitle()}">{$item->getTitle()}</a>
+	            </foreach>
+	        </div>
+	        </if>
+		</div>
 EOF;
 		return $BWHTML;
 	}
 }
+?>

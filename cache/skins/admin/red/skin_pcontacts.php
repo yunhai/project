@@ -73,7 +73,7 @@ margin-right: 5px;
 <span class='emailheader'>{$vsLang->getWords($bw->input[0].'_email', 'Email')}</span>
 <div class='clear'></div>
 </div>
-{$this->__foreach_loop__id_527bb57bf1ef0($objItem,$option)}
+{$this->__foreach_loop__id_518e27fa90522($objItem,$option)}
 </td>
 </tr>
 
@@ -350,7 +350,7 @@ return $BWHTML;
 //===========================================================================
 // Foreach loop function 
 //===========================================================================
-function __foreach_loop__id_527bb57bf1ef0($objItem="",$option=array())
+function __foreach_loop__id_518e27fa90522($objItem="",$option=array())
 {
 global $vsLang, $bw, $vsSettings, $langObject;
     $BWHTML = '';

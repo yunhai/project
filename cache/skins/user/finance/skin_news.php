@@ -15,7 +15,7 @@ $BWHTML .= <<<EOF
 </a>
 </h3>
         <div class="center_group">
-        {$this->__foreach_loop__id_525beafc70a51($option)}
+        {$this->__foreach_loop__id_524a9928cc6a9($option)}
         </div>
         <div class='paging'>
         {$option['paging']}
@@ -29,7 +29,7 @@ return $BWHTML;
 //===========================================================================
 // Foreach loop function 
 //===========================================================================
-function __foreach_loop__id_525beafc70a51($option=array())
+function __foreach_loop__id_524a9928cc6a9($option=array())
 {
 global $bw, $vsLang;
     $BWHTML = '';
@@ -80,7 +80,7 @@ $BWHTML .= <<<EOF
 
         <div class="other">
         <h3>{$vsLang->getWords($bw->input[0].'_others', 'Bài viết khác')}</h3>
-        {$this->__foreach_loop__id_525beafc70b5a($obj,$option)}
+        {$this->__foreach_loop__id_524a9928ccd5a($obj,$option)}
         </div>
         
 EOF;
@@ -97,7 +97,7 @@ return $BWHTML;
 //===========================================================================
 // Foreach loop function 
 //===========================================================================
-function __foreach_loop__id_525beafc70b5a($obj="",$option=array())
+function __foreach_loop__id_524a9928ccd5a($obj="",$option=array())
 {
 global $bw, $vsLang;
     $BWHTML = '';

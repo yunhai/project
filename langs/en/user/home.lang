@@ -6,9 +6,6 @@ $lang = array (
   'news' => 'News',
   'posttime' => 'Post date',
   'group_global_module' => 'global',
-  'contacts_title' => 'home',
-  'contacts_map_title' => 'Bản đồ',
-  'callprice' => 'Call',
 );
 $userLang = array (
 );

@@ -38,10 +38,6 @@ $lang = array (
   'global_copyright' => 'Bản quyền thuộc về Monica Salon',
   'global_promote' => 'Khuyến mãi',
   'global_hotline' => 'Điện thoại đặt chỗ',
-  'global_nav_home' => 'Home',
-  'global_unit' => 'VND',
-  'global_branch_list' => 'Danh sách chi nhánh',
-  'global_logo_homepage' => 'Trang chủ',
 );
 $userLang = array (
 );

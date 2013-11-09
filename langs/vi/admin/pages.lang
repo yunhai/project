@@ -27,9 +27,6 @@ $lang = array (
   'tab_obj_objes_gallery' => 'Thư viện ảnh',
   'add_virtual_module_successfully' => 'you have successfully add a virtual module',
   'tab_obj_objes_promote' => 'Khuyến mãi',
-  'main_title' => 'PAGES',
-  'pageTitle' => 'PAGES',
-  'tab_obj_objes_menu' => 'menu',
 );
 $userLang = array (
 );

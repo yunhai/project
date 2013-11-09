@@ -1,0 +1,114 @@
+@font-face {
+    font-family: 'uvn_bai_sauregular';
+    src: url('../javascripts/uvnbaisau_r-webfont.eot');
+    src: url('../javascripts/uvnbaisau_r-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../javascripts/uvnbaisau_r-webfont.woff') format('woff'),
+         url('../javascripts/uvnbaisau_r-webfont.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+
+}
+@font-face {
+    font-family: 'uvn_dzung_dakaoregular';
+    src: url('../javascripts/uvndzungdakao-webfont.eot');
+    src: url('../javascripts/uvndzungdakao-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../javascripts/uvndzungdakao-webfont.woff') format('woff'),
+         url('../javascripts/uvndzungdakao-webfont.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+
+}
+*{
+	padding:0px;
+	margin:0px;
+}
+body{
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:12px;
+	line-height:18px;
+	background:url(../images/bg.jpg) repeat-x top;
+	color:#000;
+}
+ul,ol{
+	list-style:none;	
+}
+.clear{
+	clear:both;
+}
+.clear_left{
+	clear:left;
+	height:0px;
+}
+.clear_right{
+	clear:right;
+}
+.fload_left{
+float:left;
+}
+.fload_right{
+float:right;
+}
+h1, h2, h3, h4, h5, h6{
+	font-size:12px; 
+}
+img, p, ul{
+	border:0px;
+}
+a{
+	text-decoration:none;
+	outline: none;
+}
+a:hover{
+	text-decoration:none;	
+}
+select{
+	outline:none;
+}
+table{
+	border-collapse:collapse;
+}
+/*---------- Một số chuẩn khi cắt css và tránh lỗi IE6-------------
+- Khi thêm thuộc tính margin cho thẻ phải thêm thuộc tính display:inline (trừ những thẻ không có chiều cao, rộng cố định thì không cần thiết)
+- Khi thêm padding chiều nào của một thẻ phải giảm độ rộng, cao tương ứng nếu thẻ có chiều rộng hoặc cao cố định.
+- Tất cả các link phải có hover
+- Những button như Hủy,Gửi đặt trong thẻ input phải có thuộc tính cursor:pointer . 
+- Những Title chỉ có một dòng thì tránh dùng padding-left khi muốn cách đầu dòng_ nên dùng text-indent:px và nên sét chiều rộng và thuộc tính overflow:hidden.
+- Nếu thẻ <img/> đặt trong một thẻ khác mà hình ảnh quá nhỏ thì phải có thuộc tính font-size:1px trong thẻ chứa <img/>
+
+* ---------------------------Qui tắc đặt tên--------------*/
+.page{
+	text-align:center;
+	padding:10px 0px;
+	margin-bottom: 30px;
+}
+.page a{
+	color:#898989;
+	padding:1px 7px 2px 7px;
+	font-size:11px;
+	border:1px solid #999999;
+}
+.page a:hover,.page a.active{
+	background:#ff0000;
+	border:1px solid #ff0000;
+	color:#fff;
+}
+.page img{
+	vertical-align:middle;
+}
+.page a.page_last{
+	border:none;
+	background:url(../images/page_next.jpg) no-repeat;
+	text-indent:-9999px;
+	width:19px;
+	height:19px;
+	padding:0;
+}
+.page a.page_first{
+	border:none;
+	background:url(../images/page_prev.jpg) no-repeat;
+	text-indent:-9999px;
+	width:19px;
+	height:19px;
+	padding:0;
+}
+

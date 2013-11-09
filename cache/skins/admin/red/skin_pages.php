@@ -67,7 +67,7 @@ EOF;
 if( count($virtualList) > 0) {
 $BWHTML .= <<<EOF
 
-{$this->__foreach_loop__id_527bb5635381a($virtualList,$option)}
+{$this->__foreach_loop__id_51e0f7e30225a($virtualList,$option)}
 
 EOF;
 }
@@ -101,7 +101,7 @@ return $BWHTML;
 //===========================================================================
 // Foreach loop function 
 //===========================================================================
-function __foreach_loop__id_527bb5635381a($virtualList=array(),$option=array())
+function __foreach_loop__id_51e0f7e30225a($virtualList=array(),$option=array())
 {
 global $vsLang, $bw;
     $BWHTML = '';

@@ -37,7 +37,7 @@ $BWHTML .= <<<EOF
 <input type="hidden" name="currentAction" value="{$bw->input['action']}" />
 {$title}
 <select name='languageid' id="language-list">
-{$this->__foreach_loop__id_527ceeb4e3b18($arrayObj,$title)}
+{$this->__foreach_loop__id_5246b29e8b820($arrayObj,$title)}
 </select>
 </form>
 </div>
@@ -62,7 +62,7 @@ return $BWHTML;
 //===========================================================================
 // Foreach loop function 
 //===========================================================================
-function __foreach_loop__id_527ceeb4e3b18($arrayObj=array(),$title='')
+function __foreach_loop__id_5246b29e8b820($arrayObj=array(),$title='')
 {
 global $bw,$vsLang;
     $BWHTML = '';

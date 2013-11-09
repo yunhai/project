@@ -30,7 +30,7 @@ class skin_objectpublic{
         	<else />
         	{$vsLang->getWords('no_item','Hiện tại mục này chưa có thông tin.')}
         	</if>
-        	<div class="clear"></div>
+        	<div class="clear_left"></div>
         </div>
         <!-- STOP PRODCT GROUP -->
         
@@ -85,7 +85,7 @@ EOF;
 	                </div>
 	            </div>
         	</foreach>
-        	<div class="clear"></div>
+        	<div class="clear_left"></div>
         </div>
         </if>
 EOF;

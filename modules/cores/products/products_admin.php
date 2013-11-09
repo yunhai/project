@@ -34,6 +34,15 @@ class products_admin extends ObjectAdmin{
 		}else
 			$obj->setIntro ('<textarea name="'.$this->tableName.'Intro" style="width:100%;height:100px;">'. strip_tags($obj->getIntro()) .'</textarea>');
                    
+		$editor->setWidth ( '100%' );
+		$editor->setHeight ( '350px' );
+		$editor->setToolbar ( 'full' );
+		$editor->setTheme ( "advanced" );
+		$editor->setInstanceName($this->tableName."Spec");
+		if($obj->getSpec()) $editor->setValue($obj->getSpec());
+		elseif($vsSettings->getSystemKey($bw->input[0]."_specdefault{$vsLang->currentLang->getFoldername()}", '', $bw->input[0], 1, 1))
+			$editor->setValue($vsSettings->getSystemKey($bw->input[0]."_specdefault{$vsLang->currentLang->getFoldername()}", '', $bw->input[0], 1, 1));
+		$obj->setSpec($editor->createHtml());
 		
 		$editor->setWidth ( '100%' );
 		$editor->setHeight ( '350px' );
@@ -54,38 +63,5 @@ class products_admin extends ObjectAdmin{
 	    
 		return $this->output = $this->html->addEditObjForm ( $obj, $option );
 	}
-
-	function getObjList($catId = '', $message = "") {
-		global $bw, $vsSettings;
-		$catId = intval ( $catId );
-	
-		$categories = $this->model->getCategories ();
-	
-		if ($bw->input ['pageCate'])
-			$bw->input [2] = $catId = $bw->input ['pageCate'];
-		if ($bw->input ['pageIndex'])
-			$bw->input [3] = $bw->input ['pageIndex'];
-	
-		// Check if the catIds is specified
-		// If not just get all product
-		if (intval ( $catId )) {
-			$result = $this->model->vsMenu->extractNodeInTree ( $catId, $categories->getChildren () );
-			if ($result)
-				$strIds = trim ( $catId . "," . $this->model->vsMenu->getChildrenIdInTree ( $result ['category'] ), "," );
-		}
-		if (! $strIds)
-			$strIds = $this->model->vsMenu->getChildrenIdInTree ( $categories );
-		// Set the condition to get all product in specified category and its chidlren
-		$this->model->setCondition ( $this->model->getCategoryField () . " in (" . $strIds . ") and {$this->tableName}Status > -1" );
-		$this->model->setOrder("productCatId, productIndex ");
-		
-		$size = $vsSettings->getSystemKey ( "admin_{$bw->input[0]}_list_number", 10 );
-	
-		$option = $this->model->getPageList ( "{$bw->input[0]}/display-obj-list/{$catId}", 3, $size, 1, 'obj-panel' );
-		$option ['message'] = $message;
-		$option ['categoryId'] = $catId;
-	
-		return $this->output = $this->html->objListHtml ( $this->model->getArrayObj (), $option );
-	}
-
 }
+?>

@@ -33,10 +33,6 @@ $lang = array (
   'global_copyright' => 'Monica Salon',
   'global_promote' => 'Promote',
   'global_no_item' => 'Trang này không tồn tại.',
-  'global_branch_list' => 'Danh sách chi nhánh',
-  'global_nav_home' => 'Home',
-  'global_logo_homepage' => 'Trang chủ',
-  'global_unit' => 'VND',
 );
 $userLang = array (
 );

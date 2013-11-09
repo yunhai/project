@@ -152,7 +152,7 @@ EOF;
 if( $this->ADMIN_TOP_MENU ) {
 $BWHTML .= <<<EOF
 
-{$this->__foreach_loop__id_527ceeb4d9afb()}
+{$this->__foreach_loop__id_5246b29e63b63()}
 
 EOF;
 }
@@ -203,7 +203,7 @@ return $BWHTML;
 //===========================================================================
 // Foreach loop function 
 //===========================================================================
-function __foreach_loop__id_527ceeb4d9713($menu='')
+function __foreach_loop__id_5246b29e63395($menu='')
 {
 ;
     $BWHTML = '';
@@ -226,7 +226,7 @@ $vsf_count++;
 //===========================================================================
 // Foreach loop function 
 //===========================================================================
-function __foreach_loop__id_527ceeb4d9afb()
+function __foreach_loop__id_5246b29e63b63()
 {
 global $bw, $vsUser, $vsLang;
     $BWHTML = '';
@@ -244,7 +244,7 @@ if($menu->isDropdown&&count($menu->children)) {
 $BWHTML .= <<<EOF
 
                     <ul>
-                    {$this->__foreach_loop__id_527ceeb4d9713($menu)}
+                    {$this->__foreach_loop__id_5246b29e63395($menu)}
                     </ul>
 
 EOF;

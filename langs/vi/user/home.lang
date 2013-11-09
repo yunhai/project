@@ -9,9 +9,6 @@ $lang = array (
   'branch' => 'Chuỗi chi nhánh',
   'posttime' => 'Ngày đăng',
   'news' => 'Tin tức mới',
-  'callprice' => 'Call',
-  'contacts_title' => 'home',
-  'contacts_map_title' => 'Bản đồ',
 );
 $userLang = array (
 );

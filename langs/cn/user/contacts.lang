@@ -22,10 +22,9 @@ $lang = array (
   'contacts_redirectText' => 'Cám ơn quý khách đã liên hệ chúng tôi.',
   'redirect_title' => 'Chuyển trang...',
   'redirect_immediate' => 'Click vào đây nếu không muốn chờ lâu',
-  'contacts_title' => '聯繫',
-  'contactSubject' => '標題:',
-  'contact_email_subject' => '聯繫',
-  'contacts_map_title' => '地圖',
+  'contacts_title' => 'contacts',
+  'contactSubject' => 'Subject:',
+  'contact_email_subject' => 'Contact',
 );
 $userLang = array (
 );

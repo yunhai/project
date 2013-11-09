@@ -71,7 +71,7 @@ class skin_products extends skin_objectadmin{
 								<input name="{$tableName}Status" id="{$tableName}Status0" value='0' class='c_noneWidth' type="radio" />
 
 
-								<if=" $vsSettings->getSystemKey($bw->input[0].'_home', 0, $bw->input[0]) ">
+								<if=" $vsSettings->getSystemKey($bw->input[0].'_home',0, $bw->input[0]) ">
 								<label>{$langObject['itemListHome']}</label>
 								<input name="{$tableName}Status" id="{$tableName}Status2" value='2' class='c_noneWidth' type="radio" />
 								</if>
@@ -81,10 +81,11 @@ class skin_products extends skin_objectadmin{
 						<if="$vsSettings->getSystemKey($bw->input[0].'_image', 1, $bw->input[0])">
 						<tr class='smalltitle'>
 							<td class="label_obj">
-								{$langObject['itemObjFile']}:
+								{$langObject['itemObjLink']}:
 							</td>
 							<td>
-								<input size="27" type="file" name="{$tableName}IntroImage" id="{$tableName}IntroImage" /><br />
+								<input onclick="checkedLinkFile($('#link-text').val());" onclicktext="checkedLinkFile($('#link-text').val());" type="radio" id="link-text" name="link-file" value="link" />
+								<input size="39" type="text" name="txtlink" id="txtlink"/><br/>
 								 {$vsSettings->getSystemKey($bw->input[0]."_image_timthumb_size","(size:100x100px)", $bw->input[0])}
 							</td>
 							<td colspan="2" rowspan="2">
@@ -95,13 +96,31 @@ class skin_products extends skin_objectadmin{
 								<label for="deleteImage">{$langObject['itemObjDeleteImage']}</lable>
 								</if>
 							</td>
+						</tr>
+
+						<tr class='smalltitle'>
+							<td class="label_obj">
+								{$langObject['itemObjFile']}:
+							</td>
+							<td>
+								<input onclick="checkedLinkFile($('#link-file').val());" onclicktext="checkedLinkFile($('#link-file').val());" type="radio" id="link-file" name="link-file" value="file" checked="checked"/>
+								<input size="27" type="file" name="{$tableName}IntroImage" id="{$tableName}IntroImage" /><br />
+								 <!--{$vsSettings->getSystemKey($bw->input[0]."_image_timthumb_size","(size:100x100px)", $bw->input[0])}-->
+							</td>
 						</tr>						
 						</if>
 						
 						<tr class='smalltitle'>
-							<td class="label_obj" width="75">{$vsLang->getWords('itemPrice',"Price")}:</td>
-							<td >
-								<input style="width:100%;" name="{$tableName}Price" value="{$objItem->getPrice()}" "/>
+							<td class="label_obj" width="75">{$vsLang->getWords('itemLabel',"Label")}:</td>
+							<td colspan="3">
+								<input style="width:100%;" name="{$tableName}Label" value="{$objItem->getLabel()}" />
+							</td>
+						</tr>
+						
+						<tr class='smalltitle'>
+							<td class="label_obj" width="75">{$vsLang->getWords('itemModel',"Model")}:</td>
+							<td colspan="3">
+								<input style="width:100%;" name="{$tableName}Model" value="{$objItem->getModel()}" "/>
 							</td>
 						</tr>
 						
@@ -116,6 +135,14 @@ class skin_products extends skin_objectadmin{
 						</tr>
 						</if>
 						
+						<tr class='smalltitle'>
+							<td class="label_obj" width="75">
+								{$vsLang->getWords('product_spec', 'Spec')}:
+							</td>
+							<td colspan="3" valgin="left">
+								{$objItem->getSpec()}
+							</td>
+						</tr>
 						
 						<if="$vsSettings->getSystemKey($bw->input[0].'_content',1, $bw->input[0])">
 						<tr class='smalltitle'>
@@ -136,10 +163,30 @@ class skin_products extends skin_objectadmin{
 						$(this).removeAttr('selected');
 					});
 					$("input.numeric").numeric();
+					checkedLinkFile();
 					vsf.jRadio('{$objItem->getStatus()}','{$tableName}Status');
 					vsf.jSelect('{$objItem->getCatId()}','obj-category');
 				});
 				
+				$('#txtlink').change(function() {
+					var img_html = '<img src="'+$(this).val()+'" style="width:100px; max-height:115px;" />'; 
+					$('#td-obj-image').html(img_html);
+				});
+				
+				$('#{$tableName}IntroImage').change(function() {
+					var img_name = '<input type="hidden" id="image-name" name="image-name" value="'+$(this).val() +'"/>';
+					$('#td-obj-image').html(img_name);
+				});
+				
+				function checkedLinkFile(value){
+					if(value=='link'){
+						$("#txtlink").removeAttr('disabled');
+						$("#{$tableName}IntroImage").attr('disabled', 'disabled');
+					}else{
+						$("#txtlink").attr('disabled', 'disabled');
+						$("#{$tableName}IntroImage").removeAttr('disabled');
+					}
+				}
 				
 				$('#add-edit-obj-form').submit(function(){
 					var flag  = true;
@@ -217,111 +264,6 @@ EOF;
 		return $BWHTML;
 	}
 
-	function objListHtml($objItems = array(), $option = array()) {
-		global $bw, $vsLang, $vsSettings, $vsSetting, $tableName, $vsUser,$langObject;
-		$this->objcallback = "obj-panel-callback";
-		if($option['comment_panel']){
-			$this->objcallback = "comment-callback";
-		}
-		$BWHTML .= <<<EOF
 	
-			<div class="red">{$option['message']}</div>
-			<form id="obj-list-form">
-			<input type="hidden" name="checkedObj" id="checked-obj" value="" />
-			<input type="hidden" name="categoryId" value="{$option['categoryId']}" id="categoryId" />
-			<div class='ui-dialog ui-widget ui-widget-content ui-corner-all'>
-                            <div class="ui-dialog-titlebar ui-widget-header ui-helper-clearfix ui-corner-all-inner">
-                            <span class="ui-icon ui-icon-note"></span>
-                            <span class="ui-dialog-title">{$langObject['itemList']}</span>
-                            </div>
-                                <if=" $vsSettings->getSystemKey($bw->input[0].'_add_hide_show_delete',1, $bw->input[0]) ">
-                                <ul class="ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-corner-all-inner ui-widget-header">
-                                    <li class="ui-state-default ui-corner-top" id="add-objlist-bt"><a href="#" title="{$langObject['itemListAdd']}">{$langObject['itemListAdd']}</a></li>
-                                    <li class="ui-state-default ui-corner-top" id="hide-objlist-bt"><a href="#" title="{$langObject['itemListHide']}">{$langObject['itemListHide']}</a></li>
-                                    <li class="ui-state-default ui-corner-top" id="visible-objlist-bt"><a href="#" title="{$langObject['itemListVisible']}">{$langObject['itemListVisible']}</a></li>
-                                    <if=" $vsSettings->getSystemKey($bw->input[0].'_home',0, $bw->input[0]) ">
-                                       <li class="ui-state-default ui-corner-top" id="home-objlist-bt"><a href="#" title="{$langObject['itemListHome']}">{$langObject['itemListHome']}</a></li>
-                                    </if>
-                                    <li class="ui-state-default ui-corner-top" id="delete-objlist-bt"><a href="#" title="{$langObject['itemListDelete']}">{$langObject['itemListDelete']}</a></li>
-                                    <if="$vsSettings->getSystemKey($bw->input[0].'_category_list', 0, $bw->input[0])">
-                                    <li class="ui-state-default ui-corner-top" id="change-objlist-bt"><a href="#" title="{$langObject['itemListChangeCate']}">{$langObject['itemListChangeCate']}</a></li>
-                                    </if>
-                                    <if="$vsSettings->getSystemKey($bw->input[0].'_search_list',0, $bw->input[0])">
-                                    <li class="ui-state-default ui-corner-top" id="insertSearch-objlist-bt"><a href="#" title="{$langObject['itemListInsertSearch']}">{$langObject['itemListInsertSearch']}</a></li>
-                                    </if>
-                                </ul>
-                                </if>
-					<table cellspacing="1" cellpadding="1" id='objListHtmlTable' width="100%">
-						<thead>
-						    <tr>
-						        <th width="10"><input type="checkbox" onclick="vsf.checkAll()" name="all" /></th>
-						        <th width="60">{$langObject['itemListActive']}</th>
-						        <th>{$langObject['itemListTitle']}</td>
-								
-								<if=" $vsSettings->getSystemKey($bw->input[0].'_index', 1, $bw->input[0], 1, 1) ">
-						        <th width="100">Giá</th>
-								</if>
-								<if=" $vsSettings->getSystemKey($bw->input[0].'_index', 1, $bw->input[0], 1, 1) ">
-						        <th width="30">{$langObject['itemListIndex']}</th>
-								</if>
-						        <if=" $vsSettings->getSystemKey($bw->input[0].'_option', 0, $bw->input[0], 1, 1) ">
-						        <th width="80" align="center">{$langObject['itemListAction']}</th>
-						        </if>
-						    </tr>
-						</thead>
-						<tbody>
-							<foreach="$objItems as $obj">
-								<tr class="$vsf_class">
-									<td align="center">
-                                                                                <if="!$vsSettings->getSystemKey($bw->input[0].'_code',0) && $obj->getCode()">
-                                                                                    <img src="{$bw->vars['img_url']}/disabled.png" />
-                                                                                <else />
-										<input type="checkbox" onclick="vsf.checkObject();" name="obj_{$obj->getId()}" value="{$obj->getId()}" class="myCheckbox" />
-                                                                                </if>
-									</td>
-									<td style='text-align:center'>{$obj->getStatus('image')}</td>
-					
-									<td>
-										<a href="javascript:vsf.get('{$bw->input[0]}/add-edit-obj-form/{$obj->getId()}/&pageIndex={$bw->input[3]}&pageCate={$bw->input[2]}','obj-panel')"  class="editObj" >
-										{$obj->getTitle()}
-										</a>
-									</td>
-									<td>{$obj->getPrice(true, true)}</td>
-									<if=" $vsSettings->getSystemKey($bw->input[0].'_index', 1, $bw->input[0], 1, 1) ">
-									<td>{$obj->getIndex()}</td>
-									</if>
-									
-									<if=" $vsSettings->getSystemKey($bw->input[0].'_option', 0, $bw->input[0], 1, 1) ">
-									<td>
-										{$this->addOtionList($obj,$this->objcallback,$option)}
-									</td>
-									</if>
-								</tr>
-							</foreach>
-						</tbody>
-						<tfoot>
-							<tr>
-								<th colspan='5'>
-									<div style='float:right;'>{$option['paging']}</div>
-								</th>
-							</tr>
-                                                         <tr >
-                                                      <th colspan='6' align="left">
-                                                      <span style="padding-left: 10px;line-height:16px;"><img src="{$bw->vars['img_url']}/enable.png" /> {$langObject['itemListCurrentShow']}</span>
-                                                      <span style="padding-left: 10px;line-height:16px;"><img src="{$bw->vars['img_url']}/disabled.png" /> {$langObject['itemListNotShow']}</span>
-                                                       <if=" $vsSettings->getSystemKey($bw->input[0].'_home',0, $bw->input[0]) ">
-                                                            <span style="padding-left: 10px;line-height:16px;"><img src="{$bw->vars['img_url']}/home.png" /> {$langObject['itemListHomeShow']}</span>
-                                                      </if>
-                                                      </th>
-                                                </tr>
-						</tfoot>
-					</table>
-				</div>
-			</form>
-			<div class="clear" id="file"></div>
-                        <div id='commentList'></div>
-			{$this->addJavaScript()}
-EOF;
-	}
 }
 ?>

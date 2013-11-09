@@ -211,7 +211,7 @@ EOF;
   			});
 		');
 
-		$script = '<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=true&language=vi"></script>';
+		$script = '<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false&key=AIzaSyBUmE1ByJKy7AmcERUfyf2ggIJaTVk9ars"></script>';
 		$this->output=$this->html->contactMainLayout($option).$script;
 	}
 

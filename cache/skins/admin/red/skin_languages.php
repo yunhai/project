@@ -20,7 +20,7 @@ vsf.get('languages/'+act+'/'+langid+'/'+value,id);
 </script>
 <div id="page_tabs">
 <ul id="tabs_nav">
-        {$this->__foreach_loop__id_527ba51bc5bfd($list)}
+        {$this->__foreach_loop__id_518e28424a661($list)}
         
 EOF;
 if( $vsUser->checkRoot() ) {
@@ -47,7 +47,7 @@ return $BWHTML;
 //===========================================================================
 // Foreach loop function 
 //===========================================================================
-function __foreach_loop__id_527ba51bc5bfd($list="")
+function __foreach_loop__id_518e28424a661($list="")
 {
 global $bw, $vsLang, $vsUser;
     $BWHTML = '';
@@ -168,7 +168,7 @@ $BWHTML .= <<<EOF
     <td>{$vsLang->getWords('lang_symbol','Symbol')}</td>
         <td class="ui-dialog-selectpanel">
        <select size="5" multiple="multiple" id="langSymbol" name="langSymbol">
-       {$this->__foreach_loop__id_527ba51bc5fd5($form)}
+       {$this->__foreach_loop__id_518e28424ae30($form)}
 </select>
         </td>
     </tr>
@@ -215,7 +215,7 @@ return $BWHTML;
 //===========================================================================
 // Foreach loop function 
 //===========================================================================
-function __foreach_loop__id_527ba51bc5fd5($form="")
+function __foreach_loop__id_518e28424ae30($form="")
 {
 global $vsLang, $bw;
     $BWHTML = '';
@@ -262,7 +262,7 @@ $BWHTML .= <<<EOF
                 <th>{$vsLang->getWords('lang_option','Option')}</th>
             </tr>
         </thead>
-{$this->__foreach_loop__id_527ba51bc63ec($showval)}
+{$this->__foreach_loop__id_518e28424b601($showval)}
 </table>
 </div>
 EOF;
@@ -273,7 +273,7 @@ return $BWHTML;
 //===========================================================================
 // Foreach loop function 
 //===========================================================================
-function __foreach_loop__id_527ba51bc63ec($showval="")
+function __foreach_loop__id_518e28424b601($showval="")
 {
 global $vsLang,$bw;
     $BWHTML = '';
@@ -368,7 +368,7 @@ EOF;
 if($showall['WORD_ITEM']) {
 $BWHTML .= <<<EOF
 
-            {$this->__foreach_loop__id_527ba51bc6b91($showall)}
+            {$this->__foreach_loop__id_518e28424bdd1($showall)}
         
 EOF;
 }
@@ -391,7 +391,7 @@ return $BWHTML;
 //===========================================================================
 // Foreach loop function 
 //===========================================================================
-function __foreach_loop__id_527ba51bc6b91($showall="")
+function __foreach_loop__id_518e28424bdd1($showall="")
 {
 global $bw,$vsLang, $vsUser;
     $BWHTML = '';
@@ -487,7 +487,7 @@ EOF;
 if(count($showall['VAR_LANG_ITEM'])) {
 $BWHTML .= <<<EOF
 
-    {$this->__foreach_loop__id_527ba51bc7362($showall)}
+    {$this->__foreach_loop__id_518e28424c5a3($showall)}
 
 EOF;
 }
@@ -504,7 +504,7 @@ return $BWHTML;
 //===========================================================================
 // Foreach loop function 
 //===========================================================================
-function __foreach_loop__id_527ba51bc7362($showall="")
+function __foreach_loop__id_518e28424c5a3($showall="")
 {
 global $vsLang, $bw;
     $BWHTML = '';

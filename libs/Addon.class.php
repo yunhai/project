@@ -23,41 +23,39 @@ class Addon {
 		$vsTemplate->global_template->topmenu = $this->html->topmenu($listmenu);
 		$vsTemplate->global_template->bottommenu = $this->html->bottomenu($listmenu);
 		
+		$vsStd->requireFile ( CORE_PATH . 'supports/supports.php' );
+		$supports = new supports ();
+		$temp = $supports->portlet ();
 		
-		
-		$vsStd->requireFile ( CORE_PATH . 'pages/pages.php' );
-		$page = new pages();
-		
-		$promote = $page->getObjByModule('promote', 4);
-		$vsTemplate->global_template->promote = $this->html->portlet_promote($promote);
-			
+		$vsTemplate->global_template->support = $this->html->portlet_supports ( $temp );
 		
 		$vsStd->requireFile ( CORE_PATH . 'partners/partners.php' );
 		$partners = new partners();
-		$ad = $partners->getArrayPartners(array('slidehome'));
+		$ad = $partners->getArrayPartners(array('slidehome', 'partners'));
 		
-		$slidehome = array();
-		foreach ($ad['slidehome'] as $element)
-			$slidehome[] = $element;
+		$vsTemplate->global_template->slideshow = $this->html->portlet_slideshow($ad['slidehome']);
+		$vsTemplate->global_template->partner = $this->html->portlet_partner($ad['partners']);
 		
-		$vsTemplate->global_template->slideshow = $this->html->portlet_slideshow($slidehome);
+		$vsStd->requireFile ( CORE_PATH . 'pages/pages.php' );
+		$page = new pages ();
 		
+		$about = $page->getPageByCodeLanguage ( 'about', 'about' );
+		if ($about)
+			$vsTemplate->global_template->about = $this->html->portlet_about($about);
 		
-		$vsStd->requireFile(CORE_PATH.'pcontacts/pcontacts.php');
-		$page = new pcontacts();
-		$categories = $vsMenu->getCategoryGroup("branch");
-		
-		$strIds = $vsMenu->getChildrenIdInTree($categories);
-		$page->setCondition("pcontactCatId in ({$strIds}) and pcontactStatus > 0");
-		$page->setOrder("pcontactIndex, pcontactId");
-		$branches = $page->getObjectsByCondition();
-		
-		if($branches) {
-			$main = current($branches);
-			$vsTemplate->global_template->map = $this->html->portlet_map($branches, $main);
-			
-			$vsTemplate->global_template->branch = $this->html->portlet_branch($branches);
+		if ($bw->input ['module'] == "home") {
+			$service = $page->getObjByModule('service', 8);
+			$vsTemplate->global_template->service = $this->html->portlet_service($service);
 		}
+		$recruitment = $page->getObjByModule('recruitment', 4);
+		if ($recruitment)
+			$vsTemplate->global_template->recruitment = $this->html->portlet_recruitment($recruitment);
+		
+		
+		$promote = $page->getObjByModule('promote', 4);
+		if($promote)
+			$vsTemplate->global_template->promote = $this->html->portlet_promote($promote);
+			
 	}
 	
 	function buildMenuLeft($listmenu) {

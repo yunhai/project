@@ -5,8 +5,8 @@
   RewriteBase /
 
   
-  RewriteCond %{HTTP_HOST} !^www.domain.com [NC]
-  RewriteRule ^(.*)$ http://www.domain.com/$1 [L,R=301]
+  #RewriteCond %{HTTP_HOST} !^www.domain.com [NC]
+  #RewriteRule ^(.*)$ http://www.domain.com/$1 [L,R=301]
  
 
   RewriteCond %{REQUEST_FILENAME} !-f

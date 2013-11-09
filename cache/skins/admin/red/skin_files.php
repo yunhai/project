@@ -73,7 +73,7 @@ EOF;
 if(count($type)) {
 $BWHTML .= <<<EOF
 
-{$this->__foreach_loop__id_527ce6061f66d($type,$message)}
+{$this->__foreach_loop__id_518e27fa3aa0c($type,$message)}
 
 EOF;
 }
@@ -104,7 +104,7 @@ return $BWHTML;
 //===========================================================================
 // Foreach loop function 
 //===========================================================================
-function __foreach_loop__id_527ce6061f66d($type=array(),$message="")
+function __foreach_loop__id_518e27fa3aa0c($type=array(),$message="")
 {
 global $vsLang,$bw;
     $BWHTML = '';
@@ -309,7 +309,7 @@ $BWHTML = "";
 
 //--starthtml--//
 $BWHTML .= <<<EOF
-        {$this->__foreach_loop__id_527ce6061fa53($folder)}
+        {$this->__foreach_loop__id_518e27fa3b1db($folder)}
 EOF;
 //--endhtml--//
 return $BWHTML;
@@ -318,7 +318,7 @@ return $BWHTML;
 //===========================================================================
 // Foreach loop function 
 //===========================================================================
-function __foreach_loop__id_527ce6061fa53($folder="")
+function __foreach_loop__id_518e27fa3b1db($folder="")
 {
 global $bw;
     $BWHTML = '';
@@ -362,7 +362,7 @@ EOF;
 if(count($fileList)) {
 $BWHTML .= <<<EOF
 
-{$this->__foreach_loop__id_527ce6061fe3b($fileList,$message)}
+{$this->__foreach_loop__id_518e27fa3b5c3($fileList,$message)}
 
 EOF;
 }
@@ -384,7 +384,7 @@ return $BWHTML;
 //===========================================================================
 // Foreach loop function 
 //===========================================================================
-function __foreach_loop__id_527ce6061fe3b($fileList=array(),$message="")
+function __foreach_loop__id_518e27fa3b5c3($fileList=array(),$message="")
 {
 global $vsLang;
     $BWHTML = '';

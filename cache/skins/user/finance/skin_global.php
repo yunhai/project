@@ -11,64 +11,17 @@ $active[$_SESSION["user"]["language"]["currentLang"]["langFolder"]] = 'active';
 
 //--starthtml--//
 $BWHTML .= <<<EOF
-        <div class="navbar navbar-fixed-top">
-<div class="navbar-inner">
-<div class="container">
-<button type="button" class="btn btn-navbar collapsed"
-data-toggle="collapse" data-target=".nav-collapse">
-<span class="icon-bar"></span>
-<span class="icon-bar"></span>
-<span class="icon-bar"></span>
-</button>
-<div class="nav-collapse collapse">
-<ul class="nav">
-<li>
-<a href="{$bw->base_url}" title='{$vsSettings->getSystemKey("global_websitename", 'Noodle88', 'global')}'> 
-<i class="icon-home"></i>
-{$vsLang->getWords('global_nav_home', "Home")}
+        <div id="header">
+<a href="{$bw->base_url}" class="logo">
+<img src="{$bw->vars['img_url']}/logo.png" />
 </a>
-</li>
-</ul>
-<ul class="followUs pull-right">
-<li>
-<a  class="facebook qtip" title="facebook"
-href="{$vsSettings->getSystemKey("config_facebook", 'http://www.facebook.com', 'config')}" target="_blank">
-</a>
-</li>
-<li>
-<a  class="twitter" title="Twitter"
-href="{$vsSettings->getSystemKey("config_twitter", 'http://www.twitter.com', 'config')}" target="_blank">
-</a>
-</li>
-</ul>
-<!--
-<ul class="nav pull-right">
-<li>
-<a href="http://line.naver.jp/R/msg/text/?LINE%20it%21%0d%0ahttp%3a%2f%2fline%2enaver%2ejp%2f" style='padding: 0 15px;'>
-<img src="{$bw->vars['img_url']}/linebutton_40x40_en.png" width="40" height="40" alt="LINE it!" />
-</a>
-</li>
-</ul>
--->
-{$this->topmenu}
-</div>
-</div>
-</div>
-</div>
-<!-- STOP HEADER -->
-<div id="content">
-<div class="wrapper">
-<header class="header">
-<div class="container">
-<div class="row">
-<div class="span4">
-<a id="logo" href="{$bw->vars['board_url']}" title="{$vsLang->getWords('global_logo_homepage', 'Trang chủ')}">
-<img src="{$bw->vars['img_url']}/logo.jpg" alt="logo">
-</a>
-</div>
-<div class="span4">&nbsp;</div>
-<div class="span4">
-<div class="lang_link">
+{$this->about}
+{$this->support}
+    <div class='reservation'>
+    <p class='hotline_{$lang}'>{$vsLang->getWords('global_hotline', 'Điện thoại đặt chỗ')}:</p>
+    <span class='hotlinenumber_{$lang}'>{$vsSettings->getSystemKey("config_reservation", '0903 935 300', 'config')}</span>
+    </div>
+    <div class="lang_link">
     <a href="{$bw->vars['board_url']}" title='{$vsLang->getWords('global_vietnamese','Tiếng Việt')}' class='{$active['vi']}'>
 {$vsLang->getWords('global_vietnamese','Tiếng Việt')}
 </a>
@@ -78,62 +31,43 @@ href="{$vsSettings->getSystemKey("config_twitter", 'http://www.twitter.com', 'co
         <a href="{$bw->vars['board_url']}/en" title='{$vsLang->getWords('global_english','English')}' class='{$active['en']}'>
 {$vsLang->getWords('global_english','English')}
 </a>
-<div class='clear'></div>
     </div>
-    <div class='clear'></div>
-<a class="txtRaling" href="tel:{$vsSettings->getSystemKey("config_telephone", '0906-941-599', 'config')}">
-<img src='{$bw->vars['img_url']}/phone.png' />
-{$vsSettings->getSystemKey("config_telephone", '0906-941-599', 'config')}
-</a>
-</div>
-</div>
-</div>
-</header>
-<div id="bodySection">
-<div class="container">
-<div id="myCarousel" class="carousel slide">
-<!-- Carousel items -->
-{$this->slideshow}
-{$this->branch}
-</div>
-</div>
-<div class='clear'></div>
-</div>
-{$this->promote}
+{$this->topmenu}
     
-    <div class='clear'></div>
-{$this->SITE_MAIN_CONTENT}
-<div class='clear'></div>
+    {$this->slideshow}
 </div>
+<!-- STOP HEADER -->
+{$this->service}
+<!-- STOP SLIDE DICH VU -->
+<div id="content">
+{$this->SITE_MAIN_CONTENT}
+    <!-- STOP CENTER -->
+    
+    <div id="sitebar">
+    {$this->recruitment}
+    {$this->promote}
+        
+        {$this->partner}
+    </div>
+    <!-- STOP SITEBAR -->
     
     <div class="clear"></div>
 </div>
 <!-- STOP CONTENT -->
-<footer class="footer">
-<div class="container">
-<ul class="followUs" style='margin-top: 10px;'>
-<li>
-<a class="mail" title="Email" href="{$bw->base_url}contacts"></a></li>
-<li>
-<a  class="facebook qtip" title="facebook" target="_blank"
-href="{$vsSettings->getSystemKey("config_facebook", 'http://www.facebook.com', 'config')}">
-</a>
-</li>
-<li>
-<a  class="twitter" title="Twitter" target="_blank"
-href="{$vsSettings->getSystemKey("config_twitter", 'http://www.twitter.com', 'config')}">
-</a>
-</li>
-<li>
-<a  class="dribble qtip" title="Google plus" target="_blank"
-href="{$vsSettings->getSystemKey("config_google_plus", 'https://plus.google.com/u/0/', 'config')}">
-</a>
-</li>
-</ul>
-{$this->bottommenu}
+<div id="footer">
+<p class="copyright">
+© {$year} {$vsLang->getWords('global_copyright','Bản quyền thuộc về Monica Spa')} <br/>
+</p>
+<p class='footer-reservation'>
+<span class='reservation-text'>{$vsLang->getWords('global_hotline', 'Điện thoại đặt chỗ')}:</span>
+    <span class='reservation-number'>{$vsSettings->getSystemKey("config_reservation", '0903 935 300', 'config')}</span>
+</p>
+    <div class="truycap">
+    <p>{$vsLang->getWords('global_access_today','Đang truy cập')}: <span>{$this->state['today']}</span></p>
+    <p>{$vsLang->getWords('global_access_total','Tổng lượt truy cập')}: <span>{$this->state['visits']}</span></p>
+    </div>
 </div>
-</footer>
-{$this->footer}
+
 <script type="text/javascript">
   var _gaq = _gaq || [];
   _gaq.push(['_setAccount', 'UA-32732641-1']);

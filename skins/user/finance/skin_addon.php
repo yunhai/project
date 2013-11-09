@@ -4,25 +4,23 @@ class skin_addon {
 	function topmenu($option = array(), $index = 1) {
 		global $bw, $vsLang, $vsTemplate;
 		
+		$this->menu_sub = $vsTemplate->global_template->menu_sub;
 		$BWHTML .= <<<EOF
-			<ul class="nav pull-right menu_top{$vsLang->currentLang->getFoldername()}">
-				<foreach="$option as $obj">
-				<if=" $obj->top ">
-				<li>
-					<a href="{$obj->getUrl(0)}" title="{$obj->getTitle()}"
-						<if=' $obj->getClassActive('active') '>
-						style="padding: 0 14px;">
-						<span class="btn btn-warning">{$obj->getTitle()}</span>
-						<else />
-						>
-						{$obj->getTitle()}
-						</if>
-					</a>
-				</li>
-				</if>
-				</foreach>
-			</ul>
-		
+			<ul class="menu_top menu_top{$vsLang->currentLang->getFoldername()}">
+                    <foreach="$option as $obj">
+                        <li>
+                        	<a href="{$obj->getUrl(0)}" title="{$obj->getTitle()}" class="{$obj->getClassActive('active')}">
+                        		{$obj->getTitle()}
+                        	</a>
+                            <if="$vsTemplate->global_template->menu_sub[$obj->getUrl()] || $obj->getChildren()">
+                                <ul >
+                                    {$obj->getChildrenLi()}
+                                </ul>
+                            </if>
+                        </li>
+                    </foreach>
+                    <div class="clear_left"></div>
+				</ul>
 EOF;
 		return $BWHTML;
 	}
@@ -30,42 +28,56 @@ EOF;
 	function bottomenu($option = array()) {
 		global $bw, $vsLang, $vsTemplate;
 		
-		$this->index = 0;
 		$BWHTML .= <<<EOF
-		<div id="footerMenu">
-			<foreach=" $option as $menu ">
-				<if=" $menu->bottom ">
-				<a href="{$menu->getUrl(0)}" title='{$menu->getTitle()}'>{$menu->getTitle()}</a>
-				<if="$this->index++ < 3">
-					&nbsp;|&nbsp;
-				</if>
-				</if>
-			</foreach>
-		</div>							
+		
+       	<ul class="menu footer_menu">
+	       	<foreach="$option as $obj">
+	        	<li><a href="{$obj->getUrl(0)}" class="{$obj->getClassActive()}" title="{$obj->getTitle()}"><span>{$obj->getTitle()}</span></a></li>
+	      	</foreach>
+        	<div class="clear_left"></div>
+     	</ul>
      	
 EOF;
 		return $BWHTML;
 	}
 	
-	function portlet_branch($option = array()) {
+	function portlet_slideshow($option = array()) {
 		global $bw, $vsLang;
-	
+		
 		$BWHTML .= <<<EOF
-			<div class="branch_portlet" >
-				<div class="branch_portlet_title">
-					{$vsLang->getWords('global_branch_list','Danh sách chi nhánh')}
-				</div>
-				<div class="branch_list">
-					<foreach=" $option as $obj ">		
-						<div class='branch-item'>		
-							<span class="branch-title">{$obj->getTitle()}</span>
-							{$obj->getIntro()}
-						</div>
-					</foreach>
-				</div>
-			</div>
+		<div id="slide_face">
+         <div class="images">
+         	<foreach=" $option as $obj ">
+                <div class="slide_item" title='{$obj->getTitle()}'>
+                	{$obj->createImageCache($obj->file, 716, 305)}
+                </div>          
+             </foreach>   
+         </div>
+         <!-- the tabs -->
+                       
+         <div class="slidetabs">
+         	<foreach=" $option as $obj ">
+                <a href="#" title='{$obj->getTitle()}'></a> 
+			</foreach>
+        </div>
+     	<script type='text/javascript'>
+             $(function() {
+                  $(".slidetabs").tabs(".images > div.slide_item", {
+                         effect: 'fade',
+                         fadeOutSpeed: "slow",
+                         rotate: true,
+                         auto:true
+                  }).slideshow();
+                  $(".slidetabs").data("slideshow").play();
+             });
+     	</script>
+   </div>
+   <!-- STOP SLIDE -->
+   <if=" $bw->input['module'] == 'home' ">
+   <div class="shadow_bottom"><img src="{$bw->vars['img_url']}/shadow.png" /></div>
+   </if>
 EOF;
-        	return $BWHTML;
+		return $BWHTML;
 	}
 	
 	function portlet_recruitment($option = array()) {
@@ -95,126 +107,197 @@ EOF;
 		global $bw, $vsLang;
 		
 		$BWHTML .= <<<EOF
-			<div id="postCodeInner">
-				<if=' count($option) '>
-				<span class="btn horizontal_scroller-title">
-					<img src='{$bw->vars['img_url']}/store.png' style="height: 30px"/>
-					{$vsLang->getWords('global_promote', 'Khuyến mãi')}
-				</span>
-				<div style="float: left;">&nbsp;</div>
-				<div>
-					<ul id="ticker01">
-						<foreach="$option as $obj">
-							<li>
-								<a href="{$obj->getUrl('promote')}" title='{$obj->getTitle()}'>
-									[{$obj->getPostDate('SHORT')}] {$obj->getTitle()}
-								</a>
-							</li>
-						</foreach>
-					</ul>
-				</div>
-											<else />
-											<span style='height: 30px;display:block;'>&nbsp;
-				</span>
-											</if>
-				<div class="clear"></div>
-			</div>
-			<div class='clear'></div>								
+			<div class="sitebar_tuyendung">
+	        	<h3 class="center_title">
+	        		<a href="{$bw->base_url}promote" title="{$vsLang->getWords('global_promote','Khuyến mãi')}">
+						{$vsLang->getWords('global_promote','Khuyến mãi')}
+					</a>
+				</h3>
+				<foreach="$option as $obj">
+					<div class="promote_item">
+						<if=" $obj->file ">
+		            	<a href="{$obj->getUrl('promote')}" class="" title='{$obj->getTitle()}'>
+		            		{$obj->createImageCache($obj->file, 120, 120)}
+		            	</a>
+		            	</if>
+		            	<a href="{$obj->getUrl('promote')}" title='{$obj->getTitle()}' class="promote">{$obj->getTitle()}</a>
+		                <p>[{$obj->getPostDate("SHORT")}]</p>
+		                <div class='clear'></div>
+		            </div>
+				</foreach>
+				<div class='clear'></div>
+	        </div>
+		
 EOF;
 		return $BWHTML;
 	}
 	
-	function portlet_slideshow($option = array()) {
+	function portlet_partner($option = array()) {
 		global $bw, $vsLang;
-	
-		$BWHTML .= <<<EOF
-			<ol class="carousel-indicators">
-				<foreach=" $option as $k => $obj ">
-	                <li data-target="#myCarousel" data-slide-to="{$k}" class="active"></li>
-				</foreach>
-			</ol>
-			<div class="carousel-inner">
-				<foreach=" $option as $k => $obj ">
-	                <div class="item <if=" $k == 0 ">active</if>">
-						<p>
-							{$obj->createImageCache($obj->file, 1170, 500)}
-						</p>
-					</div>          
-	             </foreach>   
-			</div>
-									
-			<a class="carousel-control left" href="#myCarousel" data-slide="prev">&lsaquo;</a>
-  			<a class="carousel-control right" href="#myCarousel" data-slide="next">&rsaquo;</a>
-EOF;
-						return $BWHTML;
-	}
-	
-	function portlet_map($branches, $main) {
-		global $bw, $vsLang;
-	
-		$this->index = 1;
-		$this->total = count($branches);
 		
 		$BWHTML .= <<<EOF
-			<div class="span5 well">
-				<h3 class="center_title detail_title">
-		        	<a href="{$bw->base_url}contacts#contact-main-content" title='{$vsLang->getWords("contacts_title", $bw->input[0])}'>
-						{$vsLang->getWords("contacts_map_title", 'Bản đồ')}
-					</a>
-				</h3>
-				<div id="contact-map-list">
-					<foreach=" $branches as $obj ">
-		           		<a class="{$obj->active}" href="{$bw->base_url}contacts/{$obj->getCleanTitle()}-{$obj->getId()}#contact-main-content" title='{$obj->getTitle()}'>
-							{$obj->getTitle()}
-						</a>
-						<if=" $this->index++ < $this->total ">
-							 |
-						</if>
-	                </foreach>
-	                <div class='clear'></div>
-	           </div>
-	           
-		        <div class="map">
-	           		<div id='map_canvas'></div> 
-				</div>
+			<div class="sitebar_quangcao">
+				<foreach=' $option as $obj '>
+				<a href="{$obj->getWebsite()}" class="quangcao" title='{$obj->getTitle()}'>
+					{$obj->createImageCache($obj->file, 306, '')}
+				</a>
+				</foreach>
+            </div>
+EOF;
+		return $BWHTML;
+	}
+	
+	function portlet_supports($option = array()) {
+		global $bw, $vsLang, $vsSettings;
+		
+		$BWHTML .= <<<EOF
+			<div class="support">
+	            <p class="hotline">{$vsLang->getWords('global_support', 'Hỗ trợ')}:</p>
+	            <foreach="$option as $k => $v">
+					<foreach=" $v as $key =>$obj">
+						{$obj->showAdvance()}
+					</foreach>
+				</foreach>
+				<div class="link_mangxahoi">
+				<p>{$vsLang->getWords('global_follow_us','Theo chúng tôi tại')}:</p>
+		        <a href="{$vsSettings->getSystemKey("config_facebook", 'http://www.facebook.com', 'config')}" target='_blank'>
+		        	<img src="{$bw->vars['img_url']}/face.png" />
+		        </a>
+		        <a href="{$vsSettings->getSystemKey("config_twitter", 'http://www.twitter.com', 'config')}" target='_blank'>
+		        	<img src="{$bw->vars['img_url']}/tweet.png" />
+		        </a>
+		        <a href="{$vsSettings->getSystemKey("config_google_plus", 'https://plus.google.com/u/0/', 'config')}" target='_blank'>
+		        	<img src="{$bw->vars['img_url']}/google.png" /></a>
+		        	</div>
+	        </div>
+EOF;
+		return $BWHTML;
+	}
+	
+	function portlet_about($obj = null) {
+		
+		
+		$lang = $_SESSION['user']['language']['currentLang']['langFolder'];
+		$BWHTML .= <<<EOF
+		    <div class="about_home about_home_{$lang}">
+		    	<span class="about_home_title">{$obj->getTitle()}</span>
+		        <p>{$obj->getIntro()}</p>
+		    </div>
+  
+EOF;
+		return $BWHTML;
+	}
+	
+	function portlet_productcategory($option) {
+		global $bw, $vsLang;
+		
+		$BWHTML .= <<<EOF
+		<if=" $option ">
+			<h3 class="sitebar_title">{$vsLang->getWords('global_productcategory', 'Danh mục sản phẩm')}</h3>
+			<div class="product_list">
+			<ul id='menu'>
+				{$option}
+			</ul>
 			</div>
-		<if=" $main ">
-    	<if=" $main->getLongitude() && $main->getLatitude() ">
-    		<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=true&language=vi"></script>
-    		<script  type="text/javascript">
-    		//key=AIzaSyD2heuHJ0KdL8IPCyE3OYQrARjSjCeVGMI&
-			    function init() {
-			    	var myHtml = "<h4>{$main->getTitle()}</h4><p>{$main->getAddress()}</p>";
-
-			    	
-			      	var map = new google.maps.Map(
-			      					document.getElementById("map_canvas"),
-			      					{scaleControl: true}
-			      				);
-			      	map.setCenter(new google.maps.LatLng({$main->getLatitude()},{$main->getLongitude()}));
-			      	map.setZoom(15);
-			      	map.setMapTypeId(google.maps.MapTypeId.ROADMAP);
+		</if>		
+  
+EOF;
+		return $BWHTML;
+	}
 	
-			      	var marker = new google.maps.Marker({
-			      						map: map,
-			      						position:map.getCenter()
-									});
-	
-					var infowindow = new google.maps.InfoWindow({
-										'pixelOffset': new google.maps.Size(0,15)
-									});
-			      	infowindow.setContent(myHtml);
-			      	infowindow.open(map, marker);
-			    }
-			      			
-			      			
-		    	$(document).ready(function(){
-					init();
-				});
-			</script>
-		</if>
+	function portlet_service($option) {
+		global $bw, $vsLang;
+		
+		$BWHTML .= <<<EOF
+		<if=" $option ">
+			<div id="slide_dichvu">
+     			<div class="next_home">prev</div>
+			    <div class="slide_item_home">
+			    	<ul>
+			    		<foreach=' $option as $obj '>
+			    		<li>
+			    			<a href="{$obj->getUrl("service")}" title='{$obj->getTitle()}' class='service_img'>
+			    				<span>{$obj->createImageCache($obj->file, 205, 127)}</span>
+			    			</a>
+			    			<h3><a href="{$obj->getUrl("service")}" title='{$obj->getTitle()}'>{$obj->getTitle()}</a></h3>
+			    			<p>{$obj->getContent(200)}</p>
+			    		</li>
+			    		</foreach>
+					</ul>
+			     </div>
+			     <div class="prev_home">next</div>
+			</div>
 		</if>		
 EOF;
-						return $BWHTML;
+		return $BWHTML;
+	}
+	
+	function portlet_search() {
+		global $bw, $vsLang, $vsTemplate;
+		
+		$stringSearch = $vsLang->getWords ( 'global_tim', 'Tìm kiếm sản phẩm...' );
+		$BWHTML .= <<<EOF
+                
+                <div class="search_top" id='global_search'>
+		        	<input id='keySearch' class="input_text" type="text" onfocus="if(this.value=='{$stringSearch}') this.value='';" onblur="if(this.value=='') this.value='{$stringSearch}';" value="{$stringSearch}" />
+		            <input type="submit" value="" class="search_btn" id='submit_form_search'/>
+		        </div>
+		        
+		        <script language="javascript" type="text/javascript">
+		        $(document).ready(function(){
+		        	$("#keySearch").keydown(function(e){
+		        		var key = e.charCode ? e.charCode : e.keyCode ? e.keyCode : 0;
+		        		if(e.keyCode==13) return $('#submit_form_search').click();
+		        	});
+                
+		        	$('#global_search').submit(function(){
+	                    if($('#keySearch').val()==""||$('#keySearch').val()=="{$stringSearch}") {
+	                        jAlert('{$vsLang->getWords('global_tim_thongtin', 'Vui lòng nhập thông tin cần tìm kiếm')}',
+	                        '{$bw->vars['global_websitename']} Dialog');
+	                        return false;
+	                    }
+	                    return true;
+                	});
+                	$('#submit_form_search').click(function()  {
+				         if($('#keySearch').val()==""||$('#keySearch').val()=="{$stringSearch}") {
+				             jAlert('{$vsLang->getWords('global_tim_thongtin','Vui lòng nhập thông tin cần search:please!!!!!')}',
+				                        '{$bw->vars['global_websitename']} Dialog');
+				                return false;
+				           }
+				           str =  $('#keySearch').val()+"/";
+				            document.location.href="{$bw->base_url}searchs/"+ str;
+				            return;
+				     });
+                });
+                </script> 
+       	
+EOF;
+		return $BWHTML;
+	}
+	
+	function portlet_dropdown_weblink($option = array()) {
+		global $bw, $vsLang, $vsMenu, $vsStd, $vsPrint;
+		$vsPrint->addJavaScriptString ( 'global_weblink', '
+    			   $("#link").change(function(){
+                               if($("#link").val())
+                                    window.open($("#link").val(),"_blank");
+                            });
+    		' );
+		
+		$BWHTML .= <<<EOF
+		    <div class='web_link'>
+		    	<form>
+                    <select class="styled" id="link">
+                    	<option value="0">{$vsLang->getWordsGlobal('global_lienket','Liên kết')}</option>
+                        <foreach="$option as $wl">
+                            <option value="{$wl->getWebsite()}"> {$wl->getTitle()}</option>
+                        </foreach>       
+                    </select>
+				</form>
+            </div>
+        
+EOF;
+		return $BWHTML;
 	}
 }
+?>

@@ -115,7 +115,6 @@ $lang = array (
   'global_d_fri' => 'Friday',
   'global_d_sat' => 'Saturday',
   'global_d_sun' => 'Sunday',
-  'global_unit' => 'VND',
 );
 $userLang = array (
 );

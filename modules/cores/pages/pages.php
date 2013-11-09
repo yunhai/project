@@ -111,13 +111,11 @@ class pages extends VSFObject {
 			$categories = $vsMenu->getCategoryGroup ( $module );
 		else
 			$categories = $this->getCategories ();
-		print "<pre>";
-		print_r($categories);
-		print "</pre>";
+		
 		$strIds = $vsMenu->getChildrenIdInTree ( $categories );
 		if (! $strIds)
 			return array ();
-		$this->setFieldsString ('pageId, pageTitle, pageIntro, pageContent, pagePostDate, pageImage' );
+		$this->setFieldsString ( 'pageId, pageTitle, pageIntro, pageContent, pagePostDate, pageImage' );
 		$this->setCondition ( "pageStatus > 0 and pageCatId in ({$strIds})" );
 		$this->getOrder () ? $this->setOrder ( $this->getOrder () . ", pageId DESC" ) : $this->setOrder ( "pageIndex DESC, pageId DESC" );
 		$this->setLimit ( array (0, $size ) );

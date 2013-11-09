@@ -34,10 +34,6 @@ $lang = array (
   'global_hotline' => '預約電話',
   'global_promote' => '特惠活動',
   'global_no_item' => 'Trang này không tồn tại.',
-  'global_branch_list' => 'Danh sách chi nhánh',
-  'global_nav_home' => 'Home',
-  'global_logo_homepage' => 'Trang chủ',
-  'global_unit' => 'VND',
 );
 $userLang = array (
 );

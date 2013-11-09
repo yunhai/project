@@ -94,20 +94,17 @@
 	font-weight: bold;
 	font-size: 20px;
 }
-.lang_link {
-	float: right;
-	margin-bottom: 15px;
+.lang_link{
+	position:absolute;
+	right:43px;
+	top:85px;
+	z-index:10;
 }
 .lang_link a{
-	color:#222;
+	color:#fff;
 	float:left;
+	/*background:url(../images/lang.jpg) no-repeat right center;*/
 	padding: 0 5px;
-}
-.lang_link a:hover, 
-.lang_link a:focus{
-	color:#FF0066;
-	text-decoration: none;
-	border-bottom: 3px solid #FF0066;
 }
 .lang_link a.active{
 	color: #FF0066;

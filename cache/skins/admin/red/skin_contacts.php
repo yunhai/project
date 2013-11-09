@@ -54,7 +54,7 @@ EOF;
 if(is_array($option['pageList'])) {
 $BWHTML .= <<<EOF
 
-    {$this->__foreach_loop__id_5274a06f5c3be($option)}
+    {$this->__foreach_loop__id_517d368eaf32d($option)}
     
 EOF;
 }
@@ -131,7 +131,7 @@ return $BWHTML;
 //===========================================================================
 // Foreach loop function 
 //===========================================================================
-function __foreach_loop__id_5274a06f5c3be($option="")
+function __foreach_loop__id_517d368eaf32d($option="")
 {
 global $vsLang, $bw, $vsPrint,$vsSettings;
     $BWHTML = '';

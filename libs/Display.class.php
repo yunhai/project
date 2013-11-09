@@ -226,8 +226,6 @@ class VSFDisplay {
 		else{
 			$vsTemplate->global_template->SITE_MAIN_CONTENT = $this->to_print;
 			$vsSkin->BOARD = $vsTemplate->global_template->vs_global();
-			
-			$vsSkin->BOARD = str_replace('<!-- CONTACT MAPS -->', $vsTemplate->global_template->map, $vsSkin->BOARD);
 		}
 		
 		$vsSkin->TITLE = $this->pageTitle;
@@ -254,7 +252,6 @@ class VSFDisplay {
 		$this->lastestProject ();
 		$this->_finish ();
 	}
-	
 	function lastestProject() {
 		global $vsSettings, $bw, $vsSetting;
 		if($vsSettings->builcachesetting) $vsSettings->addSetting();

@@ -44,7 +44,7 @@ class contacts_public {
 		$page = new pcontacts();
 		$categories = $vsMenu->getCategoryGroup("branch");
 
-		$strIds = $vsMenu->getChildrenIdInTree($categories);
+		$strIds=$vsMenu->getChildrenIdInTree($categories);
 		$page->setCondition("pcontactCatId in ({$strIds}) and pcontactStatus > 0");
 		$page->setOrder("pcontactIndex, pcontactId");
 		$plist = $page->getObjectsByCondition();
@@ -62,12 +62,6 @@ class contacts_public {
 		$vsPrint->addJavaScriptFile( 'jquery/ui.widget');
 		$vsPrint->addJavaScriptFile( "jquery/ui.alerts");
 		
-		
-		$vsPrint->addGlobalCSSFile('jquery/base/ui.theme');
-		$vsPrint->addGlobalCSSFile('jquery/base/ui.core');
-		$vsPrint->addGlobalCSSFile('jquery/base/ui.theme');
-		$vsPrint->addGlobalCSSFile('jquery/base/ui.dialog');
-		
 		$query = explode('-',$id);
 		$id = intval($query[count($query)-1]);
 		$main = $plist[$id];
@@ -82,9 +76,8 @@ class contacts_public {
 	}
         
 	function sendContact() {
-		global $bw, $vsStd, $vsSettings, $vsLang, $vsMenu, $vsPrint, $DB;
-		
-		
+		global $bw, $vsLang, $vsSettings, $vsPrint, $vsStd,$DB;
+
 		$query = explode('-',$bw->input['targetpage']);
 		$id = intval($query[count($query)-1]);
 		
@@ -109,35 +102,7 @@ class contacts_public {
 		if ($this->model->error != "") return $this->sendContactError();
 		
 		$url = $bw->input['targetpage']?$bw->input['targetpage']:$bw->input['module'];
-		
-		$vsStd->requireFile(CORE_PATH.'pcontacts/pcontacts.php');
-		$page = new pcontacts();
-		$categories = $vsMenu->getCategoryGroup("branch");
-		
-		$strIds = $vsMenu->getChildrenIdInTree($categories);
-		$page->setCondition("pcontactCatId in ({$strIds}) and pcontactStatus > 0");
-		$page->setOrder("pcontactIndex, pcontactId");
-		$plist = $page->getObjectsByCondition();
-		
-		$main = current($plist);
-		if(!$main) return;
-		if(!$id) {
-			$target = $bw->base_url.'contacts/'.$main->getCleanTitle().'-'.$main->getId();
-			return $vsPrint->boink_it($target);
-		}
-		
-		
-		
-		$query = explode('-',$id);
-		$id = intval($query[count($query)-1]);
-		$main = $plist[$id];
-		
-		$plist[$id]->active= 'active';
-		
-		$option['plist'] = $plist;
-		$option['contact'] = $main;
-		
-		$this->thankcontact($url, $option);
+		$this->thankcontact($url);
 	}
 
 	function sentContactByEmail($addon_profile, $file) {

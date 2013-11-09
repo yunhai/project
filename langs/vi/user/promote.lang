@@ -6,8 +6,6 @@ $lang = array (
   'promote_title' => 'Khuyến mãi',
   'posttime' => 'Ngày đăng',
   'promote_others' => 'Khuyến mãi khác',
-  'contacts_title' => 'promote',
-  'contacts_map_title' => 'Bản đồ',
 );
 $userLang = array (
 );

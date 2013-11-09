@@ -15,7 +15,7 @@ class products extends VSFObject {
 		$this->obj              =&$this->basicObject;
 		$this->fields           = $this->obj->convertToDB();
 		$this->categories       = array();
-		$this->categories       = $vsMenu->getCategoryGroup(strtolower("products"));
+		$this->categories       = $vsMenu->getCategoryGroup(strtolower($bw->input['module']));
 
 	}
 

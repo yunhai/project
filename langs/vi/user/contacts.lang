@@ -31,7 +31,6 @@ $lang = array (
   'contact_email_subject' => 'Liên hệ',
   'contacts_title' => 'Liên hệ',
   'contactSubject' => 'Subject:',
-  'contacts_map_title' => 'Bản đồ',
 );
 $userLang = array (
 );

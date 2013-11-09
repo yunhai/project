@@ -24,7 +24,6 @@ $lang = array (
   'contacts_redirectText' => 'Thank you! Your message have been sent.',
   'redirect_title' => 'Chuyển trang...',
   'redirect_immediate' => 'Click vào đây nếu không muốn chờ lâu',
-  'contacts_map_title' => 'Bản đồ',
 );
 $userLang = array (
 );

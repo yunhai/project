@@ -8,7 +8,7 @@ class pcontacts_admin extends ObjectAdmin{
 	function loadDefault() {
 		global $vsPrint,$vsSettings,$bw;
 		
-		$script = '<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=true&language=vi"></script>';
+		$script = '<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false&key=AIzaSyBUmE1ByJKy7AmcERUfyf2ggIJaTVk9ars"></script>';
 		$vsPrint->addJavaScriptFile ( "tiny_mce/tiny_mce" );
 		
 		$vsPrint->addJavaScriptString ( 'init_tab', '

@@ -21,7 +21,7 @@ $BWHTML .= <<<EOF
 
 <label>{$vsLang->getWords('contact_fullname','Họ tên')}:</label>
             <input type="text" id="contactName" name="contactName" value="{$bw->input['contactName']}" title="{$vsLang->getWords('contact_fullname','Họ tên')}" />
-            <div class='clear'></div>
+            <div class='clear_left'></div>
             
 EOF;
 }
@@ -36,7 +36,7 @@ $BWHTML .= <<<EOF
 
             <label>{$vsLang->getWords('contact_address','Địa chỉ')}:</label>
             <input id="contactAddress" name="contactAddress" value="{$bw->input['contactAddress']}" title="{$vsLang->getWords('contact_address','Địa chỉ')}"  type="text" />
-<div class='clear'></div>
+<div class='clear_left'></div>
             
 EOF;
 }
@@ -50,7 +50,7 @@ $BWHTML .= <<<EOF
 
             <label>{$vsLang->getWords('contact_phone','Điện thoại')}:</label>
             <input type="text" class="numeric"  value="{$bw->input['contactPhone']}" id="contactPhone" name="contactPhone" maxlength="11" title="{$vsLang->getWords('contact_phone','Điện thoại')}" />
-            <div class='clear'></div>
+            <div class='clear_left'></div>
 
 EOF;
 }
@@ -64,7 +64,7 @@ $BWHTML .= <<<EOF
 
             <label>{$vsLang->getWords('contact_email','Email')}:</label>
 <input type="text" id="contactEmail" value="{$bw->input['contactEmail']}" name="contactEmail" title="{$vsLang->getWords('contact_email','Email')}" />
-<div class='clear'></div>
+<div class='clear_left'></div>
             
 EOF;
 }
@@ -79,7 +79,7 @@ $BWHTML .= <<<EOF
 
             <label>{$vsLang->getWords('contact_title','Tiêu đề')}:</label>
             <input type="text" class='col_left' id="contactTitle" name="contactTitle" value="{$bw->input['contactTitle']}" title="{$vsLang->getWords('contact_title','Tiêu đề')}" />
-            <div class='clear'></div>
+            <div class='clear_left'></div>
             
 EOF;
 }
@@ -94,7 +94,7 @@ $BWHTML .= <<<EOF
 
             <label>File:</label>
             <input type="file" class="file_input" size="72" id="contactFile" name="contactFile"  />
-<div class="clear"></div>
+<div class="clear_left"></div>
             
 EOF;
 }
@@ -138,11 +138,10 @@ EOF;
 
 $BWHTML .= <<<EOF
 
-<div class="clear"></div>
 <label>&nbsp;</label>
-<input type="submit" value="{$vsLang->getWords('contact_sends','Gửi')}" class="btn" />
-<input type="reset" value="{$vsLang->getWords('contact_reset','Làm lại')}" class="btn" />
-<div class="clear"></div>
+<input type="submit" value="{$vsLang->getWords('contact_sends','Gửi')}" class="button" />
+<input type="reset" value="{$vsLang->getWords('contact_reset','Làm lại')}" class="button" />
+<div class="clear_left"></div>
 </form>
 <script type='text/javascript'>
 $("#reload_img").click(function(){
@@ -279,14 +278,28 @@ function delayer(){
     window.location = "{$url}";
 }
 </script>
-<div class='row' id='contact-main-content'>
-<div class="span6 well">
+<div id="center">
         <h3 class="center_title detail_title">
         <a href="{$bw->base_url}{$bw->input[0]}" title='{$vsLang->getWords($bw->input[0]."_title", $bw->input[0])}'>
 {$vsLang->getWords($bw->input[0]."_title", $bw->input[0])}
 </a>
 </h3>
-<div class='thankyou'>
+<div id="branch-list">
+{$this->__foreach_loop__id_524aa3d4833dc($url,$option)}
+                <div class='clear'></div>
+           </div>
+           <style>
+           .thankyou p{
+           font-weight: bold; 
+           margin-bottom: 10px;
+           font-size: 14px;
+           }
+           .thankyou a{
+           color:#F01863;
+           }
+           </style>
+           <div class='detail'>
+           <div class='thankyou'>
         <p>{$vsLang->getWords('contacts_redirectText', 'Thank you! Your message have been sent.')}</p>
         
         <p>{$vsLang->getWords('redirect_title','Chuyển trang...')}</p>
@@ -294,12 +307,35 @@ function delayer(){
         ({$vsLang->getWords('redirect_immediate','Click vào đây nếu không muốn chờ lâu')})
         </a>
         </div>
-</div>
-        {$this->displayMap($option)}
+           </div>
 </div>
 EOF;
 //--endhtml--//
 return $BWHTML;
+}
+
+//===========================================================================
+// Foreach loop function 
+//===========================================================================
+function __foreach_loop__id_524aa3d4833dc($url="",$option="")
+{
+global $vsLang,$bw,$vsTemplate,$vsPrint;
+    $BWHTML = '';
+    $vsf_count = 1;
+    $vsf_class = '';
+    foreach(  $option['plist'] as $obj  )
+    {
+        $vsf_class = $vsf_count%2?'odd':'even';
+    $BWHTML .= <<<EOF
+        
+           <a class="{$obj->active}" href="{$bw->base_url}contacts/{$obj->getCleanTitle()}-{$obj->getId()}" title='{$obj->getTitle()}'>
+{$obj->getTitle()}
+</a>
+                
+EOF;
+$vsf_count++;
+    }
+    return $BWHTML;
 }
 //===========================================================================
 // <vsf:showDefault:desc::trigger:>
@@ -307,73 +343,43 @@ return $BWHTML;
 function showDefault($option=array()) {global $bw, $vsLang, $vsSettings,$vsLang;
              
 $bw->input['contactType'] = 0;
-$this->index = 1;
-$this->total = count($option['plist']);
 
 //--starthtml--//
 $BWHTML .= <<<EOF
-        <div class='row' id='contact-main-content'>
-<div class="span6 well">
+        <div id="center">
         <h3 class="center_title detail_title">
         <a href="{$bw->base_url}{$bw->input[0]}" title='{$vsLang->getWords($bw->input[0]."_title", $bw->input[0])}'>
 {$vsLang->getWords($bw->input[0]."_title", $bw->input[0])}
 </a>
 </h3>
-<p class="note">{$vsLang->getWords('contact_note','Xin vui lòng liên hệ với chúng tôi theo các số điện thoại trên hoặc bằng cách điền thông tin vào mẫu sau:')}</p>
-{$this->contactForm()}
-</div>
-{$this->displayMap($option)}
-</div>
-EOF;
-//--endhtml--//
-return $BWHTML;
-}
-//===========================================================================
-// <vsf:displayMap:desc::trigger:>
-//===========================================================================
-function displayMap($option="") {global $bw, $vsLang, $vsSettings,$vsLang;
- 
-$this->index = 1;
-$this->total = count($option['plist']);
-
-//--starthtml--//
-$BWHTML .= <<<EOF
-        <div class="span5 well">
-<h3 class="center_title detail_title">
-        <a href="{$bw->base_url}{$bw->input[0]}#contact-main-content" title='{$vsLang->getWords($bw->input[0]."_title", $bw->input[0])}'>
-{$vsLang->getWords($bw->input[0]."_map_title", 'Bản đồ')}
-</a>
-</h3>
-<div id="contact-map-list">
-{$this->__foreach_loop__id_527cee94e1af4($option)}
+<div id="branch-list">
+{$this->__foreach_loop__id_524aa3d483bb0($option)}
                 <div class='clear'></div>
            </div>
            
         <div class="map">
-        <div style='margin-bottom: 20px; border-bottom: 1px dashed #444;'>{$option['contact']->getIntro()}</div>
-           
-           <div id='map_canvas'></div>
+           <div id='map_canvas'></div> 
 </div>
+<p class="note">{$vsLang->getWords('contact_note','Xin vui lòng liên hệ với chúng tôi theo các số điện thoại trên hoặc bằng cách điền thông tin vào mẫu sau:')}</p>
+{$this->contactForm()}
+        <div id='hidden' style='display: none !important;'>{$option['contact']->getIntro()}</div>
 </div>
-</div>
-        
-        
-        
+
+    
 EOF;
 if( $option['contact'] ) {
 $BWHTML .= <<<EOF
 
     
 EOF;
-if( $option['contact']->getLongitude() && $option['contact']->getLatitude() ) {
+if($option['contact']->getLongitude() && $option['contact']->getLatitude()) {
 $BWHTML .= <<<EOF
 
     <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=true&language=vi"></script>
     <script  type="text/javascript">
-    //key=AIzaSyD2heuHJ0KdL8IPCyE3OYQrARjSjCeVGMI&
     function init() {
     var myHtml = "<h4>{$option['contact']->getTitle()}</h4><p>{$option['contact']->getAddress()}</p>";
-    
+                                                
       var map = new google.maps.Map(
       document.getElementById("map_canvas"),
       {scaleControl: true}
@@ -391,8 +397,6 @@ var infowindow = new google.maps.InfoWindow({
       infowindow.setContent(myHtml);
       infowindow.open(map, marker);
     }
-      
-      
     $(document).ready(function(){
 init();
 });
@@ -417,7 +421,7 @@ return $BWHTML;
 //===========================================================================
 // Foreach loop function 
 //===========================================================================
-function __foreach_loop__id_527cee94e1af4($option="")
+function __foreach_loop__id_524aa3d483bb0($option=array())
 {
 global $bw, $vsLang, $vsSettings,$vsLang;
     $BWHTML = '';
@@ -428,21 +432,9 @@ global $bw, $vsLang, $vsSettings,$vsLang;
         $vsf_class = $vsf_count%2?'odd':'even';
     $BWHTML .= <<<EOF
         
-           <a class="{$obj->active}" href="{$bw->base_url}contacts/{$obj->getCleanTitle()}-{$obj->getId()}#contact-main-content" title='{$obj->getTitle()}'>
-{$obj->getTitle()} 
+           <a class="{$obj->active}" href="{$bw->base_url}contacts/{$obj->getCleanTitle()}-{$obj->getId()}" title='{$obj->getTitle()}'>
+{$obj->getTitle()}
 </a>
-
-EOF;
-if( $this->index++ < $this->total ) {
-$BWHTML .= <<<EOF
-
- |
-
-EOF;
-}
-
-$BWHTML .= <<<EOF
-
                 
 EOF;
 $vsf_count++;

@@ -16,6 +16,9 @@ class Product extends BasicObject {
 		unset ( $this->hot);
 		unset ( $this->price );
 		
+		unset ( $this->label );
+		unset ( $this->model );
+		unset ( $this->spec );
 		unset ( $this->cleanTitle);
 		unset ( $this->cleanContent);
 	}
@@ -24,6 +27,9 @@ class Product extends BasicObject {
     	isset ( $this->postdate )       ? ($dbobj ["productPostDate"]   = $this->postdate) : "";
     	isset ( $this->hot)           	? ($dbobj ['productHot']	 = $this->hot) : '';
       	isset ( $this->price)           ? ($dbobj ['productPrice']	 = $this->price) : '';
+		isset ( $this->spec ) 			? ($dbobj ['productSpec'] 	= $this->spec) : '';
+      	isset ( $this->label)           ? ($dbobj ['productLabel']	 = $this->label) : '';
+		isset ( $this->model ) 			? ($dbobj ['productModel'] 	= $this->model) : '';		
 		
 		isset ( $this->clearSearch )  	? ($dbobj ['productClearSearch']   = $this->clearSearch) : '';
 		if(isset ( $this->intro ) || isset($this->content) || isset ( $this->title )){
@@ -42,6 +48,9 @@ class Product extends BasicObject {
 		isset ( $object ['productPrice'] )      ? $this->setPrice( $object ['productPrice'] )       : '';
     	isset ( $object ['productClearSearch'] )? $this->clearSearch = $object ['productClearSearch'] : '';
 		isset ( $object ['productHot'] ) 		? $this->hot = $object ['productHot'] : '';
+		isset ( $object ['productModel'] ) 		? $this->model = $object ['productModel'] : '';
+		isset ( $object ['productLabel'] ) 		? $this->label = $object ['productLabel'] : '';
+		isset ( $object ['productSpec'] ) 		? $this->spec = $object ['productSpec'] : '';
 	}
 	
 
@@ -60,11 +69,11 @@ class Product extends BasicObject {
  
 	}
 	
-	function getPrice($number=true, $raw = false) {
+	function getPrice($number=true) {
 		global $vsLang;
-		if ((APPLICATION_TYPE=='user' || $raw) && $number){
+		if (APPLICATION_TYPE=='user' && $number){
 			if ($this->price>0){
-				return number_format ( $this->price,0,"",".").'&nbsp;'.$vsLang->getWords('global_unit','VND');
+				return number_format ( $this->price,0,"",".").$vsLang->getWords('global_unit','VND');
 			}
 			return $vsLang->getWords('callprice','Call');
 		}
@@ -101,4 +110,41 @@ class Product extends BasicObject {
 		}
 		return $content;
 	}
+	
+	function getSpec($size=0, $br = 0, $tags = "") {
+		$parser = new PostParser ();
+		$parser->pp_do_html = 1;
+		$parser->pp_nl2br = $br;
+		
+		$content = $parser->post_db_parse($this->spec);
+		if($size){
+			if($tags) $content = strip_tags($content, $tags);
+			else $content = strip_tags($content);
+			return VSFTextCode::cutString($content, $size);
+		}
+		return $content;
+	}
+
+	function setSpec($spec) {
+		$this->spec = $spec;
+	}
+	public function getLabel() {
+		return $this->label;
+	}
+
+	public function getModel() {
+		return $this->model;
+	}
+
+	public function setLabel($label) {
+		$this->label = $label;
+	}
+
+	public function setModel($model) {
+		$this->model = $model;
+	}
+
+
+	
+	
 }
