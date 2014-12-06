@@ -227,7 +227,7 @@ $arraySetting = array (
   'projects_pages_tag' => '0',
   'projects_pages_content' => '1',
   'projects_pages_editor_intro' => '0',
-  'projects_pages_intro' => '0',
+  'projects_pages_intro' => '1',
   'projects_pages_image_width' => '',
   'projects_pages_code' => '0',
   'projects_pages_deadline' => '0',
@@ -252,13 +252,11 @@ $arraySetting = array (
   'projects_pages_category_list' => '1',
   'projects_pages_search_form' => '1',
   'projects_category_list' => '1',
-  'products_products_promotionprice' => '1',
   'admins_admins_content' => '0',
   'admins_admins_intro' => '0',
   'emails_paging_public_limit' => '30',
   'color_value' => '1',
   'color_status' => '1',
-  'proposals_color_list' => '1',
   'posts_posts_comment' => '0',
   'posts_posts_album' => '0',
   'posts_posts_video' => '0',
@@ -309,8 +307,6 @@ $arraySetting = array (
   'tags_tags_code' => '1',
   'abouts_pages_type' => '1',
   'news_pages_type' => '1',
-  'albums_paging_public_limit' => '10',
-  'albums_paging_limit' => '12',
   'admins_admingroups_permission' => '1',
   'admins_admingroups_content' => '0',
   'admins_admingroups_intro' => '0',
@@ -378,32 +374,9 @@ $arraySetting = array (
   'img_limit_files' => '0',
   'album_image_size_height_img' => '450',
   'album_image_size_width_img' => '680',
-  'albums_albums_image_height' => '250',
   'albums_limit_files' => '0',
   'album_image_size_height_albums' => '450',
   'album_image_size_width_albums' => '680',
-  'proposals_proposals_comment' => '0',
-  'proposals_proposals_album' => '0',
-  'proposals_proposals_video' => '0',
-  'proposals_proposals_postdate' => '1',
-  'proposals_proposals_title' => '1',
-  'proposals_proposals_image_field' => '1',
-  'proposals_proposals_id' => '1',
-  'proposals_proposals_index' => '0',
-  'proposals_proposals_status_highlight' => '0',
-  'proposals_proposals_status_trash_action' => '0',
-  'proposals_proposals_status_home' => '0',
-  'proposals_proposals_button_visible' => '0',
-  'proposals_proposals_button_disable' => '0',
-  'proposals_proposals_button_delete' => '1',
-  'proposals_proposals_button_add' => '0',
-  'proposals_proposals_status' => '0',
-  'proposals_proposals_category_list' => '0',
-  'proposals_proposals_search_form' => '1',
-  'proposals_admin_paging_limit' => '20',
-  'proposals_settings_tab' => '0',
-  'proposals_category_list' => '0',
-  'products_products_warranty' => '1',
   'banners_banners_comment' => '0',
   'banners_banners_album' => '0',
   'banners_banners_video' => '0',
@@ -427,37 +400,7 @@ $arraySetting = array (
   'banners_settings_tab' => '0',
   'banners_category_list' => '0',
   'banners_position_tab' => '0',
-  'albums_albums_comment' => '0',
-  'albums_albums_album' => '1',
-  'albums_albums_video' => '0',
   'pages_category_list' => '0',
-  'albums_albums_tags' => '1',
-  'albums_albums_price' => '1',
-  'albums_albums_code_s' => '1',
-  'albums_albums_seo_option' => '1',
-  'albums_albums_content' => '1',
-  'albums_albums_editor_intro' => '0',
-  'albums_albums_intro' => '1',
-  'albums_albums_image_width' => '397',
-  'albums_albums_code' => '1',
-  'albums_albums_postdate' => '1',
-  'albums_albums_title' => '1',
-  'albums_albums_image_field' => '1',
-  'albums_albums_id' => '1',
-  'albums_albums_index' => '1',
-  'albums_albums_status_highlight' => '0',
-  'albums_albums_status_trash_action' => '0',
-  'albums_albums_status_home' => '0',
-  'albums_albums_button_visible' => '1',
-  'albums_albums_button_disable' => '1',
-  'albums_albums_button_delete' => '1',
-  'albums_albums_button_add' => '1',
-  'albums_albums_status' => '1',
-  'albums_albums_category_list' => '0',
-  'albums_albums_search_form' => '1',
-  'albums_admin_paging_limit' => '20',
-  'albums_settings_tab' => '0',
-  'albums_category_list' => '0',
   'langs_vlanguages_category_list' => '0',
   'langs_vlanguages_button_visible' => '1',
   'langs_vlanguages_button_disable' => '1',
@@ -551,7 +494,6 @@ $arraySetting = array (
   'pcontacts_admin_paging_limit' => '20',
   'news_pages_website' => '0',
   'abouts_pages_website' => '0',
-  'products_products_image_height' => '260',
   'news_paging_limit_other' => '5',
   'news_paging_limit' => '5',
   'contacts_contacts_index' => '0',
@@ -617,8 +559,6 @@ $arraySetting = array (
   'settings_settings_status' => '1',
   'settings_settings_value' => '1',
   'settings_settings_key' => '1',
-  'products_paging_limit_other' => '12',
-  'products_paging_limit' => '12',
   'abouts_paging_public_limit' => '30',
   'page_public_list_number_other' => '15',
   'home_keywords' => '',
@@ -629,11 +569,7 @@ $arraySetting = array (
   'album_image_size_height_products' => '493',
   'album_image_size_width_products' => '800',
   'gallerys_category_list' => '0',
-  'products_products_comment' => '0',
-  'products_products_album' => '1',
-  'products_products_video' => '0',
   'files_category_list' => '0',
-  'products_products_price' => '1',
   'langs_langs_search_form' => '1',
   'langs_langs_button_update' => '1',
   'langs_langs_button_add' => '1',
@@ -661,25 +597,6 @@ $arraySetting = array (
   'admins_admins_group_tab' => '0',
   'products_value' => '1',
   'products_status' => '1',
-  'products_cat_document' => '0',
-  'products_cat_file' => '0',
-  'products_cat_index' => '1',
-  'products_cat_intro' => '0',
-  'products_cat_desc' => '0',
-  'products_cat_value' => '0',
-  'products_cat_status' => '0',
-  'products_cat_title' => '1',
-  'products_cat_intro_editor_type' => '0',
-  'products_arrayimg' => '0',
-  'products_delete_category' => '1',
-  'products_edit_category' => '1',
-  'products_products_seo_option' => '1',
-  'products_products_tags' => '0',
-  'products_products_content' => '1',
-  'products_products_editor_intro' => '0',
-  'products_products_intro' => '1',
-  'products_products_image_width' => '366',
-  'products_products_code_s' => '1',
   'modules_modules_intro' => '1',
   'modules_modules_comment' => '0',
   'modules_modules_album' => '0',
@@ -700,26 +617,9 @@ $arraySetting = array (
   'settings_settings_category_list' => '0',
   'settings_settings_search_form' => '1',
   'settings_paging_limit' => '20',
-  'products_products_postdate' => '1',
-  'products_products_title' => '1',
-  'products_products_image_field' => '1',
-  'products_products_id' => '1',
-  'products_products_index' => '1',
-  'products_products_status_highlight' => '0',
-  'products_products_status_trash_action' => '0',
-  'products_products_status_home' => '1',
-  'products_products_button_visible' => '1',
-  'products_products_button_disable' => '1',
-  'products_products_button_delete' => '1',
-  'products_products_button_add' => '1',
-  'products_products_status' => '1',
-  'products_products_search_form' => '1',
-  'products_admin_paging_limit' => '20',
   'global_meta_descriptions' => '',
   'global_meta_keywords' => '',
   'enable_gzip' => '1',
-  'products_products_typetea_list' => '0',
-  'products_products_category_list' => '1',
   'abouts_pages_seo_option' => '0',
   'abouts_pages_content' => '1',
   'abouts_pages_editor_intro' => '0',
@@ -829,58 +729,6 @@ $arraySetting = array (
     'abouts_pages_seo_option' => 
     array (
       'abouts_pages_form' => '1',
-    ),
-    'products_products_category_list' => 
-    array (
-      'products_products_list' => '1',
-      'products_products_form' => '1',
-    ),
-    'products_products_status' => 
-    array (
-      'products_products_list' => '1',
-      'products_products_form' => '1',
-    ),
-    'products_products_index' => 
-    array (
-      'products_products_list' => '1',
-      'products_products_form' => '1',
-    ),
-    'products_products_id' => 
-    array (
-      'products_products_list' => '1',
-    ),
-    'products_products_image_field' => 
-    array (
-      'products_products_list' => '1',
-      'products_products_form' => '1',
-    ),
-    'products_products_title' => 
-    array (
-      'products_products_list' => '1',
-    ),
-    'products_products_postdate' => 
-    array (
-      'products_products_list' => '1',
-    ),
-    'products_products_code_s' => 
-    array (
-      'products_products_form' => '1',
-    ),
-    'products_products_intro' => 
-    array (
-      'products_products_form' => '1',
-    ),
-    'products_products_content' => 
-    array (
-      'products_products_form' => '1',
-    ),
-    'products_products_seo_option' => 
-    array (
-      'products_products_form' => '1',
-    ),
-    'products_products_price' => 
-    array (
-      'products_products_form' => '1',
     ),
     'news_pages_category_list' => 
     array (
@@ -1006,65 +854,9 @@ $arraySetting = array (
     array (
       'supports_supports_form' => '0',
     ),
-    'albums_albums_category_list' => 
-    array (
-      'albums_albums_list' => '0',
-      'albums_albums_form' => '0',
-    ),
-    'albums_albums_status' => 
-    array (
-      'albums_albums_list' => '1',
-      'albums_albums_form' => '1',
-    ),
-    'albums_albums_index' => 
-    array (
-      'albums_albums_list' => '1',
-      'albums_albums_form' => '1',
-    ),
-    'albums_albums_id' => 
-    array (
-      'albums_albums_list' => '1',
-    ),
-    'albums_albums_image_field' => 
-    array (
-      'albums_albums_list' => '1',
-      'albums_albums_form' => '1',
-    ),
-    'albums_albums_title' => 
-    array (
-      'albums_albums_list' => '1',
-    ),
-    'albums_albums_postdate' => 
-    array (
-      'albums_albums_list' => '1',
-    ),
-    'albums_albums_code' => 
-    array (
-      'albums_albums_form' => '0',
-    ),
     'news_pages_type' => 
     array (
       'news_pages_form' => '1',
-    ),
-    'albums_albums_intro' => 
-    array (
-      'albums_albums_form' => '0',
-    ),
-    'albums_albums_content' => 
-    array (
-      'albums_albums_form' => '1',
-    ),
-    'albums_albums_seo_option' => 
-    array (
-      'albums_albums_form' => '0',
-    ),
-    'albums_albums_code_s' => 
-    array (
-      'albums_albums_form' => '0',
-    ),
-    'albums_albums_price' => 
-    array (
-      'albums_albums_form' => '0',
     ),
     'banners_banners_category_list' => 
     array (
@@ -1093,46 +885,6 @@ $arraySetting = array (
     'banners_banners_postdate' => 
     array (
       'banners_banners_list' => '1',
-    ),
-    'products_products_promotionprice' => 
-    array (
-      'products_products_form' => '1',
-    ),
-    'products_products_warranty' => 
-    array (
-      'products_products_form' => '1',
-    ),
-    'proposals_proposals_category_list' => 
-    array (
-      'proposals_proposals_list' => '0',
-      'proposals_proposals_form' => '0',
-    ),
-    'proposals_proposals_status' => 
-    array (
-      'proposals_proposals_list' => '1',
-      'proposals_proposals_form' => '1',
-    ),
-    'proposals_proposals_index' => 
-    array (
-      'proposals_proposals_list' => '1',
-      'proposals_proposals_form' => '1',
-    ),
-    'proposals_proposals_id' => 
-    array (
-      'proposals_proposals_list' => '1',
-    ),
-    'proposals_proposals_image_field' => 
-    array (
-      'proposals_proposals_list' => '0',
-      'proposals_proposals_form' => '0',
-    ),
-    'proposals_proposals_title' => 
-    array (
-      'proposals_proposals_list' => '1',
-    ),
-    'proposals_proposals_postdate' => 
-    array (
-      'proposals_proposals_list' => '1',
     ),
     'tags_tags_category_list' => 
     array (
