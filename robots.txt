@@ -1,0 +1,2 @@
+User-agent: *
+Sitemap: http://lysontravel.org/sitemap.xml

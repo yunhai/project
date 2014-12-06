@@ -1,199 +1,276 @@
 <?php
 
-class Setting extends BasicObject{
+class Setting extends BasicObject {
 
-	private $value		= NULL;
-	private $inputType	= NULL;
-	private $key		= NULL;
-	private $root		= NULL;
-	private $type		= NULL;
-	private $module		= NULL;
-	public function __construct(){
-		parent::__construct();
-	}
+	public	function convertToDB(){
+			isset ( $this->id ) ? ($dbobj ['id'] = $this->id) : '';
+		isset ( $this->catId ) ? ($dbobj ['catId'] = $this->catId) : '';
+		isset ( $this->title ) ? ($dbobj ['title'] = $this->title) : '';
+		isset ( $this->intro ) ? ($dbobj ['intro'] = $this->intro) : '';
+		isset ( $this->htmlValue ) ? ($dbobj ['htmlValue'] = $this->htmlValue) : '';
+		isset ( $this->value ) ? ($dbobj ['value'] = $this->value) : '';
+		isset ( $this->inputType ) ? ($dbobj ['inputType'] = $this->inputType) : '';
+		isset ( $this->key ) ? ($dbobj ['key'] = $this->key) : '';
+		isset ( $this->root ) ? ($dbobj ['root'] = $this->root) : '';
+		isset ( $this->type ) ? ($dbobj ['type'] = $this->type) : '';
+		isset ( $this->module ) ? ($dbobj ['module'] = $this->module) : '';
+		isset ( $this->index ) ? ($dbobj ['index'] = $this->index) : '';
+		isset ( $this->flag ) ? ($dbobj ['flag'] = $this->flag) : '';
+		return $dbobj;
 
-	public function __destruct(){
-		parent::__destruct();
-		unset($this->module);
-		unset($this->value);
-		unset($this->inputType);
-		unset($this->key);
-		unset($this->index);
-		unset($this->root);
-		unset($this->type);
-	}
-	
-
-	public function setType($type) {
-		$this->type = $type;
-	}
-
-	public function setModule($module) {
-		$this->module = $module;
 	}
 
 
-	public function getModule() {
-		return $this->module;
-	}
 
-	
-	public function setRoot($root) {
-		$this->root = $root;
-	}
 
-	
-	public function setKey($key) {
-		return $this->key = $key;
-		$this->key = strtolower($key);
-	}
 
-	
-	public function setInputType($inputType) {
-		$this->inputType = $inputType;
-	}
+	public	function convertToObject($object = array()){
+			isset ( $object ['id'] ) ? $this->setId ( $object ['id'] ) : '';
+		isset ( $object ['catId'] ) ? $this->setCatId ( $object ['catId'] ) : '';
+		isset ( $object ['title'] ) ? $this->setTitle ( $object ['title'] ) : '';
+		isset ( $object ['intro'] ) ? $this->setIntro ( $object ['intro'] ) : '';
+		isset ( $object ['htmlValue'] ) ? $this->setHtmlValue ( $object ['htmlValue'] ) : '';
+		isset ( $object ['value'] ) ? $this->setValue ( $object ['value'] ) : '';
+		isset ( $object ['inputType'] ) ? $this->setInputType ( $object ['inputType'] ) : '';
+		isset ( $object ['key'] ) ? $this->setKey ( $object ['key'] ) : '';
+		isset ( $object ['root'] ) ? $this->setRoot ( $object ['root'] ) : '';
+		isset ( $object ['type'] ) ? $this->setType ( $object ['type'] ) : '';
+		isset ( $object ['module'] ) ? $this->setModule ( $object ['module'] ) : '';
+		isset ( $object ['index'] ) ? $this->setIndex ( $object ['index'] ) : '';
+		isset ( $object ['flag'] ) ? $this->setFlag ( $object ['flag'] ) : '';
 
-	
-	public function setValue($value) {
-		$this->value = $value;
-	}
-
-	
-	public function getType() {
-		return $this->type?$this->type:0;
-	}
-
-	
-	public function getRoot() {
-		return $this->root;
 	}
 
 
-	public function getKey() {
-		return $this->key;
+
+
+
+	function getId(){
+		return $this->id;
 	}
 
 
-	public function getInputType() {
-		return $this->inputType;
+
+	function getCatId(){
+		return $this->catId;
 	}
 
 
-	public function getValue() {
+
+	function getTitle(){
+		return $this->title;
+	}
+
+
+
+	function getIntro(){
+		return $this->intro;
+	}
+
+
+
+	function getValue(){
 		return $this->value;
 	}
 
 
-	public function getListNameFunctionGet(){
-		return array(
-						'settingId'				=>'getId',
-						'settingCatId'			=>'getCatId',
-						'settingTitle'			=>'getTitle',
-						'settingIntro'			=>'getIntro',
-						'settingValue'			=>'getValue',
-						'settingInputType'		=>'getInputType',
-						'settingKey'			=>'getKey',
-						'settingIndex'			=>'getIndex',
-						'settingRoot'			=>'getRoot',
-						'settingType'			=>'getType',
-						'settingModule'			=>'getModule',
-		);
-	}
 
-	/**
-	 * use to get value of $fieldName
-	 * @param string $fieldName, $fieldName: name of field in class and database
-	 * @return string , value of field name
-	 */
-	public function getNameFunctionGetByFieldName($fieldName){
-		$list = $this->getListNameFunctionGet();
-		foreach ($list as $key=>$value )
-			if($fieldName==$key)
-				return $value;
-		return false;
-	}
-
-	/*
-	 * change object SystemSetting to array contain element SystemSetting to insert database
-	 * @return array element SystemSetting
-	 */
-	public function convertToDB() {
-			
-		isset($this->id)        ? ($dbobj['settingId'] 			= $this->id) 		: '';
-		isset($this->catId)    	? ($dbobj['settingCatId'] 		= $this->catId) 	: '';
-		isset($this->title)    	? ($dbobj['settingTitle'] 		= $this->title) 	: '';
-		isset($this->intro)     ? ($dbobj['settingIntro'] 		= $this->intro) 	: '';
-		isset($this->value)    	? ($dbobj['settingValue'] 		= $this->value) 	: '';
-		isset($this->inputType) ? ($dbobj['settingInputType']	= $this->inputType) : '';
-		isset($this->key )      ? ($dbobj['settingKey'] 		= $this->key) 		: '';
-		isset($this->index)    	? ($dbobj['settingIndex'] 		= $this->index) 	: '';
-		isset($this->root )     ? ($dbobj['settingRoot'] 		= $this->root) 		: '';
-		isset($this->type )     ? ($dbobj['settingType'] 		= $this->type) 		: '';
-		isset($this->module )   ? ($dbobj['settingModule'] 		= $this->module) 	: '';
-		return $dbobj;
+	function getInputType(){
+		return $this->inputType;
 	}
 
 
-	/*
-	 * change array element SystemSetting  to object SystemSetting
-	 * @param $arrayElement is a array contain element SystemSetting
-	 * @return void
-	 */
-	function convertToObject($object) {
-		global $vsMenu;
-		isset ( $object ['settingId'] ) 		? $this->setId ( $object ['settingId'] ) 				: '';
-		isset ( $object ['settingCatId'] ) 		? $this->setCatId( $object ['settingCatId'] )			: '';
-		isset ( $object ['settingTitle'] ) 		? $this->setTitle( $object ['settingTitle'] )			: '';
-		isset ( $object ['settingIntro'] ) 		? $this->setIntro ( $object ['settingIntro'] ) 			: '';
-		isset ( $object ['settingValue'] ) 		? $this->setValue( $object ['settingValue'] ) 			: '';
-		isset ( $object ['settingInputType'] ) 	? $this->setInputType( $object ['settingInputType'] ) 	: '';
-		isset ( $object ['settingKey'] )		? $this->setKey( $object ['settingKey'] ) 				: '';
-		isset ( $object ['settingIndex'] ) 		? $this->setIndex ( $object ['settingIndex'])			: '';
-		isset ( $object ['settingRoot'] ) 		? $this->setRoot( $object ['settingRoot'] ) 			: '';
-		isset ( $object ['settingType'] ) 		? $this->setType( $object ['settingType'] ) 			: '';
-		isset ( $object ['settingModule'] ) 	? $this->setModule( $object ['settingModule'] ) 		: '';
+
+	function getKey(){
+		return $this->key;
+	}
+
+
+
+	function getRoot(){
+		return $this->root;
+	}
+
+
+
+	function getType(){
+		return $this->type;
+	}
+
+
+
+	function getModule(){
+		return $this->module;
+	}
+
+
+
+	function getIndex(){
+		return $this->index;
+	}
+
+
+
+	function setId($id){
+		$this->id=$id;
+	}
+
+
+
+
+	function setCatId($catId){
+		$this->catId=$catId;
+	}
+
+
+
+
+	function setTitle($title){
+		$this->title=$title;
+	}
+
+
+
+
+	function setIntro($intro){
+		$this->intro=$intro;
+	}
+
+
+
+
+	function setValue($value){
+		$this->value=$value;
+	}
+
+
+
+
+	function setInputType($inputType){
+		$this->inputType=$inputType;
+	}
+
+
+
+
+	function setKey($key){
+		$this->key=$key;
+	}
+
+
+
+
+	function setRoot($root){
+		$this->root=$root;
+	}
+
+
+
+
+	function setType($type){
+		$this->type=$type;
+	}
+
+
+
+
+	function setModule($module){
+		$this->module=$module;
+	}
+
+
+
+
+	function setIndex($index){
+		$this->index=$index;
 	}
 	
+	
+	
+	function createEditor($content, $name, $width, $height, $toolbar = 'simple', $theme = 'advanced') {
+		global $vsPrint, $vsStd;
+		
+		$vsStd->requireFile ( JAVASCRIPT_PATH . "/tiny_mce/tinyMCE.php" );
+		$editor = new tinyMCE ();
+		$editor->setWidth ( $width );
+		$editor->setHeight ( $height );
+		$editor->setToolbar ( $toolbar );
+		$editor->setTheme ( $theme );
+		$editor->setInstanceName ( $name );
+		$editor->setValue ( $content );
+		return $editor->createHtml ();
+	}
+	
+	function showHTMLForm($option=array()){
+		$html=$this->htmlValue;
+		$html=str_replace(
+		array("{id}","{value}","editor",),
+		array($this->id,$this->value,$this->createEditor($this->value, "value[{$this->id}]", "100%", "222px","")),
+		$html);
+		return $html;
+		
+	}
+
+
+		var		$id;
+
+		var		$catId;
+
+		var		$title;
+
+		var		$intro;
+		
+		var 	$htmlValue;
+
+		var		$value;
+
+		var		$inputType;
+
+		var		$key;
+
+		var		$root;
+
+		var		$type;
+
+		var		$module;
+
+		var		$index;
+		var		$flag;
+	/**
+	 * @return the $htmlValue
+	 */
+	/**
+	 * @return the $flag
+	 */
+	public function getFlag() {
+		return $this->flag;
+	}
+
+		/**
+	 * @param field_type $flag
+	 */
+	public function setFlag($flag) {
+		$this->flag = $flag;
+	}
+
+	public function getHtmlValue() {
+		return $this->htmlValue;
+	}
+
+		/**
+	 * @param field_type $htmlValue
+	 */
+	public function setHtmlValue($htmlValue) {
+		$this->htmlValue = $htmlValue;
+	}
+
 	function validate() {
-		global $vsLang;
-		$status = true;
-		if($this->title=="") {
-			$this->message .= $vsLang->getWords('title_empty', "Systemsetting title can not be blank!") ;
-			$status = false;
-		}
-		return $status;
+		return true;
+		
 	}
-
-	public function buildElementForm($fieldName='',$textType='', $readonly=false, $disabled=false, $attr=array()){
-		global $vsTemplate;
-
-		$readonly = $readonly?'readonly':'';
-		$disabled = $disabled?'disabled':'';
-
-		foreach ($attr as $key => $value) {
-			$sAttr .= $key.'="'.$value.'" ';
-		}
-
-		$getProperty=$this->getNameFunctionGetByFieldName($fieldName);
-		$value=$this->$getProperty();
-
-		if(!$textType)
-		$textType=$this->inputType;
-
-		switch ($textType){
-			case 'radio' :
-				if($this->value == 'Yes')
-					$checkedYes='checked';
-				else
-					$checkedNo = 'checked';
-				return $vsTemplate->global_template->buildRadioButtonHTML($fieldName.$this->id, $checkedYes,$checkedNo,$readonly ,$disabled, $sAttr);
-
-			case 'checkbox' :
-				return $vsTemplate->global_template->buildCheckBoxHTML($fieldName.$this->id,$fieldName.$this->id,$checked,$readonly,$disabled, $sAttr);
-
-			default :
-				return $vsTemplate->global_template->buildTextTypeHTML($textType, $fieldName.$this->id, $fieldName.$this->id, $value,$readonly,$disabled, $sAttr);
-		}
-	}
+	
+	/**
+	*List fields in table
+	**/
+	var		$fields=array('id','catId','title','intro','htmlValue','value','inputType','key','root','type','module','index',);
 }
-?>

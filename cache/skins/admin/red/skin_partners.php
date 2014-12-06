@@ -6,337 +6,401 @@ class skin_partners extends skin_objectadmin {
 //===========================================================================
 // <vsf:addEditObjForm:desc::trigger:>
 //===========================================================================
-function addEditObjForm($objItem="",$option=array()) {global $vsLang, $bw,$vsSettings,$langObject;
-                if($objItem->getPosition()) $pos = $objItem->getPosition();
-                else $pos = 1;
+function addEditObjForm($obj="",$option=array()) {global $bw;
+$seo = "style='display:none'";
+if ($obj->getMTitle() or $obj->getMKeyword() or $obj->getMUrl() or $obj->getMIntro()){
+$seo = "";
+}
 
 //--starthtml--//
 $BWHTML .= <<<EOF
-        <div id="error-message" name="error-message"></div>
-<form id='add-edit-obj-form' name="add-edit-obj-form" method="POST"  enctype='multipart/form-data'>
-<input type="hidden" id="obj-cat-id" name="partnerCatId" value="{$objItem->getCatId()}" />
-<input type="hidden" id="pageCate" name="pageCate" value="{$bw->input['pageCate']}" />
-<input type="hidden" id="pageIndex" name="pageIndex" value="{$bw->input['pageIndex']}" />
-<input type="hidden" name="partnerId" value="{$objItem->getId()}" />
-<div class='ui-dialog ui-widget ui-widget-content ui-corner-all'>
-<div class="ui-dialog-titlebar ui-widget-header ui-helper-clearfix ui-corner-all-inner">
-<span class="ui-dialog-title">{$option['formTitle']}</span>
-                                         <p style="float:right; cursor:pointer;">
-                                                <span class='ui-dialog-title' id='closeObj'>
-                                                 {$langObject['itemObjBack']}
-                                                </span>
-                                            </p>
+        <div class="vs_panel" id="vs_panel_{$this->modelName}">
+<div class="ui-dialog">
+<form class="frm_add_edit_obj" id="frm_add_edit_obj"  method="POST" enctype='multipart/form-data'>
+<input type="hidden" value="{$bw->input['vdata']}" name="vdata"/>
+<input type="hidden" value="{$bw->input['pageIndex']}" name="pageIndex"/>
+<input type="hidden" value="{$obj->getId()}" name="{$this->modelName}[id]" />
+<!--<input type="hidden" value="{$obj->getSlug ()}" name="{$this->modelName}[mUrl]" id="mUrl" data-module="{$this->modelName}" data-id = "{$obj->getId()}" />-->
+<table class="obj_add_edit" width="100%">
+<thead>
+<tr>
+<th colspan="2">
+<span class="ui-dialog-title-form">{$this->getLang()->getWords('add_edit_'.$bw->input[0],'Thêm/Sửa tin')}</span>
+<a class="btn_custom_settings icon-wrapper-vs" 
+group="{$bw->input[0]}_{$this->modelName}_form">
+</a>
+<div class="vs-buttons">
+<button type="submit" ><span><img src="{$bw->vars['img_url']}/pixel-vfl3z5WfW.gif" class="icon-wrapper-vs vs-icon-accept"></span><span>{$this->getLang()->getWords('global_accept')}</span></button>
+<button type="button" id="frm_close" class="btnCancel frm_close"><span><img src="{$bw->vars['img_url']}/pixel-vfl3z5WfW.gif" class="icon-wrapper-vs vs-icon-cancel"></span><span>{$this->getLang()->getWords("global_cancel")}</span></button>
 </div>
-<table class="ui-dialog-content ui-widget-content" cellspacing="1" border="0" style="width:100%">
-                                              
-                                        <tr class="smalltitle">
-                                                <td class="label_obj">{$langObject['itemObjWebsite_Name']}:</td>
-                                                <td><input size="43" type="text" name="partnerTitle" value="{$objItem->getTitle()}" id="obj-title"/></td>
-                                         
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="width: 111px;"><label>{$this->getLang()->getWords('title','Tiêu đề')}</label></td>
+<td>
+<input  name="{$this->modelName}[title]" id="{$this->modelName}_title" type="text" value="{$obj->getTitle()}" style='width:99%' onBlur="vsf.checkPermalink($('#{$this->modelName}_title').val(),'{$bw->input[0]}')"/>
+</td>
+</tr>
+<tr>
+</tr>
+
 EOF;
-if($vsSettings->getSystemKey($bw->input[0].'_image', 1, $bw->input[0])) {
-$BWHTML .= <<<EOF
-       
-                                                <td align='left' rowspan="3">
-                                                
-EOF;
-if($objItem->getImage()) {
+if($this->getSettings()->getKeyGroup($bw->input[0].'_'.$this->modelName.'_status','Status',$bw->input[0].'_'.$this->modelName.'_form')) {
 $BWHTML .= <<<EOF
 
-                                                    {$objItem->createImageCache($objItem->getImage(), '', 33)}
-                                                    <input name="oldImage" value="{$objItem->getImage()}" type="hidden" />
-                                                    <p>{$langObject['itemObjDeleteImage']}<input type="checkbox" class="checkbox" name="partnerDeleteImage" /></p>
-                                                
+<tr>
+<td style="width: 121px;"><label>{$this->getLang()->getWords('status','Trạng thái')}</label></td>
+<td>
+<label>
+<input 
+EOF;
+if($obj->getStatus()=='0') {
+$BWHTML .= <<<EOF
+checked='checked'
+EOF;
+}
+
+$BWHTML .= <<<EOF
+  name="{$this->modelName}[status]" id="{$this->modelName}_status_0" type="radio" value="0"  />
+{$this->getLang()->getWords('global_hide','Ẩn')}
+</label>
+<label>
+<input 
+EOF;
+if($obj->getStatus()==1||$obj->getStatus()==null) {
+$BWHTML .= <<<EOF
+checked='checked'
+EOF;
+}
+
+$BWHTML .= <<<EOF
+  name="{$this->modelName}[status]" id="{$this->modelName}_status_1" type="radio" value="1"  />
+{$this->getLang()->getWords('global_visible','Hiện')}
+</label>
+
+EOF;
+if($this->getSettings()->getSystemKey($bw->input[0].'_'.$this->modelName."_status_home",0,$bw->input[0])) {
+$BWHTML .= <<<EOF
+
+<label>
+<input  
+EOF;
+if($obj->getStatus()==2) {
+$BWHTML .= <<<EOF
+checked='checked'
+EOF;
+}
+
+$BWHTML .= <<<EOF
+  name="{$this->modelName}[status]" id="{$this->modelName}_status_2" type="radio" value="2"  />
+{$this->getLang()->getWords('global_home','Trang chủ')}
+</label>
+
+EOF;
+}
+
+$BWHTML .= <<<EOF
+
+</td>
+</tr>
+
+EOF;
+}
+
+$BWHTML .= <<<EOF
+
+
+EOF;
+if($this->getSettings()->getKeyGroup($bw->input[0].'_'.$this->modelName.'_category_list','Category',$bw->input[0].'_'.$this->modelName.'_form') and $this->model->getCategories()->getChildren()) {
+$BWHTML .= <<<EOF
+
+<tr>
+<td><label>{$this->getLang()->getWords("category",'Danh mục')}</label></td>
+<td>
+<select  name="{$this->modelName}[catId]" id="vs_cate">
+{$this->model->getCategories()->getChildrenBoxOption($obj->getCatId())}
+</select>
+<br>
+</td>
+</tr>
+
+EOF;
+}
+
+$BWHTML .= <<<EOF
+
+
+EOF;
+if($this->getSettings()->getKeyGroup($bw->input[0].'_'.$this->modelName.'_index','index',$bw->input[0].'_'.$this->modelName.'_form')) {
+$BWHTML .= <<<EOF
+
+<tr>
+<td><label>{$this->getLang()->getWords("index",'Thứ tự')}</label></td>
+<td>
+<input  name="{$this->modelName}[index]" id="{$this->modelName}_index" type="text" value="{$obj->getIndex()}" />
+</td>
+</tr>
+
+EOF;
+}
+
+$BWHTML .= <<<EOF
+
+
+EOF;
+if($this->getSettings()->getKeyGroup($bw->input[0].'_'.$this->modelName.'_web_site','website',$bw->input[0].'_'.$this->modelName.'_website')) {
+$BWHTML .= <<<EOF
+
+<tr>
+<td><label>{$this->getLang()->getWords("website","Địa chỉ website")}</label></td>
+<td>
+<input size="100" name="{$this->modelName}[website]"  id="videos_obj_code" type="text" value="{$obj->getWebsite()}" />
+</td>
+</tr>
+
+EOF;
+}
+
+$BWHTML .= <<<EOF
+
+<script type="text/javascript">
+function youtube_parser(url){
+    var regExp = /^.*((youtu.be\\/)|(v\\/)|(\\/u\\/\\w\\/)|(embed\\/)|(watch\\?))\\??v?=?([^#\\&\\?]*).*/;
+    var match = url.match(regExp);
+    if (match&&match[7].length==11){
+        return match[7];
+    }else{
+        return url;
+    }
+}
+
+$("#videos_obj_code").keyup(refreshImage);
+function refreshImage(){
+                                                $("#videos_obj_code").val(youtube_parser($("#videos_obj_code").val()));
+$("#videos_obj_code_img").attr("src","http://www.youtube.com/embed/"+$("#videos_obj_code").val()).show();
+}
+</script>   
+
+
+EOF;
+if($this->getSettings()->getKeyGroup($bw->input[0].'_'.$this->modelName.'_image_field','Image',$bw->input[0].'_'.$this->modelName.'_form')) {
+$BWHTML .= <<<EOF
+
+<tr>
+<td><label>{$this->getLang()->getWords('image','Hình ảnh')}</label>
+<p>
+
+EOF;
+if($this->getSettings()->getSystemKey($bw->input[0].'_'.$this->modelName."_image_width",'')&&$this->getSettings()->getSystemKey($bw->input[0].'_'.$this->modelName."_image_height",'')) {
+$BWHTML .= <<<EOF
+
+{$this->getSettings()->getSystemKey($bw->input[0].'_'.$this->modelName."_image_width",'')}x{$this->getSettings()->getSystemKey($bw->input[0].'_'.$this->modelName."_image_height",'')}px
+
+EOF;
+}
+
+$BWHTML .= <<<EOF
+
+</p>
+</td>
+<td>
+<div style="float:left;width:300px">
+<label>
+<input name="filetype[image]" value="file" type="radio" checked='checked' obj="image-file"/>
+{$this->getLang()->getWords('upload','Tải lên từ máy')}:</label>
+<label>
+<input    type="file" value="" style='width:250px;'  id="image-file" name="image"/>
+</label>
+<br/>
+<label>
+<input name="filetype[image]"   value="link" type="radio" obj="image-link"/>
+{$this->getLang()->getWords('download_from','Tải về từ đường dẫn')}:
+</label>
+<label>
+<input disabled='disabled' type="text" value="" style='width:250px;' id="image-link" name="links[image]"/>
+</label>
+</div>
+<div style="float:left;width:200px">
+
+EOF;
+if($obj->getImage()) {
+$BWHTML .= <<<EOF
+
+
+EOF;
+if($this->getSettings()->getSystemKey($bw->input[0].'_'.$this->modelName."_image_height",'')&&$this->getSettings()->getSystemKey($bw->input[0].'_'.$this->modelName."_image_width",'')) {
+$BWHTML .= <<<EOF
+
+{$obj->createImageEditable($obj->getImage(),100,90,$this->getSettings()->getSystemKey($bw->input[0].'_'.$this->modelName."_image_width",''),$this->getSettings()->getSystemKey($bw->input[0].'_'.$this->modelName."_image_height",''))}
+
 EOF;
 }
 
 else {
 $BWHTML .= <<<EOF
 
-                                                    {$objItem->createImageCache($objItem->getImage(), 250, 150, 0, 1, 1, 1)}
-                                                
+{$obj->createImageEditable($obj->getImage(),100,90)}
+
 EOF;
 }
 $BWHTML .= <<<EOF
 
-                                                </td>
-                                           
-EOF;
-}
 
-$BWHTML .= <<<EOF
-
-                                            
-EOF;
-if($vsSettings->getSystemKey($bw->input[0].'_address',0, $bw->input[0])) {
-$BWHTML .= <<<EOF
-   
-                                                            <td align='left' rowspan="3">
-                                           <iframe  id="videos_obj_code_img" style="" 
-width="200" height="200" src="http://www.youtube.com/embed/{$objItem->getAddress()}" frameborder="0" allowfullscreen></iframe>
-                                                                </td>
-                                                            
 EOF;
 }
 
 $BWHTML .= <<<EOF
 
-                                                                
-                                        </tr>
-                                                    
-                                        
-EOF;
-if($vsSettings->getSystemKey($bw->input[0].'_address',0, $bw->input[0])) {
-$BWHTML .= <<<EOF
+</div>
+</td>
+</tr>
 
-                                            <tr class="smalltitle">
-                                                    <td class="label_obj">{$langObject['itemObjAddress']}:</td>
-                                                    <td><input size="43" type="text" name="partnerAddress" value="{$objItem->getAddress()}" id="videos_obj_code"/></td>
-                                            </tr>
-                                        
-EOF;
-}
-
-$BWHTML .= <<<EOF
-
-                                       
-EOF;
-if($vsSettings->getSystemKey($bw->input[0].'_websites',1, $bw->input[0])) {
-$BWHTML .= <<<EOF
-   
-                                            <tr class="smalltitle">
-                                                    <td class="label_obj">{$langObject['itemObjWebsite']}:</td>
-                                                    <td><input size="43" type="text" name="partnerWebsite" value="{$objItem->getWebsite()}" id="obj-website"/></td>
-                                            </tr>
-                                       
-EOF;
-}
-
-$BWHTML .= <<<EOF
- 
-                                       <tr class="smalltitle">
-                                           <td class="label_obj">{$langObject['itemObjIndex']}:</td>
-                                            <td>
-                                            <input size="43" type="text" name="partnerIndex" value="{$objItem->getIndex()}" id="obj-Index"/>
-                                            </td>
-                                        </tr>
-
-                                        <tr class="smalltitle">
-                                                <td class="label_obj">{$langObject['itemObjStatus']}:</td>
-                                            <td>
-
-                                               <input type="radio" value="1" name="partnerStatus" id="partnerStatus" class="radio" checked>
-                                                                        <label style="padding-right: 10px" for="left">{$langObject['itemObjDisplay']}</label>  
-
-                                              <input type="radio" value="0" name="partnerStatus" id="partnerStatus" class="radio">
-                                                                        <label style="padding-right: 10px" for="left">{$langObject['itemObjHide']}</label>
-
-                                               
-                                            </td>
-                                            </tr>
-                            
-EOF;
-if($vsSettings->getSystemKey($bw->input[0].'_exptime',0,$bw->input[0])) {
-$BWHTML .= <<<EOF
-
-                            <tr class="smalltitle">
-                                    <td>
-                                            {$vsLang->getWords('obj_begtime', 'Begin Time')}
-                                    </td>
-                                    <td colspan="2">
-                                        <input size="43" name="partnerBeginTime" value="{$objItem->getExpTime("SHORT")}" id="partnerBeginTime"/>
-                                    </td>
-                            </tr>
-                            <tr class="smalltitle">
-                                    <td>
-                                            {$vsLang->getWords('obj_exptime', 'Expire Time')}
-                                    </td>
-                                   <td colspan="2">
-                                        <input size="43" name="partnerExpTime" value="{$objItem->getBeginTime("SHORT")}" id="partnerExpTime"/>
-                                    </td>
-                            </tr>
-                            
 EOF;
 }
 
 $BWHTML .= <<<EOF
 
 
-                            
 EOF;
-if($vsSettings->getSystemKey($bw->input[0].'_price', 0, $bw->input[0])) {
+if($this->getSettings()->getKeyGroup($bw->input[0].'_'.$this->modelName.'_intro','Intro',$bw->input[0].'_'.$this->modelName.'_form')) {
 $BWHTML .= <<<EOF
 
-                            <tr class="smalltitle">
-                                <td>
-                                    {$langObject['itemObjPrice']}
-                                </td>
-                                <td colspan="2">
-                                    <input  size="43" type="text" name="partnerPrice" value="{$objItem->getPrice()}" id="obj-price"/>
-                                </td>
-                            </tr>
-                            
+<tr>
+<td><label>{$this->getLang()->getWords('intro','Mô tả')}</label></td>
+<td>
+
+EOF;
+if($this->getSettings()->getSystemKey($bw->input[0].'_'.$this->modelName."_editor_intro",0,$bw->input[0])) {
+$BWHTML .= <<<EOF
+
+{$this->createEditor($obj->getIntro(), "{$this->modelName}[intro]", "100%", "111px","full")}
+
 EOF;
 }
 
+else {
 $BWHTML .= <<<EOF
 
-                            
+<textarea id="{$this->modelName}_intro" name="{$this->modelName}[intro]" style="width: 99%; height: 111px;">{$obj->getIntro()}</textarea>
+
 EOF;
-if($vsSettings->getSystemKey($bw->input[0].'_image', 1, $bw->input[0])) {
+}
 $BWHTML .= <<<EOF
 
-                            <tr class="smalltitle">
-                                    <td class="label_obj">{$langObject['itemObjFile']}:</td>
-                                    <td>
-                                            <div style="padding:2px 5px;">
-                                            <input size="29" type="file" name="partnerIntroImage" id="partnerIntroImage"/>
-                                            </div>
-                                    </td>
-                                    <td colspan="2" align="center">
-                                        ({$vsSettings->getSystemKey($bw->input[0].'_image_timthumb_size', 'Size: 500 x 305 px', $bw->input[0])})
-                                    </td>
-                            </tr>
-                            
+</td>
+</tr>
+
 EOF;
 }
 
 $BWHTML .= <<<EOF
 
 
-                            
 EOF;
-if($vsSettings->getSystemKey($bw->input[0].'_intro', 0, $bw->input[0])) {
+if($this->getSettings()->getKeyGroup($bw->input[0].'_'.$this->modelName.'_content','Content',$bw->input[0].'_'.$this->modelName.'_form')) {
 $BWHTML .= <<<EOF
 
-                            <tr class="smalltitle">
-                                    <td class="label_obj">{$langObject['itemObjIntro']}:</td>
-                                    <td colspan="3">{$objItem->getIntro()}</td>
-                            </tr>
-                            
-EOF;
-}
+<tr>
+<td><label>{$this->getLang()->getWords('content','Nội dung')}</label></td>
+<td>
+{$this->createEditor($obj->getContent(), "{$this->modelName}[content]", "100%", "333px","full")}
+</td>
+</tr>
 
-$BWHTML .= <<<EOF
-
-
-                            
-EOF;
-if($vsSettings->getSystemKey($bw->input[0].'_content', 0, $bw->input[0])) {
-$BWHTML .= <<<EOF
-
-                            <tr class="smalltitle">
-                                            <td colspan="4" class="label_obj">{$langObject['itemObjContent']}:</td>
-                            </tr>
-                            <tr class="smalltitle">
-                                    <td colspan="4" align="center">{$objItem->getContent()}</td>
-                            </tr>
-                            
 EOF;
 }
 
 $BWHTML .= <<<EOF
 
+<tr>
+<td></td>
+<td>
+EOF;
+if($this->getSettings()->getKeyGroup($bw->input[0].'_'.$this->modelName.'_seo_option','SEO Option',$bw->input[0].'_'.$this->modelName.'_form')) {
+$BWHTML .= <<<EOF
 
-                            <tr class="smalltitle">
-                                    <td class="ui-dialog-buttonpanel" colspan="4" align="center">
-                                            <input type="submit" name="submit" value="{$option['formSubmit']}" />
-                                    </td>
-                            </tr>
-                            </table>
-                    </div>
-            </form>
-<script language="javascript">
-              $('#closeObj').click(function(){                  
-vsf.get('{$bw->input[0]}/display-obj-list/{$bw->input['pageCate']}/&pageIndex={$bw->input['pageIndex']}','obj-panel');
-});
-function updateobjListHtml(categoryId){
-vsf.get('{$bw->input[0]}/display-obj-list/'+categoryId+'/','obj-panel');
+<button onclick="$('#seo').toggle();return false;">Seo option</button>
+
+EOF;
 }
-function alertError(message){
-jAlert(
-message,
-'{$bw->vars['global_websitename']} Dialog'
+
+$BWHTML .= <<<EOF
+
+</tr></td>
+
+EOF;
+if($this->getSettings()->getKeyGroup($bw->input[0].'_'.$this->modelName.'_seo_option','SEO Option',$bw->input[0].'_'.$this->modelName.'_form')) {
+$BWHTML .= <<<EOF
+
+<tr id="seo" $seo>
+<td><label>{$this->getLang()->getWords('seo')}</label></td>
+<td>
+<label>Slug:<input type="text" style="width:100%" value="{$obj->getSlug()}" name="{$this->modelName}[slug]" /></label>
+<label>Meta Title:<input type="text" style="width:100%" value="{$obj->getMTitle()}" name="{$this->modelName}[mTitle]" /></label>
+<label>Meta Description:<textarea style="width:100%"   name="{$this->modelName}[mIntro]" >{$obj->getMIntro()}</textarea></label>
+<label>Meta Keyword:<textarea style="width:100%"   name="{$this->modelName}[mKeyword]" >{$obj->getMKeyword()}</textarea></label>
+</td>
+</tr>
+
+EOF;
+}
+
+$BWHTML .= <<<EOF
+
+<tr style="border:none">
+<td class="vs-button" colspan="2" >
+<button type="submit" ><span><img src="{$bw->vars['img_url']}/pixel-vfl3z5WfW.gif" class="icon-wrapper-vs vs-icon-accept"></span><span>{$this->getLang()->getWords('global_accept')}</span></button>
+<button type="button" id="frm_close" class="btnCancel frm_close"><span><img src="{$bw->vars['img_url']}/pixel-vfl3z5WfW.gif" class="icon-wrapper-vs vs-icon-cancel"></span><span>{$this->getLang()->getWords("global_cancel")}</span></button>
+</td>
+</tr>
+</tbody>
+</table>
+</form>
+
+</div>
+<script>
+$("#frm_add_edit_obj").submit(function(){
+var flag=false;
+var message="";
+var frm=$(this);
+if($("#{$this->modelName}_title").val().length<3){
+message+='{$this->getLang()->getWords('error_title')}{$this->DS}n';
+flag=true;
+}
+if(flag){
+jAlert(message);
+return false;
+}
+vsf.uploadFile("frm_add_edit_obj", "{$bw->input[0]}", "{$this->modelName}_add_edit_process", "vs_panel_{$this->modelName}","{$bw->input[0]}",1,
+function(){
+var hashbase=frm.parents('.ui-tabs-panel').attr('id');
+window.location.hash=hashbase+"/{$bw->input['back']}";
+}
 );
-}
-
-//$(window).ready(function() {
-//                                        $("input.numeric").numeric();
-//vsf.jRadio('{$objItem->getStatus()}','partnerStatus');
-//vsf.jRadio('{$pos}','partnerPosition');
-//                                        vsf.jSelect('{$objItem->getCatId()}','obj-category');
-//
-//                                        $('#partnerExpTime').datepicker({dateFormat: 'dd/mm/yy'});
-//                                        $('#partnerBeginTime').datepicker({dateFormat: 'dd/mm/yy'});
-//
-//                                        if(!$("#obj-cat-id").val()) $("#obj-cat-id").val($("#idCategory").val());
-//
-//                                       
-//});
-
-$(document).ready(function() {
-               $('#obj-category option').each(function(){
-$(this).removeAttr('selected');
-});
-$("input.numeric").numeric();
-vsf.jRadio('{$pos}','partnerPosition');
-vsf.jRadio('{$objItem->getStatus()}','partnerStatus');
-vsf.jSelect('{$objItem->getCatId()}','obj-category');
-//$('#partnerExpTime').datepicker({dateFormat: 'dd/mm/yy'});
-//               $('#partnerBeginTime').datepicker({dateFormat: 'dd/mm/yy'});
-});
-
-                                $('#obj-category').change(function() {
-var parentId = '';
-$("#obj-category option:selected").each(function () {
-parentId = $(this).val();
-});
-$('#obj-cat-id').val(parentId);
-});
-$('#add-edit-obj-form').submit(function(){
-var flag  = true;
-var error = "";
-var categoryId = 0;
-var count=0;
-
-                 
-                 $("#obj-category  option").each(function () {
-count++;
-            if($(this).attr('selected'))categoryId = $(this).val();
-});
-
-$('#obj-cat-id').val(categoryId);
-
-if(categoryId == 0 && count>1){
-error = "<li>{$langObject['itemListChoiseCate']}</li>";
-flag  = false;
-}
-                 
-var title = $("#obj-title").val();
-if(title == 0 || title == ""){
-error += "<li>{$langObject['notItemObjTitle']}</li>";
-flag  = false;
-$('#obj-title').addClass('ui-state-error ui-corner-all-inner');
-}
-
-                   if(!flag){
-error = "<ul class='ul-popu'>" + error + "</ul>";
-vsf.alert(error);
-return false;
-}
-$('#obj-cat-id').val($('#obj-category').val());
-$('#obj-category').removeClass('ui-state-error ui-corner-all-inner');
-vsf.uploadFile("add-edit-obj-form", "{$bw->input[0]}", "add-edit-obj-process", "obj-panel", "{$bw->input[0]}");
 return false;
 });
-                                
-</script>
-                        <script>
-//$(document).mousedown(refreshImage);
-$("#videos_obj_code").keyup(refreshImage);
-function refreshImage(){
-$("#videos_obj_code_img").attr("src","http://www.youtube.com/embed/"+$("#videos_obj_code").val()).show();
+$(".frm_close").click(function(){
+var hashbase=$(this).parents('.ui-tabs-panel').attr('id');
+window.location.hash=hashbase+"{$bw->input['back']}";
+///alert(window.location.hash);
+//vsf.get('{$bw->input[0]}/{$this->modelName}_display_tab&pageIndex={$bw->input['pageIndex']}&vdata={$_REQUEST['vdata']}','vs_panel_{$this->modelName}');
+//vsf.get('{$bw->input[0]}/{$this->modelName}_display_tab','vs_panel_{$this->modelName}',{vdata:'{$_REQUEST['vdata']}',pageIndex:'{$bw->input['pageIndex']}'});
+return false;
+});
+////////*********************select file field*************************/
+$("input[type='radio']").change(function(){
+if($(this).val()=='link'||$(this).val()=='file'){
+$("input[name='"+this.name+"']").each(function(){
+if($(this).attr("checked")){
+$("#"+$(this).attr('obj')).removeAttr("disabled");
+}else{
+$("#"+$(this).attr('obj')).attr("disabled","disabled");
 }
+});
+}
+});
 </script>
 EOF;
 //--endhtml--//
@@ -344,4 +408,5 @@ return $BWHTML;
 }
 
 
-}?>
+}
+?>

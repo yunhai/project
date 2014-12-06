@@ -70,8 +70,8 @@ class components_admin extends components {
 	}
 
 	function addEditForm($formType="add"){
-		global $bw,$vsLang;
-		
+		global $bw;
+		$vsLang = VSFactory::getLangs();
 		$form['formType'] = $formType;
 		$form['submit'] = $vsLang->getWords("component_{$formType}_bt",ucfirst($formType));
 		$form['title'] = $vsLang->getWords("component_{$formType}_title",ucfirst($formType)." Component");
@@ -118,7 +118,6 @@ class components_admin extends components {
 	}
 	
 	function loadDefault(){
-		
 		$comList = $this->getComponentList();
 		$comForm = $this->addEditForm();
 		$this->output = $this->html->mainCom();

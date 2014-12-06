@@ -1,79 +1,175 @@
 <?php
-class skin_files{
+if(!class_exists('skin_objectadmin'))
+require_once ('./cache/skins/admin/red/skin_objectadmin.php');
+class skin_files extends skin_objectadmin {
 
 //===========================================================================
-// <vsf:MainPage:desc::trigger:>
+// <vsf:getListItemTable:desc::trigger:>
 //===========================================================================
-function MainPage() {global $bw, $vsLang;
-
-$BWHTML = "";
-//--starthtml--//
-
-
+function getListItemTable($objItems=array(),$option=array()) {    global $bw;
 
 //--starthtml--//
 $BWHTML .= <<<EOF
-        <div id="page_tabs" class="ui-tabs ui-widget ui-widget-content ui-corner-all-top">
-<ul id="tabs_nav" class="ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-widget-header ui-corner-all-inner">
-        <li class="ui-state-default ui-corner-top ui-tabs-selected ui-state-active"><a href="{$bw->base_url}files/displayfiles/&ajax=1"><span>{$vsLang->getWords('tab_files','Files')}</span></a></li>
-        <li class="ui-state-default ui-corner-top"><a href="{$bw->base_url}files/display-type/&ajax=1"><span>{$vsLang->getWords('tab_file_types','File types')}</span></a></li>
-    </ul>
-    <div class="clear"></div>
+        <div class="ui-dialog">
+<div >
+<span class="ui-dialog-title">{$this->getLang()->getWords($this->modelName,$this->modelName)}</span>
 </div>
+
 EOF;
-//--endhtml--//
-return $BWHTML;
-}
-//===========================================================================
-// <vsf:MainType:desc::trigger:>
-//===========================================================================
-function MainType($typeFormHTML="",$typeListHTML="") {$BWHTML = "";
-//--starthtml--//
-
-
-
-//--starthtml--//
+if($this->getSettings()->getSystemKey($bw->input[0].'_'.$this->modelName."_search_form",1,$bw->input[0])) {
 $BWHTML .= <<<EOF
-        <div id="addeditform" class="left-cell" style="width:35%">
-{$typeFormHTML}
-<div class="clear"></div>
+
+{$this->getSearchForm($option)}
+
+EOF;
+}
+
+$BWHTML .= <<<EOF
+
+<form class="frm_obj_list" id="frm_obj_list">
+<div>
+
+EOF;
+if($this->getSettings()->getSystemKey($bw->input[0].'_'.$this->modelName.'_button_add',1)) {
+$BWHTML .= <<<EOF
+
+<input type="button" class="btnAdd" id="btn-add-obj" value="{$this->getLang()->getWords('action_add')}"/>
+
+EOF;
+}
+
+$BWHTML .= <<<EOF
+
+
+EOF;
+if($this->getSettings()->getSystemKey($bw->input[0].'_'.$this->modelName.'_button_delete',1)) {
+$BWHTML .= <<<EOF
+
+<input type="button"  class="btnDelete" id="btn-delete-obj" value="{$this->getLang()->getWords('action_delete')}"/>
+
+EOF;
+}
+
+$BWHTML .= <<<EOF
+
+
+EOF;
+if($this->getSettings()->getSystemKey($bw->input[0].'_'.$this->modelName.'_button_disable',1)) {
+$BWHTML .= <<<EOF
+
+<input type="button" class="btnDisable" id="btn-disable-obj" value="{$this->getLang()->getWords('action_hide')}"/>
+
+EOF;
+}
+
+$BWHTML .= <<<EOF
+
+
+EOF;
+if($this->getSettings()->getSystemKey($bw->input[0].'_'.$this->modelName.'_button_visible',1)) {
+$BWHTML .= <<<EOF
+
+<input type="button" class="btnEnable" id="btn-enable-obj" value="{$this->getLang()->getWords('action_visible')}"/>
+
+EOF;
+}
+
+$BWHTML .= <<<EOF
+
+
+EOF;
+if($this->getSettings()->getSystemKey($bw->input[0].'_'.$this->modelName."_status_home",0,$bw->input[0])) {
+$BWHTML .= <<<EOF
+
+<input type="button" class="btnHome" id="btn-home-obj" value="{$this->getLang()->getWords('action_home')}"/>
+
+EOF;
+}
+
+$BWHTML .= <<<EOF
+
+
+EOF;
+if($this->getSettings()->getSystemKey($bw->input[0].'_'.$this->modelName."_index",1,$bw->input[0])) {
+$BWHTML .= <<<EOF
+
+<input type="button" class="btnIndexChange" id="btn-index-change-obj" value="{$this->getLang()->getWords('action_index_change')}"/>
+
+EOF;
+}
+
+$BWHTML .= <<<EOF
+
+<!--btnAdd,btnEdit,btnDelete,btnReview,btnDisable,btnEnable,btnOk,btnSearch,btnIndexChange-->
 </div>
-<div id="listtype" class="right-cell" style="width:64%">{$typeListHTML}</div>
-EOF;
-//--endhtml--//
-return $BWHTML;
-}
-//===========================================================================
-// <vsf:TypeList:desc::trigger:>
-//===========================================================================
-function TypeList($type=array(),$message="") {global $vsLang,$bw;
-$BWHTML = "";
-//--starthtml--//
-$count=0;
+<div id="{$this->modelName}_item_panel">
+<input type="hidden" name="catId" value="{$bw->input['catId']}"/>
+<input type="hidden" name="pageIndex" value="{$bw->input['pageIndex']}"/>
+<table class="obj_list">
+<thead>
+<tr>
+<th class="cb"><input type="checkbox" onClick="checkAllClick()" class="check_alll" name=""/></th>
+<th class="id">{$this->getLang()->getWords("id")}</th>
 
-//--starthtml--//
+EOF;
+if($this->getSettings()->getSystemKey($bw->input[0].'_'.$this->modelName."_image_field",1,$bw->input[0])) {
 $BWHTML .= <<<EOF
-        <div class="ui-dialog ui-widget ui-widget-content ui-corner-all">
-    <div class="ui-dialog-titlebar ui-widget-header ui-helper-clearfix ui-corner-all-inner">
-    <span class="ui-icon ui-icon-script"></span>
-    <span class="ui-dialog-title">{$vsLang->getWords('filetype_list_title',"Current file types")}</span>
-    </div>
-<div class="red">{$message}</div>
-<table cellpadding="0" cellspacing="1" width="100%">
-    <thead>
-        <tr>
-            <th>{$vsLang->getWords('filetype_form_id',"Type ID")}</th>
-            <th>{$vsLang->getWords('filetype_form_extension',"Extension")}</th>
-            <th>{$vsLang->getWords('filetype_form_action',"Actions")}</th>
-        </tr>
-    </thead>
+
+<th class="img">{$this->getLang()->getWords("image")}</th>
+
+EOF;
+}
+
+$BWHTML .= <<<EOF
+
+<th class="title">{$this->getLang()->getWords("title")}</th>
+
+EOF;
+if($this->getSettings()->getSystemKey($bw->input[0].'_'.$this->modelName."_category_list",0,$bw->input[0])) {
+$BWHTML .= <<<EOF
+
+<th>{$this->getLang()->getWords("category")}</th>
+
+EOF;
+}
+
+$BWHTML .= <<<EOF
+
+<th class="status">{$this->getLang()->getWords("status")}</th>
+
+EOF;
+if($this->getSettings()->getSystemKey($bw->input[0].'_'.$this->modelName."_postdate",1,$bw->input[0])) {
+$BWHTML .= <<<EOF
+
+<th class="date">{$this->getLang()->getWords("postdate")}</th>
+
+EOF;
+}
+
+$BWHTML .= <<<EOF
+
+
+EOF;
+if($this->getSettings()->getSystemKey($bw->input[0].'_'.$this->modelName."_index",1,$bw->input[0])) {
+$BWHTML .= <<<EOF
+
+<th class="index">{$this->getLang()->getWords("index")}</th>
+
+EOF;
+}
+
+$BWHTML .= <<<EOF
+
+<th class="action">{$this->getLang()->getWords("action")}</th>
+</tr>
+</thead>
 <tbody>
 
 EOF;
-if(count($type)) {
+if(is_array($objItems)) {
 $BWHTML .= <<<EOF
 
-{$this->__foreach_loop__id_518e27fa3aa0c($type,$message)}
+{$this->__foreach_loop__id_547ddc1060e4f8_55056811($objItems,$option)}
 
 EOF;
 }
@@ -81,423 +177,287 @@ EOF;
 $BWHTML .= <<<EOF
 
 </tbody>
-</table>
-</div>
-<script type="text/javascript">
-function deleteType(id) {
-jConfirm(
-"{$vsLang->getWords('discover_delete_confirm', "Are you sure want to delete this File Type?")}",
-"{$bw->vars['global_websitename']} Dialog",
-function(r) {
-if(r) {
-javascript:vsf.get('files/delete-type/'+id,'listtype');
-}
-}
-)
-}
-</script>
-EOF;
-//--endhtml--//
-return $BWHTML;
-}
-
-//===========================================================================
-// Foreach loop function 
-//===========================================================================
-function __foreach_loop__id_518e27fa3aa0c($type=array(),$message="")
-{
-global $vsLang,$bw;
-    $BWHTML = '';
-    $vsf_count = 1;
-    $vsf_class = '';
-    foreach( $type as $value )
-    {
-        $vsf_class = $vsf_count%2?'odd':'even';$classType = ($count%2)+1;
-$count++;
-    $BWHTML .= <<<EOF
-        
- 
-<tr class="row{$classType}">
-<td>{$value->no}</td>
-<td>{$value->getExtension()}</td>
-<td>
-<a class="ui-state-default ui-corner-all ui-state-focus" href="javascript:vsf.get('files/edit-type/{$value->getId()}/','addeditform')" title='{$vsLang->getWords('newsItem_EditObjTitle',"Click here to edit this {$bw->input[0]}")}'>{$vsLang->getWords('global_edit','Sửa')}</a>
-<a class="ui-state-default ui-corner-all ui-state-focus" href="deleteType({$value->getId()})" title='{$vsLang->getWords('newsItem_EditObjTitle',"Click here to delete this {$bw->input[0]}")}'>{$vsLang->getWords('global_del','Xóa')}</a>
-</td>
+<tfoot>
+<tr>
+<th colspan="10">{$option['paging']}</th>
 </tr>
-
-EOF;
-$vsf_count++;
-    }
-    return $BWHTML;
-}
-//===========================================================================
-// <vsf:addEditTypeForm:desc::trigger:>
-//===========================================================================
-function addEditTypeForm($form=array(),$type="") {global $vsLang;
-$BWHTML = "";
-//--starthtml--//
-
-
-
-//--starthtml--//
-$BWHTML .= <<<EOF
-        <script type="text/javascript">
-$('#form-add-type').submit(function() {
-vsf.submitForm($(this),'files/add-edit-type/','listtype');
-vsf.get('files/add-type','addeditform');
-return false;
-});
-</script>
-
-<form id="form-add-type">
-<input type="hidden" name="FormType" value="{$form['type']}" />
-<input type="hidden" name="fileTypeID" id="file-type-id" value="{$type->getId()}" />
-<div class="ui-dialog ui-widget-content ui-corner-all vs-lbox">
-<div class="ui-dialog-titlebar ui-widget-header ui-helper-clearfix ui-corner-all-inner">
-    <span class="ui-icon ui-icon-newwin"></span>
-    <span class="ui-dialog-title">{$form['title']}</span>
-    </div>
-    <div class="error">{$form['message']}</div>
-    <table cellpadding="0" cellspacing="1" width="100%">
-     <tr>
-        <th>{$vsLang->getWords('file_mines','Tên kiểu')}</th>
-            <td><input type="text" value="{$type->getMime()}" name="fileTypeMime" size="34" /></td>
-        </tr>
-    <tr>
-        <th>{$vsLang->getWords('file_extension','Extension')}</th>
-            <td><input type="text" value="{$type->getExtension()}" name="fileExtension" size="34" /></td>
-        </tr>
-       
-        <tr>
-        <th>&nbsp;</th>
-            <td>{$form ['switchform']} <button class="ui-state-default ui-corner-all" type="submit">{$form ['formSubmit']}</button></td>
-        </tr>
-    </table>
-</div>
-</form>
-EOF;
-//--endhtml--//
-return $BWHTML;
-}
-//===========================================================================
-// <vsf:showMessage:desc::trigger:>
-//===========================================================================
-function showMessage($message="") {$BWHTML = "";
-//--starthtml--//
-
-
-
-//--starthtml--//
-$BWHTML .= <<<EOF
-        <div class="red">
-{$message}
-</div>
-EOF;
-//--endhtml--//
-return $BWHTML;
-}
-//===========================================================================
-// <vsf:FolderForm:desc::trigger:>
-//===========================================================================
-function FolderForm() {global $vsLang;
-
-$BWHTML = "";
-//--starthtml--//
-
-
-
-//--starthtml--//
-$BWHTML .= <<<EOF
-        <script type="text/javascript">
-$('#add-folder').submit(function() {
-vsf.submitForm($('#add-folder'),'files/addfolder/','folder-list');
-return false;
-});
-</script>
-<div class="ui-dialog ui-widget ui-widget-content ui-corner-all">
-<div class="ui-dialog-titlebar ui-widget-header ui-helper-clearfix ui-corner-all-inner">
-<span class="ui-dialog-title">{$vsLang->getWords('folder_form_title',"Create new folder")}</span>
-</div>
-<form name="form" id="add-folder">
-<input type="hidden" name="folderPath" value="" id="folder-path" />
-<table class="ui-dialog-content ui-widget-content" cellspacing="0" cellpadding="0">
-<tr><td><input type="text" size="42" value="{$vsLang->getWords('folder_form_name','New Folder')}" name="folderName" onfocus="if(this.value=='{$vsLang->getWords('folder_form_name','New Folder')}') this.value='';" onblur="if(this.value=='') this.value='{$vsLang->getWords('folder_form_name','New Folder')}';" /></td></tr>
-<tr><td class="ui-dialog-buttonpanel"><input type="submit" class="ui-state-default ui-corner-all" name="submit" value="{$vsLang->getWords('folder_form_create_bt',"Create")}" /></td></tr>
+</tfoot>
 </table>
+</div>
+<div class="more_action">
+<img width="38" height="22" alt="With selected:" src="{$bw->vars['img_url']}/arrow_ltr.png" class="selectallarrow">
+
+EOF;
+if($this->getSettings()->getSystemKey($bw->input[0].'_'.$this->modelName."_category_list",0,$bw->input[0])) {
+$BWHTML .= <<<EOF
+
+<label>Move selected to 
+<select name='toCatId'>
+{$this->model->getCategories()->getChildrenBoxOption()}
+</select>
+</label>
+<input type="button" class="btnOk" name="" onClick="changCate()"  value="go"/>
+<br>
+
+EOF;
+}
+
+$BWHTML .= <<<EOF
+
+
+EOF;
+if($option['vdata']) {
+$BWHTML .= <<<EOF
+
+<input type="hidden" value='{$option['vdata']}' name="vdata"/>
+
+EOF;
+}
+
+$BWHTML .= <<<EOF
+
+<!--MORE_ACTION-->
+</div>
 </form>
 </div>
-EOF;
-//--endhtml--//
-return $BWHTML;
+<script>
+var objChecked=new Array();
+////////////////checked
+function checkAllClick(){
+var check=$("#vs_panel_{$this->modelName}  .check_alll").attr("checked");
+objChecked=new Array();
+$("#vs_panel_{$this->modelName} .btn_checkbox").each(function(){
+if(check){
+$(this).attr("checked","checked").change();
+objChecked.push($(this).val());
+}else{
+$(this).attr("checked","").change();
 }
-//===========================================================================
-// <vsf:uploadDataResponse:desc::trigger:>
-//===========================================================================
-function uploadDataResponse($data=array()) {$BWHTML = "";
-//--starthtml--//
-
-
-
-//--starthtml--//
-$BWHTML .= <<<EOF
-        {
-error: 'sa'
+});
 }
-EOF;
-//--endhtml--//
-return $BWHTML;
+function checkRow(){
+objChecked=new Array();
+$(".btn_checkbox").each(function(){
+if($(this).attr("checked")){
+objChecked.push($(this).val());
+$(this).change();
 }
-//===========================================================================
-// <vsf:PreviewHTML:desc::trigger:>
-//===========================================================================
-function PreviewHTML($file="") {global $bw;
-$BWHTML = "";
-//--starthtml--//
-if (trim ( substr ( $file->thumbnailpath, 0, 4 ) ) != 'http')
-$file->thumbnailpath = $bw->vars ['board_url'] . "/" . $file->thumbnailpath;
-
-//--starthtml--//
-$BWHTML .= <<<EOF
-        <div class="preview_image"><img src="{$file->thumbnailpath}" width="150px"></div><div>- Tên file: <strong>{$file->getName()}</strong><br />- Kích thước: <strong>{$file->getSize()}</strong><br />- Kiểu file: <strong>{$file->getType()}</strong></div>
-EOF;
-//--endhtml--//
-return $BWHTML;
+});
 }
-//===========================================================================
-// <vsf:FolderList:desc::trigger:>
-//===========================================================================
-function FolderList($folerlist="",$createform="") {global $vsLang,$bw;
+$(".btn_checkbox").change(function(){
+if($(this).attr("checked")){
+$(this).parents("tr").addClass("marked");
+}else{
+$(this).parents("tr").removeClass("marked");
+}
+});
+////////////
+$("#vs_panel_{$this->modelName} #frm_obj_list").submit(function(){
+});
+$("#vs_panel_{$this->modelName} #btn-delete-obj").click(function(){
+if(objChecked.length==0){
+alert("{$this->getLang()->getWords('error_none_select')}");
+return false;
+}
+jConfirm(
+                     "{$this->getLang()->getWords('yesno_delete')}?",
+                     "{$bw->vars['global_websitename']} Dialog",
+                     function(r){
+if(r){
+vsf.submitForm($("#vs_panel_{$this->modelName} #frm_obj_list"),'{$bw->input[0]}/{$this->modelName}_delete/'+objChecked,'vs_panel_{$this->modelName}');
+}
+ }
+);
+return false;
+});
+$("#vs_panel_{$this->modelName} #btn-disable-obj").click(function(){
+if(objChecked.length==0){
+alert("{$this->getLang()->getWords('error_none_select')}");
+return false;
+}
+vsf.submitForm($("#vs_panel_{$this->modelName} #frm_obj_list"),'{$bw->input[0]}/{$this->modelName}_hide_checked/'+objChecked,'vs_panel_{$this->modelName}');
+return false;
+});
+$("#vs_panel_{$this->modelName} #btn-enable-obj").click(function(){
+if(objChecked.length==0){
+alert("{$this->getLang()->getWords('error_none_select')}");
+return false;
+}
+vsf.submitForm($("#vs_panel_{$this->modelName} #frm_obj_list"),'{$bw->input[0]}/{$this->modelName}_visible_checked/'+objChecked,'vs_panel_{$this->modelName}');
+return false;
+});
+$("#vs_panel_{$this->modelName} #btn-home-obj").click(function(){
+if(objChecked.length==0){
+alert("{$this->getLang()->getWords('error_none_select')}");
+return false;
+}
+vsf.submitForm($("#vs_panel_{$this->modelName} #frm_obj_list"),'{$bw->input[0]}/{$this->modelName}_home_checked/'+objChecked,'vs_panel_{$this->modelName}');
+return false;
+});
+$("#vs_panel_{$this->modelName} #btn-index-change-obj").click(function(){
+vsf.submitForm($("#vs_panel_{$this->modelName} #frm_obj_list"),'{$bw->input[0]}/{$this->modelName}_index_change/','vs_panel_{$this->modelName}');
+return false;
+});
+$("#vs_panel_{$this->modelName} #btn-add-obj").click(btnAdd_Click);
 
-$BWHTML = "";
-//--starthtml--//
-
-
-//--starthtml--//
-$BWHTML .= <<<EOF
-        <script type="text/javascript">
-function changeFolder(path) {
-$("#file-path").val(path);
-$("#folder-path").val(path);
-vsf.get('files/getfolder/'+path,'folder-list');
-vsf.get('files/getfilelist/'+path,'list-file');
+function btnAdd_Click(){
+var hashbase=$(this).parents('.ui-tabs-panel').attr('id');
+window.location.hash=hashbase+"/{$bw->input[0]}/{$this->modelName}_add_edit_form/";
+///alert(window.location.hash);
+//vsf.submitForm($("#vs_panel_{$this->modelName} #frm_obj_list"),'{$bw->input[0]}/{$this->modelName}_add_edit_form/','vs_panel_{$this->modelName}');
+}
+function btnEditItem_Click(id,c){
+var hashbase=$(c).parents('.ui-tabs-panel').attr('id');
+window.location.hash=hashbase+"/{$bw->input[0]}/{$this->modelName}_add_edit_form/"+id+'&{$bw->input['back']}';
+///vsf.submitForm($("#vs_panel_{$this->modelName} #frm_obj_list"),'{$bw->input[0]}/{$this->modelName}_add_edit_form/'+id,'vs_panel_{$this->modelName}');
+//alert(hashbase);
+return false;
+}
+function btnRemoveItem_Click(id){
+jConfirm(
+                     "{$this->getLang()->getWords('yesno_delete')}?",
+                     "{$bw->vars['global_websitename']} Dialog",
+                     function(r){
+if(r){
+vsf.submitForm($("#vs_panel_{$this->modelName} #frm_obj_list"),'{$bw->input[0]}/{$this->modelName}_delete/'+id,'vs_panel_{$this->modelName}');
+}
+ }
+);
+return false;
+}
+function changCate(){
+if(objChecked.length){
+vsf.submitForm($("#vs_panel_{$this->modelName} #frm_obj_list"),'{$bw->input[0]}/{$this->modelName}_change_cate/'+objChecked,'vs_panel_{$this->modelName}');
+}else{
+jAlert("{$this->getLang()->getWords('error_none_select')}");
+}
+return false;
 }
 </script>
-<div id="folder-box" class="left-cell">
-{$createform}
-<div class="ui-dialog ui-widget ui-widget-content ui-corner-all">
-<div class="ui-dialog-titlebar ui-widget-header ui-helper-clearfix ui-corner-all-inner">
-<span class="ui-dialog-title">{$vsLang->getWords('folder_list_title',"Current folders")}</span>
-</div>
-<div id="folder-list">
-$folerlist
-</div>
-</div>
-</div>
+
+<script>
+
 EOF;
-//--endhtml--//
-return $BWHTML;
-}
-//===========================================================================
-// <vsf:FolderLink:desc::trigger:>
-//===========================================================================
-function FolderLink($folder="") {global $bw;
-$BWHTML = "";
-//--starthtml--//
-
-
-
-//--starthtml--//
+if($option['message']) {
 $BWHTML .= <<<EOF
-        {$this->__foreach_loop__id_518e27fa3b1db($folder)}
+
+jAlert('{$option['message']}');
+
+EOF;
+}
+
+$BWHTML .= <<<EOF
+
+</script>
 EOF;
 //--endhtml--//
 return $BWHTML;
 }
 
 //===========================================================================
-// Foreach loop function 
+// Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_518e27fa3b1db($folder="")
+function __foreach_loop__id_547ddc1060e4f8_55056811($objItems=array(),$option=array())
 {
-global $bw;
+    global $bw;
     $BWHTML = '';
     $vsf_count = 1;
     $vsf_class = '';
-    foreach( $folder as $thisfile )
+    if(is_array($objItems)){
+    foreach( $objItems as $item )
     {
         $vsf_class = $vsf_count%2?'odd':'even';
     $BWHTML .= <<<EOF
         
-<a href="javascript:changeFolder('{$thisfile['path']}');">
-<img src="{$bw->vars['img_url']}/icons/{$thisfile['icon']}" />{$thisfile['name']}
+<tr class="$vsf_class">
+<td><input onClick="checkRow()" class="btn_checkbox" value="{$item->getId()}" type="checkbox" /></td>
+<td>{$item->getId()}</td>
+
+EOF;
+if($this->getSettings()->getSystemKey($bw->input[0].'_'.$this->modelName."_image_field",1,$bw->input[0])) {
+$BWHTML .= <<<EOF
+
+<td> 
+<a onClick="btnEditItem_Click({$item->getId()},this);return false;" href="">
+{$item->createImageCache($item->getId(),100,50)}
 </a>
-{$thisfile['delete']}
+</td>
 
 EOF;
-$vsf_count++;
-    }
-    return $BWHTML;
 }
-//===========================================================================
-// <vsf:FileList:desc::trigger:>
-//===========================================================================
-function FileList($fileList=array(),$message="") {global $vsLang;
-$BWHTML = "";
-//--starthtml--//
 
-//--starthtml--//
 $BWHTML .= <<<EOF
-        <div class="error">{$message}</div>
-<table cellpadding="3" cellspacing="1" border="0" class="tableborder" width="100%">
-<tr><td class="titlemedium" colspan="6">{$vsLang->getWords('file_list_title',"Current files")}</td></tr>
-<tr>
-<td class="smalltitle" width="50">{$vsLang->getWords('file_list_id',"File ID")}</td>
-<td class="smalltitle" width="100">{$vsLang->getWords('file_list_image',"Image")}</td>
-<td class="smalltitle">{$vsLang->getWords('file_list_information',"Information")}</td>
-<td class="smalltitle">{$vsLang->getWords('file_list_action',"Action")}</td>
-</tr>
+
+<td><a onClick="btnEditItem_Click({$item->getId()},this);return false;" href="">{$item->getTitle()}</a></td>
 
 EOF;
-if(count($fileList)) {
+if($this->getSettings()->getSystemKey($bw->input[0].'_'.$this->modelName."_category_list",0,$bw->input[0])) {
 $BWHTML .= <<<EOF
 
-{$this->__foreach_loop__id_518e27fa3b5c3($fileList,$message)}
+<td>
+
+EOF;
+if($this->getMenu()->getCategoryById($item->getCatId())) {
+$BWHTML .= <<<EOF
+
+{$this->getMenu()->getCategoryById($item->getCatId())->getTitle()}
 
 EOF;
 }
 
 else {
 $BWHTML .= <<<EOF
- <tr><td>{$vsLang->getWords('file_list_error',"No file")}</td></tr>
+
+{$this->getLang()->getWords("Uncategory")}
 
 EOF;
 }
 $BWHTML .= <<<EOF
 
-</table>
+</td>
+
 EOF;
-//--endhtml--//
-return $BWHTML;
 }
 
-//===========================================================================
-// Foreach loop function 
-//===========================================================================
-function __foreach_loop__id_518e27fa3b5c3($fileList=array(),$message="")
-{
-global $vsLang;
-    $BWHTML = '';
-    $vsf_count = 1;
-    $vsf_class = '';
-    foreach( $fileList as $file )
-    {
-        $vsf_class = $vsf_count%2?'odd':'even';$classType = ($file->stt%2)+1;
-    $BWHTML .= <<<EOF
-        
- 
-<tr class="row{$classType}">
-<td>{$file->getId()}</td>
-<td >{$file->show()}</td>
-<td>
-- {$vsLang->getWords('file_list_name',"File name")}: <strong>{$file->getTitle()}</strong><br />
-- {$vsLang->getWords('file_list_size',"File size")}: <strong>{$file->getSize()}</strong><br />
-- {$vsLang->getWords('file_list_type',"File type")}: <strong>{$file->getType()}</strong><br />
-- {$vsLang->getWords('file_list_time',"Uploaded time")}: <strong>{$file->getUploadTime()}</strong><br />
-- {$vsLang->getWords('file_list_desc',"File Intro")}: {$file->getIntro()}
-</td>
-<td>
-<a href="javascript:vsf.get('files/editfile/{$file->getId()}/','add-edit-file-form');">{$vsLang->getWords("file_list_edit_link","Edit")}</a> | 
-<a href="javascript:vsf.get('files/deletefile/{$file->getId()}/','list-file');">{$vsLang->getWords('file_list_delete_link',"Delete")}</a>
+$BWHTML .= <<<EOF
+
+<td class="status"><img src="{$bw->vars['img_url']}/status_{$item->getStatus()}.png"/></td>
+
+EOF;
+if($this->getSettings()->getSystemKey($bw->input[0].'_'.$this->modelName."_postdate",1,$bw->input[0])) {
+$BWHTML .= <<<EOF
+
+<td>{$this->dateTimeFormat($item->getPostDate(),"d/m/Y") }</td>
+
+EOF;
+}
+
+$BWHTML .= <<<EOF
+
+
+EOF;
+if($this->getSettings()->getSystemKey($bw->input[0].'_'.$this->modelName."_index",1,$bw->input[0])) {
+$BWHTML .= <<<EOF
+
+<td class="index"><input type="textbox" name="indexitem[{$item->getId()}]" value="{$item->getIndex()}"/></td>
+
+EOF;
+}
+
+$BWHTML .= <<<EOF
+
+<td class="action">
+{$this->addOtionList($item)}
 </td>
 </tr>
 
 EOF;
 $vsf_count++;
     }
+    }
     return $BWHTML;
 }
-//===========================================================================
-// <vsf:addEditFileForm:desc::trigger:>
-//===========================================================================
-function addEditFileForm($form=array(),$file="") {global $bw, $vsLang;
-$BWHTML = "";
-//--starthtml--//
-$time = time();
 
-//--starthtml--//
-$BWHTML .= <<<EOF
-        <script type="text/javascript" src="{$bw->vars['board_url']}/javascripts/ajaxupload/ajaxfileupload.js"></script>
-<script type="text/javascript">
-$('#switch-add-file-bt').click( function() {
-var currentpath = $("#file-path").val();
-vsf.get('files/addfile/','add-edit-file-form');
-});
 
-$('#form-add-edit-file').submit(function() {
-vsf.uploadFile("form-add-edit-file", "files", "addeditfile", "list-file",$("#file-path").val());
-return false;
-});
-</script>
-<div class="ui-dialog ui-widget ui-widget-content ui-corner-all">
-<div class="ui-dialog-titlebar ui-widget-header ui-helper-clearfix ui-corner-all-inner">
-<span class="ui-dialog-title">{$form['title']}</span></div>
-<form name="form" method="post" id="form-add-edit-file" enctype="multipart/form-data">
-<input type="hidden" name="oldFileId" id="file-id" value="{$file->getId()}" />
-<input type="hidden" name="filePath" id="file-path" value="{$form['filepath']}" />
-<input type="hidden" name="hiddenTime" value="{$time}" />
-<div class="red">{$form['message']}</div>
-<table cellpadding="0" cellspacing="0" border="0"
-class="ui-dialog-content ui-widget-content">
-<tr>
-<td class="normalcell" width="100">{$vsLang->getWords('file_upload_form_name',"File
-name")}:</td>
-<td class="normalcell" width="300"><input type="text"
-value="{$file->getAliasTitle()}" name="fileAliasTitle" size="45" id="fileAliasTitle" /></td>
-</tr>
-<tr>
-<td class="normalcell" valign="top">{$vsLang->getWords('file_upload_form_desc',"Intro")}:</td>
-<td class="normalcell"><textarea name="fileIntro" cols="34"
-rows="5">{$file->getIntro()}</textarea></td>
-</tr>
-<tr>
-<td class="normalcell">{$vsLang->getWords('file_upload_form_source',"Source")}:</td>
-<td class="ui-dialog-buttonpanel">
-<input type="file"name="fileUpload" id="fileUpload" /><br />
-<input type="file"name="fileUpload2" id="fileUpload2" />
-</td>
-</tr>
-<tr>
-<td class="ui-dialog-buttonpanel" align="right" colspan="4">
-<input class="ui-state-default ui-corner-all" type="submit" name="submit" value="{$form ['formSubmit']}" />{$form ['$switchform']}
-</td>
-</tr>
-</table>
-</form>
-</div>
-EOF;
-//--endhtml--//
-return $BWHTML;
 }
-//===========================================================================
-// <vsf:MainFiles:desc::trigger:>
-//===========================================================================
-function MainFiles($addeditform="",$listable="") {$BWHTML = "";
-//--starthtml--//
-
-
-
-//--starthtml--//
-$BWHTML .= <<<EOF
-        <div id="file-box" class="right-cell">
-<div id="add-edit-file-form">{$addeditform}</div>
-<br />
-<div id="list-file">{$listable}</div>
-</div>
-EOF;
-//--endhtml--//
-return $BWHTML;
-}
-
-
-}?>
+?>

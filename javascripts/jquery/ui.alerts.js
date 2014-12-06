@@ -1,5 +1,6 @@
 /* jQuery Alert Dialogs Plugin
 
+
  Version 1.1
 
  Cory S.N. LaViska
@@ -69,11 +70,11 @@
 			$.alerts._hide();
 			$.alerts._overlay('show');
 			$("BODY").append(
-			  '<div id="popup_container" style="overflow: hidden; display: block; position: fixed; z-index: 1021; outline-color: -moz-use-text-color; outline-style: none; outline-width: 0px; height: auto; width: 300px; top: 320px; left: 350.5px;" class="ui-dialog ui-widget ui-widget-content ui-corner-all" tabindex="-1">' +
-			  	'<div class="ui-dialog-titlebar ui-widget-header ui-corner-all ui-helper-clearfix" unselectable="on" style="-moz-user-select: none;">'+
+			  '<div id="popup_container" style="overflow: hidden; display: block; position: fixed; z-index: 1021; outline-color: -moz-use-text-color; outline-style: none; outline-width: 0px; height: auto; width: 300px; top: 320px; left: 350.5px;" class="vs-dialog" tabindex="-1">' +
+			  	'<div class="vs-dialog-titlebar" unselectable="on" style="-moz-user-select: none;">'+
       '<span id="ui-dialog-title-dialog" class="ui-dialog-title" unselectable="on" style="-moz-user-select: none;">'+'</span></div>'+
 			    '<div id="popup_content">' +
-			      '<div id="popup_message" class="ui-dialog-content ui-widget-content"></div>' +
+			      '<div id="popup_message" class="vs-dialog-content"></div>' +
 				'</div>' +
 			  '</div>');
 			
@@ -101,8 +102,7 @@
 					if( callback ) callback(false);
 				});
 			$("#popup_content").addClass(type);
-			$("#popup_message").text(msg)
-			.css({padding:'5px 10px'});
+			$("#popup_message").text(msg);
 			$("#popup_message").html( $("#popup_message").text().replace(/\n/g, '<br />') );
 			
 			$("#popup_container").css({
@@ -115,7 +115,7 @@
 			
 			switch( type ) {
 				case 'alert':
-					$("#popup_message").after('<div id="popup_panel" class="ui-dialog-buttonpane ui-helper-clearfix"><button type="button"  id="popup_ok" class="ui-state-default ui-corner-all ui-state-focus">'+$.alerts.okButton+'</button></div>');
+					$("#popup_message").after('<div id="popup_panel" class="vs-dialog-buttonpane"><button type="button"  id="popup_ok" class="ui-state-default ui-corner-all ui-state-focus">'+$.alerts.okButton+'</button></div>');
 					$("#popup_ok").click( function() {
 						$.alerts._hide();
 						callback(true);
@@ -125,7 +125,7 @@
 					});
 				break;
 				case 'confirm':
-					$("#popup_message").after('<div id="popup_panel" class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix"><button type="button" id="popup_cancel" class="ui-state-default ui-corner-all ui-state-focus" >' + $.alerts.cancelButton + '</button><button type="button"  id="popup_ok" class="ui-state-default ui-corner-all ui-state-focus">'+$.alerts.okButton+'</button></div> ');
+					$("#popup_message").after('<div id="popup_panel" class="vs-dialog-buttonpane"><button type="button"  id="popup_ok" class="ui-state-default ui-corner-all ui-state-focus">'+$.alerts.okButton+'</button><button type="button" id="popup_cancel" class="ui-state-default ui-corner-all ui-state-focus" >' + $.alerts.cancelButton + '</button></div> ');
 					$("#popup_ok").click( function() {
 						$.alerts._hide();
 						if( callback ) callback(true);
@@ -141,7 +141,7 @@
 					});
 				break;
 				case 'prompt':
-					$("#popup_message").append('<br /><input type="text" size="30" id="popup_prompt" />').after('<div id="popup_panel" class="ui-dialog-buttonpanel ui-helper-clearfix"><button type="button"  id="popup_ok" class="ui-state-default ui-corner-all ui-state-focus">'+$.alerts.okButton+'</button> <button type="button" id="popup_cancel" class="ui-state-default ui-corner-all ui-state-focus" >' + $.alerts.cancelButton + '</button</div>');
+					$("#popup_message").append('<br /><input type="text" size="30" id="popup_prompt" />').after('<div id="popup_panel" class="vs-dialog-buttonpanel ui-helper-clearfix"><button type="button"  id="popup_ok" class="ui-state-default ui-corner-all ui-state-focus">'+$.alerts.okButton+'</button> <button type="button" id="popup_cancel" class="ui-state-default ui-corner-all ui-state-focus" >' + $.alerts.cancelButton + '</button</div>');
 					$("#popup_prompt").width( $("#popup_message").width() );
 					$("#popup_ok").click( function() {
 						var val = $("#popup_prompt").val();
@@ -245,7 +245,9 @@
 	jAlert = function(message, title, callback) {
 		$.alerts.alert(message, title, callback);
 	}
-	
+	jAlertClose = function() {
+		$.alerts._hide();
+	}
 	jConfirm = function(message, title, callback) {
 		$.alerts.confirm(message, title, callback);
 	};

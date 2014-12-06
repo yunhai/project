@@ -9,32 +9,29 @@ if ( ! defined( 'IN_VSF' ) )
 	print "<h1>Incorrect access</h1>You cannot access this file directly. If you have recently upgraded, make sure you upgraded all the relevant files.";
 	exit();
 }
-require_once(CORE_PATH."gallerys/gallerys.php");
-class gallerys_admin extends ObjectAdmin{
-
-	function __construct() {
-		global $vsStd, $vsTemplate,$vsPrint;
-		
-//		$vsPrint->addJavaScriptFile('thickbox');
-//		$vsPrint->addGlobalCSSFile('thickbox');
-                
-		parent::__construct('gallerys', CORE_PATH.'gallerys/', 'gallerys');
-		$this->html = $vsTemplate->load_template('skin_gallerys');
-	}
-
-	public function getOutput() {
-		return $this->output;
-	}
+require_once LIBS_PATH.'boards/VSAdminBoard.php';
+class gallerys_admin  extends VSAdminBoard{
 	
-	public function getHtml() {
-		return $this->html;
-	}
+function auto_run(){
+		global $bw;
+		$this->tabs[]=array(
+				'href'=>"{$bw->base_url}{$bw->input[0]}/{$bw->input[0]}_display_tab/&ajax=1",
+				'title'=>$this->getLang()->getWords("tab_{$bw->input[0]}",$bw->input[0]),
+				'default'=>1,
+				);
 	
-        
-        function auto_run() {
-		global $bw,$array_module_access,$vsSettings;
-		
-		
+		if(VSFactory::getSettings()->getSystemKey ( $bw->input[0]. '_category_list', 0, $bw->input[0] )){
+			$this->tabs[]=array(
+				'href'=>"{$bw->base_url}menus/display-category-tab/{$bw->input[0]}/&ajax=1",
+				'title'=>$this->getLang()->getWords("{$bw->input[0]}_category","{$bw->input[0]} Category"),
+				'default'=>1,
+				);
+			
+		}		
+		parent::auto_run();
+	}
+       /* function auto_run() {
+		global $bw,$array_module_access;
                
 		switch ($bw->input ['action']) {
 			
@@ -55,7 +52,7 @@ class gallerys_admin extends ObjectAdmin{
 				break;
 			
 			case 'display-obj-list' :
-				$this->getObjList ( str_replace("-", "", $bw->input [2]), $this->model->result ['message'] );
+				$this->getObjList ( $bw->input [2], $this->model->result ['message'] );
 				break;
 			
 			case 'add-edit-obj-form' :
@@ -102,7 +99,11 @@ class gallerys_admin extends ObjectAdmin{
 				break;
 		}
 	}
-
+function loadDefault() {
+		global $vsPrint;
+		$vsPrint->addJavaScriptString ( 'init_tab', '$(document).ready(function(){$("#page_tabs").tabs({fx: { opacity: "toggle" },cache: true});});' );
+		$this->output = $this->html->managerObjHtml ();
+	}
 	function displayEditFileForm($model, $fileId){
 		global $bw;
 		$this->getFileById($fileId);
@@ -111,12 +112,12 @@ class gallerys_admin extends ObjectAdmin{
 	}
 
 	function displayGalleryAlbumList($cateId=0){
-		global $vsStd, $bw, $vsLang,$vsSettings;
+		global $bw;
 		$option['cateId'] = $cateId;
 		if($cateId)	$this->model->setCondition('galleryStatus>=0 and galleryCatId='.$cateId);
 		else
 		$this->model->setCondition('galleryStatus>=0');
-		$size = $vsSettings->getSystemKey("admin_{$bw->input[0]}_list_number",10);
+		$size = VSFactory::getSettings()->getSystemKey("admin_{$bw->input[0]}_list_number",10);
 
 		$option=$this->model->getPageList("{$bw->input[0]}/display-gallery-album-list/{$cateId}/", 3,$size,1,'gallery-list');
 		$album=$option['pageList'];
@@ -151,30 +152,31 @@ class gallerys_admin extends ObjectAdmin{
 		</script>";	
 	}
 	function createAlbum($array=array()){
-		global $vsLang,$bw,$DB;
-		$bw->input[2] = str_replace("-", "", $bw->input[2]);
-		$array['albumTitle']?$this->model->obj->setTitle($array['albumTitle']):$this->model->obj->setTitle($vsLang->getWords('global_system_auto_album',"System Create Album")." [{$bw->input[2]}]");
-		$array['albumCode']	?$this->model->obj->setCode($array['albumCode']):$this->model->obj->setCode($bw->input[2]);
-		$this->model->obj->setCatId($this->model->getCategories()->getId());
-		$this->model->obj->setStatus(-1);
-		$this->model->vsRelation->setRelId($bw->input[3]);
-		$this->model->vsRelation->setTableName("gallery_{$bw->input[2]}");
-		$strId=$this->model->vsRelation->getObjectByRel();
-               
+		global $bw;
+		$vsLang = VSFactory::getLangs();
+		$vsRelation = VSFactory::getRelation();
+		$array['albumTitle']?$this->model->basicObject->setTitle($array['albumTitle']):$this->model->basicObject->setTitle($vsLang->getWords('global_system_auto_album',"System Create Album")." [{$bw->input[2]}]");
+		$array['albumCode']	?$this->model->basicObject->setCode($array['albumCode']):$this->model->basicObject->setCode($bw->input[2]);
+		$this->model->basicObject->setCatId($this->model->getCategories()->getId());
+		$this->model->basicObject->setStatus(-1);
+		$vsRelation->setRelId($bw->input[3]);
+		$vsRelation->setTableName("gallery_{$bw->input[2]}");
+		$strId=$vsRelation->getObjectByRel();
 		if($strId){
-			$this->model->setCondition("galleryCode='{$this->model->obj->getCode()}' and galleryCatId in ({$this->model->getCategories()->getId()}) and galleryId in ({$strId})");
+			$this->model->setCondition("galleryCode='{$this->model->basicObject->getCode()}' and galleryCatId in ({$this->model->getCategories()->getId()}) and galleryId in ({$strId})");
 			$obj=$this->model->getOneObjectsByCondition();
 		}
                 
 		if($obj) return ;
 		$this->model->insertObject();
-		$this->model->vsRelation->setObjectId($this->model->obj->getId());
-		$this->model->vsRelation->setRelId($bw->input[3]);
-		$this->model->vsRelation->setTableName("gallery_{$bw->input[2]}");
-		$this->model->vsRelation->insertRel();
+		$vsRelation->setObjectId($this->model->basicObject->getId());
+		$vsRelation->setRelId($bw->input[3]);
+		$vsRelation->setTableName("gallery_{$bw->input[2]}");
+		$vsRelation->insertRel();
 	}
 	function displayGalleryTab(){
-		global $bw,$vsLang;
+		global $bw;
+		$vsLang = VSFactory::getLangs();
 		if(!$bw->input[2]){
 			$this->alertMessage($vsLang->getWords("global_none_model",'Bạn phải truyền tên model cần tạo Album'));
 			return false;
@@ -185,31 +187,35 @@ class gallerys_admin extends ObjectAdmin{
 		}
 
 		$this->createAlbum($bw->input);
-		if(!$this->model->obj->getId()){
+		if(!$this->model->basicObject->getId()){
 			$this->alertMessage($vsLang->getWords("global_error_system",'Có lỗi trong quá trình tạo Album'));
 			return false;
 		}
 
-		return $this->displayFile($this->model->obj->getId());
+		return 	$this->displayFile($this->model->basicObject->getId());
 	}
 
 	function displayFileForm($formtype="add",$album){
-		global $bw,$vsLang;
+		global $bw;
 		if(is_numeric($album))
 		$album= $this->model->getObjectById($album);
+		$vsLang =  VSFactory::getLangs();
 		if(!$album){
 			$this->alertMessage($vsLang->getWords("global_none_album",'Bạn phải tạo Album trước khi sử dụng'));
 			return false;
 		}
 		$form['type'] = $formtype;
 		$form['albumId'] = $album->getId();
-		$form ['formSubmit'] = $this->model->vsLang->getWords ( "file_type_{$formtype}_bt", ucwords ( $formtype ) );
-		$form ['title'] = $this->model->vsLang->getWords ( "file_type_{$formtype}_title", ucwords ( $formtype ) . " File" );
+		$form ['formSubmit'] = $vsLang->getWords ( "file_type_{$formtype}_bt", ucwords ( $formtype ) );
+		$form ['title'] = $vsLang->getWords ( "file_type_{$formtype}_title", ucwords ( $formtype ) . " File" );
+		
+		$vsFile = VSFactory::getFiles();
+		
 		if ($form ['type']=="edit") {
-			$this->model->vsFile->getObjectById($bw->input[3]);
-			$form['switchform'] = '<input type="button" class="ui-state-default ui-corner-all" value="Add" name="switch" id="switch-add-file-bt" />';
+			$vsFile->getObjectById($bw->input[3]);
+			$form['switchform'] = '<input type="button" class="ui-state-default ui-corner-all" value="Chuyển qua form thêm mới" name="switch" id="switch-add-file-bt" />';
 		}
-		return $this->output = $this->html->addEditFileForm($form, $this->model->vsFile->obj, $album);
+		return $this->output = $this->html->addEditFileForm($form,$vsFile->basicObject,$album);
 	}
 
 	function displayGalleryFileList($albumId=0){
@@ -219,24 +225,25 @@ class gallerys_admin extends ObjectAdmin{
 
 	function addEditGalleryFile(){
 		global $bw,$vsStd;
-		
+		$vsFile = VSFactory::getFiles();
 		if($bw->input['oldFileId']){
-			$vsStd->requireFile ( UTILS_PATH . "TextCode.class.php");
-			$this->model->vsFile->getObjectById($bw->input['oldFileId']);
-			
-			if($bw->input['fileId']) $this->model->vsFile->deleteFile($bw->input['oldFileId']);
+			$vsStd->requireFile ( UTILS_PATH . "TextCode.class.php" );
+			$objName =  $bw->input['fileTitle'];
+			$vsFile->getObjectById($bw->input['oldFileId']);
+			$pathOld = $vsFile->basicObject->getPathView();
+			if($bw->input['fileImageId']) $vsFile->deleteFile($bw->input['oldFileId']);
 			else{
-				$bw->input['fileTitle'] = $bw->input['fileTitle']?$bw->input['fileTitle']:$bw->input['oldFileTitle'];
-				$bw->input['fileTitle'] = $bw->input['fileTitle']?$bw->input['fileTitle']:'no name';
-				$this->model->vsFile->obj->convertToObject($bw->input);
-				$this->model->vsFile->updateObjectById();
+				$vsFile->basicObject->convertToObject($bw->input);
+				$vsFile->basicObject->setTitle($objName);
+				$vsFile->updateObjectById($vsFile->basicObject);
 			}
 		}
-		if($bw->input['fileId']){
-			$this->model->vsRelation->setObjectId($bw->input['fileId']);
-			$this->model->vsRelation->setRelId($bw->input['albumId']);
-			$this->model->vsRelation->setTableName($this->model->getRelTableName());
-			$this->model->vsRelation->insertRel();
+		if($bw->input['fileImageId']){
+			$vsRelation = VSFactory::getRelation();
+			$vsRelation->setObjectId($bw->input['fileImageId']);
+			$vsRelation->setRelId($bw->input['albumId']);
+			$vsRelation->setTableName($this->model->getRelTableName());
+			$vsRelation->insertRel();
 		}
 		print "<script>vsf.get('gallerys/add-form-file/{$bw->input['albumId']}','file-form')</script>";
 		$this->displayGalleryFileList($bw->input['albumId']);
@@ -244,12 +251,14 @@ class gallerys_admin extends ObjectAdmin{
 
 	function displayDeleteFile(){
 		global $bw;
-		$this->model->vsFile->deleteFile($bw->input[2]);
-		$this->model->vsRelation->setObjectId($bw->input[2]);
-		$this->model->vsRelation->setTableName($this->model->getRelTableName());
-		$this->model->vsRelation->delRelByObject();
+		VSFactory::getFiles()->deleteFile($bw->input[2]);
+		$vsRelation = VSFactory::getRelation();
+		$vsRelation->setObjectId($bw->input[2]);
+		$vsRelation->setTableName($this->model->getRelTableName());
+		$vsRelation->delRelByObject();
 		$this->displayGalleryFileList($bw->input[3]);
 	}
+	*/
 }
 
 ?>

@@ -1,0 +1,9 @@
+<?php
+$lang = array (
+  'lang_no_id' => 'There is no item with specified ID!',
+  'main_title' => 'LANGUAGES',
+  'pageTitle' => 'LANGUAGES',
+);
+$userLang = array (
+);
+?>

@@ -1,83 +1,81 @@
 <?php
-class skin_global{
+if(!class_exists('skin_board_public'))
+require_once ('./cache/skins/user/finance/skin_board_public.php');
+class skin_global extends skin_board_public {
 
 //===========================================================================
 // <vsf:vs_global:desc::trigger:>
 //===========================================================================
-function vs_global() {global $bw,$vsLang, $vsMenu, $vsSettings, $vsPrint;
-$year = date("Y");
-$lang = $_SESSION["user"]["language"]["currentLang"]["langFolder"];
-$active[$_SESSION["user"]["language"]["currentLang"]["langFolder"]] = 'active';
+function vs_global() {global $bw, $vsLang,$vsPrint;
+$vsLang = VSFactory::getLangs();
+$this->vsLang = VSFactory::getLangs();
+$this->car=Object::getObjModule("pages","car",">0");
+ksort($this->car);
+
+
+$fb = VSFactory::getSettings ()->getSystemKey ( "facebook", "https://www.facebook.com/", "configs" );
+$google = VSFactory::getSettings ()->getSystemKey ( "googleplus", "http://google.com.vn/", "configs" );
+$tw = VSFactory::getSettings ()->getSystemKey ( "twitter", "http://twitter.com/", "configs" );
+$pinterest = VSFactory::getSettings ()->getSystemKey ( "pinterest", "https://www.pinterest.com/", "configs" );
+$youtube = VSFactory::getSettings ()->getSystemKey ( "youtube", "https://www.youtube.com/", "configs" );
+$slogan = VSFactory::getSettings ()->getSystemKey ( "slogan", "Slogan here", "configs" );
+$like_Fanpage = VSFactory::getSettings ()->getSystemKey ( "like_Fanpage", "https://www.facebook.com/FacebookDevelopers", "configs" );
+$hotline = VSFactory::getSettings ()->getSystemKey ( "hotline", "0933 340 436", "configs" );
+
+$hotline = VSFactory::getSettings ()->getSystemKey ( "email_admin", "vuongnguyen0712@gmail.com", "configs" );
+
 
 //--starthtml--//
 $BWHTML .= <<<EOF
-        <div id="header">
-<a href="{$bw->base_url}" class="logo">
-<img src="{$bw->vars['img_url']}/logo.png" />
-</a>
-{$this->about}
-{$this->support}
-    <div class='reservation'>
-    <p class='hotline_{$lang}'>{$vsLang->getWords('global_hotline', 'Điện thoại đặt chỗ')}:</p>
-    <span class='hotlinenumber_{$lang}'>{$vsSettings->getSystemKey("config_reservation", '0903 935 300', 'config')}</span>
-    </div>
-    <div class="lang_link">
-    <a href="{$bw->vars['board_url']}" title='{$vsLang->getWords('global_vietnamese','Tiếng Việt')}' class='{$active['vi']}'>
-{$vsLang->getWords('global_vietnamese','Tiếng Việt')}
-</a>
-        <a href="{$bw->vars['board_url']}/cn" title='{$vsLang->getWords('global_chinese','中文')}' class='{$active['cn']}'>
-{$vsLang->getWords('global_chinese','中文')}
-</a>
-        <a href="{$bw->vars['board_url']}/en" title='{$vsLang->getWords('global_english','English')}' class='{$active['en']}'>
-{$vsLang->getWords('global_english','English')}
-</a>
-    </div>
-{$this->topmenu}
+        <header class="navbar navbar-inverse navbar-fixed-top wet-asphalt">
+        <div class="container" style="background: linear-gradient(to right, rgb(255, 255, 255) 5%, rgb(52, 73, 94)) repeat scroll 0% 0% transparent;">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand logo" href="{$bw->base_url}"><img src="{$bw->vars['img_url']}/logo.png" alt="logo"></a>
+            </div>
+            
+            {$this->getAddon()->getMenuTop()}
+            
+        </div>
+    </header><!--/header-->
     
-    {$this->slideshow}
-</div>
-<!-- STOP HEADER -->
-{$this->service}
-<!-- STOP SLIDE DICH VU -->
-<div id="content">
-{$this->SITE_MAIN_CONTENT}
-    <!-- STOP CENTER -->
     
-    <div id="sitebar">
-    {$this->recruitment}
-    {$this->promote}
-        
-        {$this->partner}
-    </div>
-    <!-- STOP SITEBAR -->
     
-    <div class="clear"></div>
-</div>
-<!-- STOP CONTENT -->
-<div id="footer">
-<p class="copyright">
-© {$year} {$vsLang->getWords('global_copyright','Bản quyền thuộc về Monica Spa')} <br/>
-</p>
-<p class='footer-reservation'>
-<span class='reservation-text'>{$vsLang->getWords('global_hotline', 'Điện thoại đặt chỗ')}:</span>
-    <span class='reservation-number'>{$vsSettings->getSystemKey("config_reservation", '0903 935 300', 'config')}</span>
-</p>
-    <div class="truycap">
-    <p>{$vsLang->getWords('global_access_today','Đang truy cập')}: <span>{$this->state['today']}</span></p>
-    <p>{$vsLang->getWords('global_access_total','Tổng lượt truy cập')}: <span>{$this->state['visits']}</span></p>
-    </div>
-</div>
+    {$this->SITE_MAIN_CONTENT} 
+    
+    
+    
+    {$this->getAddon()->getContact()}
+    <footer id="footer" class="midnight-blue">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-6">
+                  {$this->vsLang->getWords("coppyright","  &copy; 2013 Weicovina. All Rights Reserved.")}
+                </div>
+                <div class="col-sm-6">
+                    
+{$this->getAddon()->getMenuBottom()}
+                </div>
+            </div>
+        </div>
+    </footer><!--/#footer-->
+EOF;
+//--endhtml--//
+return $BWHTML;
+}
+//===========================================================================
+// <vsf:getSiteBar:desc::trigger:>
+//===========================================================================
+function getSiteBar($option=null) {global $bw,$vsLang,$vsMenu,$vsSettings,$urlcate,$vsExperts,$vsTemplate;
 
-<script type="text/javascript">
-  var _gaq = _gaq || [];
-  _gaq.push(['_setAccount', 'UA-32732641-1']);
-  _gaq.push(['_trackPageview']);
-  (function() {
-    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-  })();
-</script>
+//--starthtml--//
+$BWHTML .= <<<EOF
+        
 EOF;
 //--endhtml--//
 return $BWHTML;
@@ -85,30 +83,11 @@ return $BWHTML;
 //===========================================================================
 // <vsf:addCSS:desc::trigger:>
 //===========================================================================
-function addCSS($cssUrl="") {
+function addCSS($cssUrl="",$media="") {$media = $media?"media='$media'":'';
+
 //--starthtml--//
 $BWHTML .= <<<EOF
-        <link type="text/css" rel="stylesheet" href="{$cssUrl}.css" />
-EOF;
-//--endhtml--//
-return $BWHTML;
-}
-//===========================================================================
-// <vsf:addFlash:desc::trigger:>
-//===========================================================================
-function addFlash($url="",$width=0,$height=0,$mode="opaque") {
-//--starthtml--//
-$BWHTML .= <<<EOF
-        <object height="{$height}" width="{$width}" classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=7,0,19,0">
-        <param name="movie" value="{$url}">
-        <param name="quality" value="high">
-        <param name="allowscriptaccess" value="samedomain">
-        <param value="{$mode}" name="wmode">
-        <embed height="{$height}" width="{$width}" type="application/x-shockwave-flash" pluginspage="http://www.adobe.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash" src="{$url}" quality="high" allowscriptaccess="samedomain" wmode="{$mode}">
-          <noembed>
-          </noembed>
-        
-      </object>
+        <link type="text/css" rel="stylesheet" href="{$cssUrl}.css"  $media/>
 EOF;
 //--endhtml--//
 return $BWHTML;
@@ -277,8 +256,6 @@ return $BWHTML;
 //===========================================================================
 function Redirect($Text="",$Url="",$css="") {global $bw;
 $BWHTML = "";
-//--starthtml--//
-//
 
 //--starthtml--//
 $BWHTML .= <<<EOF
@@ -323,4 +300,5 @@ return $BWHTML;
 }
 
 
-}?>
+}
+?>

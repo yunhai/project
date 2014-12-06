@@ -1,7 +1,0 @@
-<?php
-$lang = array (
-  'pageTitle' => 'Banner',
-  'main_title' => 'Banner',
-);
-$userLang = array();
-?>

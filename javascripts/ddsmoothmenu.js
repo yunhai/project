@@ -13,8 +13,6 @@
 //** July 27th, 09" (v1.31): Fixed bug so shadows can be disabled if desired.
 //** Feb 2nd, 10" (v1.4): Adds ability to specify delay before sub menus appear and disappear, respectively. See showhidedelay variable below
 
-
-
 var ddsmoothmenu={
 
 //Specify full URL to down and right arrow images (23 is padding-right added to top level LIs with drop downs):

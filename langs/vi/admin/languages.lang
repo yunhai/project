@@ -1,7 +1,5 @@
 <?php
 $lang = array (
-  'pageTitle' => 'languages',
-  'main_title' => 'languages',
   'lang_confirm' => 'Confirm delete',
   'Vietnamese' => 'Vietnamese',
   'English' => 'English',
@@ -11,16 +9,15 @@ $lang = array (
   'err_lang_name_blank' => 'Please enter the module name!',
   'lang_module_add' => ' Add module′s language file  ',
   'lang_module' => 'Module',
+  'lang_module_keyword' => 'Module',
   'language_file_title' => 'Language Files',
   'user' => 'User',
   'admin' => 'Admin',
   'lang_module_add_text' => ' Add module′s language text',
   'lang_module_text_key' => 'Language key',
   'lang_module_text_value' => 'Language value',
+  'root' => 'Root',
   'lang_module_text' => 'Current module′s language text',
-  'newsItem_EditObjTitle' => 'Click here to delete this languages',
-  'Korea' => 'Korea',
-  'group_global_module' => 'global',
   'creat_new_lang' => ' Create Language set  ',
   'creat_new_lang_bt' => 'Add',
   'lang_name' => 'Language',
@@ -33,16 +30,8 @@ $lang = array (
   'lang_list' => 'Current Language Packs In Use',
   'lang_userdefault' => 'Default User',
   'lang_admindefault' => 'Default Admin',
-  'language_insert_success' => 'You have successfully insert the field!',
-  'edit_selected_lang_bt' => 'Edit',
-  'edit_selected_lang' => ' Edit Language set  ',
-  'se' => 'se',
-  'Sweden' => 'Sweden',
-  'language_update_success' => 'You have successfully update the field!',
-  'Vietnam' => 'Vietnam',
-  'Chinese' => 'Chinese',
+  'newsItem_EditObjTitle' => 'Click here to edit this languages',
 );
 $userLang = array (
-  'root' => 'Root',
 );
 ?>

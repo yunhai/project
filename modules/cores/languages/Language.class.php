@@ -9,30 +9,24 @@
  +-----------------------------------------------------------------------------
  */
 
-class Lang {
-	private $name 			= null; // name of language package
-	private $admindefault 	= null; // 0 for admin and 1 for user
-	private $userdefault 	= null; // 0 for not default, 1 for default
-	private $foldername 	= null; // folder name of language when store language in files
-	private $status 		= null; // 0 is instatus, 1 is status
-	private $symbol 		= null; // the symbol of language, e.g: vietnamese flag for vietnamese language
-
-	public $langpath 		= null;
-
-	private $id 	= null;
-	private $module 	= ""; 	// module that own this item
-	private $value 		= array();	// language value of this item
+class Lang1 {
+	protected $name 			= null; // name of language package
+	protected $admindefault 	= null; // 0 for admin and 1 for user
+	protected $userdefault 	= null; // 0 for not default, 1 for default
+	protected $code 	= null; // folder name of language when store language in files
+	protected $status 		= null; // 0 is instatus, 1 is status
+	protected $symbol 		= null; // the symbol of language, e.g: vietnamese flag for vietnamese language
+	protected $id 	= null;
 
 
 	function __construct(){
 		// Set path of Lang
-		$this->langpath = ROOT_PATH."langs/";
 	}
 
 	function __destruct(){
 		unset($this->itemId);
 		unset($this->status);
-		unset($this->foldername);
+		unset($this->code);
 		unset($this->userdefault);
 		unset($this->admindefault);
 		unset($this->name);
@@ -42,7 +36,7 @@ class Lang {
 		unset($this->value);
 	}
 	public function getPrimary() {
-		return 'langId';
+		return 'id';
 	}
 	/**
 	 * @return unknown
@@ -61,8 +55,8 @@ class Lang {
 	/**
 	 * @return unknown
 	 */
-	public function getFolderName() {
-		return $this->foldername;
+	public function getCode() {
+		return $this->code;
 	}
 
 	/**
@@ -72,12 +66,6 @@ class Lang {
 		return $this->id;
 	}
 
-	/**
-	 * @return unknown
-	 */
-	public function getModule() {
-		return $this->module;
-	}
 
 	/**
 	 * @return unknown
@@ -107,12 +95,6 @@ class Lang {
 		return $this->value;
 	}
 
-	/**
-	 * @param unknown_type $type
-	 */
-	public function getLangPath() {
-		return $this->langpath;
-	}
 
 	/**
 	 * @param unknown_type $status
@@ -129,25 +111,19 @@ class Lang {
 	}
 
 	/**
-	 * @param unknown_type $foldername
+	 * @param unknown_type $code
 	 */
-	public function setFolderName($foldername) {
-		$this->foldername = $foldername;
+	public function setCode($code) {
+		$this->code = $code;
 	}
 
 	/**
 	 * @param unknown_type $id
 	 */
-	public function setId($langId) {
-		$this->id = intval($langId);
+	public function setId($id) {
+		$this->id = intval($id);
 	}
 
-	/**
-	 * @param unknown_type $module
-	 */
-	public function setModule($module) {
-		$this->module = $module;
-	}
 
 	/**
 	 * @param unknown_type $name
@@ -170,27 +146,15 @@ class Lang {
 		$this->admindefault = intval($adminDefault);
 	}
 
-	/**
-	 * @param unknown_type $type
-	 */
-	public function setLangPath($langpath) {
-		$this->langpath = $langpath;
-	}
 
-	/**
-	 * @param unknown_type $value
-	 */
-	public function setValue($value) {
-		$this->value = $value;
-	}
 	public function convertToDB() {
-		isset($this->id)        	? ($dbobj['langId'] 		= $this->id) 			: '';
-		isset($this->name)        	? ($dbobj['langName'] 		= $this->name) 			: '';
+		isset($this->id)        	? ($dbobj['id'] 		= $this->id) 			: '';
+		isset($this->name)        	? ($dbobj['name'] 		= $this->name) 			: '';
 		isset($this->userdefault)   ? ($dbobj['userDefault'] 	= $this->userdefault) 	: '';
 		isset($this->admindefault)  ? ($dbobj['adminDefault'] 	= $this->admindefault) 	: '';
-		isset($this->foldername )   ? ($dbobj['langFolder'] 	= $this->foldername) 	: '';
-		isset($this->status)     	? ($dbobj['langStatus'] 	= $this->status) 		: '';
-		isset($this->symbol )      	? ($dbobj['langSymbol'] 	= $this->symbol) 		: '';
+		isset($this->code )   ? ($dbobj['code'] 	= $this->code) 	: '';
+		isset($this->status)     	? ($dbobj['status'] 	= $this->status) 		: '';
+		isset($this->symbol )      	? ($dbobj['symbol'] 	= $this->symbol) 		: '';
 
 		return $dbobj;
 	}
@@ -201,14 +165,13 @@ class Lang {
 	 *
 	 */
 	public function convertToObject($object=array(),$time_method = "SHORT") {
-		isset($object['langId'])		? $this->setId($object['langId'])							:'';
-		isset($object['langName'])		? $this->setName($object['langName'])						:'';
+		isset($object['id'])		? $this->setId($object['id'])							:'';
+		isset($object['name'])		? $this->setName($object['name'])						:'';
 		isset($object['userDefault'])	? $this->setUserDefault($object['userDefault'])				:'';
 		isset($object['adminDefault'])	? $this->setAdminDefault($object['adminDefault'])			:'';
-		isset($object['langFolder'])	? $this->setFolderName($object['langFolder'])				:'';
-		isset($object['langStatus'])	? $this->setStatus($object['langStatus'])					:'';
-		isset($object['langSymbol'])	? $this->setSymbol($object['langSymbol'])					:'';
-		isset($object['langFolder'])	? $this->setLangPath($this->langpath.$object['langFolder'])	:'';
+		isset($object['code'])	? $this->setCode($object['code'])				:'';
+		isset($object['status'])	? $this->setStatus($object['status'])					:'';
+		isset($object['symbol'])	? $this->setSymbol($object['symbol'])					:'';
 	}
 	/**
 	 * change object to template use
@@ -217,14 +180,13 @@ class Lang {
 	 *
 	 */
 	public function convertToView() {
-		isset($this->id)   			? ($template['langId'] = $this->getId() ) 					: '';
-		isset($this->name)        	? ($template['langName'] = $this->getName()) 				: '';
+		isset($this->id)   			? ($template['id'] = $this->getId() ) 					: '';
+		isset($this->name)        	? ($template['name'] = $this->getName()) 				: '';
 		isset($this->userdefault)   ? ($template['userDefault'] = $this->getUserDefault()) 		: '';
 		isset($this->admindefault)  ? ($template['adminDefault'] = $this->getAdminDefault()) 	: '';
-		isset($this->foldername )   ? ($template['langFolder'] = $this->getFolderName()) 		: '';
-		isset($this->status)     	? ($template['langStatus'] = $this->getStatus()) 			: '';
-		isset($this->symbol )       ? ($template['langSymbol'] = $this->getSymbol()) 			: '';
-		isset($this->langpath )     ? ($template['langPath'] = $this->getLangPath()) 			: '';
+		isset($this->code )   ? ($template['code'] = $this->getCode()) 		: '';
+		isset($this->status)     	? ($template['status'] = $this->getStatus()) 			: '';
+		isset($this->symbol )       ? ($template['symbol'] = $this->getSymbol()) 			: '';
 		return $template;
 	}
 

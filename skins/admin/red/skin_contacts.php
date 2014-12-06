@@ -1,187 +1,246 @@
 <?php
-	class skin_contacts{
 
-		function contactList( $option) {
-			global $vsLang, $bw, $vsPrint,$vsSettings;
-			$vsPrint->addJavaScriptFile('jquery/jquery.tablesorter');
-			$BWHTML = "";
-			$BWHTML .= <<<EOF
-			<div id="ContactList_{$option['contactType']}">
-				<div class='ui-dialog ui-widget ui-widget-content ui-corner-all'>
-					<div class="ui-dialog-titlebar ui-widget-header ui-helper-clearfix ui-corner-all-inner">
-				        <span class="ui-icon ui-icon-note"></span>
-				        <span class="ui-dialog-title">{$vsLang->getWords('obj_objListHtmlTitle','Contact List')}</span>
-				    </div>
-					<ul class="ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-corner-all-inner ui-widget-header">
-				    	<li class="ui-state-default ui-corner-top" id="add-objlist-bt">
-				    		<a href="#" title="{$vsLang->getWords('add_obj_alt_bt','Delete')}" onclick="deleteObj({$option['contactType']}, '{$option['pIndex']}')">
-								{$vsLang->getWords('add_obj_delete_bt',"Delete")}
-							</a>
-						</li>
-				    </ul>
-
-					<div class="message">{$option['message']}</div>
-					<table cellpadding="1" cellspacing="1" class='ui-dialog-content ui-widget-content' id='contactItemTable' width="100%">
-						<thead>
-						    <tr>
-						        <th width='10'>
-						        	<input type="checkbox" onclick="checkAll{$option['contactType']}()" name="all{$option['contactType']}" />
-						        </th>
-						        <th>{$vsLang->getWords('contactTitle','Title')}</th>
-						        <th width='300'>{$vsLang->getWords('from','From')}</th>
-						        <th width='90' >{$vsLang->getWords('time','Time')}</th>
-						        <th width='50' >{$vsLang->getWords('status','Status')}</th>
-						        <if="$vsSettings->getSystemKey('contact_file', 0, 'contacts', 0, 1)">
-								<th width='50' >{$vsLang->getWords('file','File')}</th>
-						        </if>	
-						    </tr>
-						</thead>
-						<tbody>
-					    <if="is_array($option['pageList'])">
-					    <foreach="$option['pageList'] as $contactP">
-					    	<tr class='$vsf_class'>
-								<td style="text-align:center" width='10'>
-									<input type="checkbox" name="obj_{$contactP->getId()}" value="{$contactP->getId()}" class="myCheckbox{$option['contactType']}" />
-								</td>
-								<td >
-									<a title='{$contactP->getName()}' onclick="javascript:vsf.get('contacts/read/{$contactP->getId()}/', 'replyForm');" class="editObj">
-										{$contactP->getTitle()}
-									</a>
-								</td>
-								<td >{$contactP->getName()} ({$contactP->getEmail()})</td>
-								<td >{$contactP->getPostDate("SHORT")}</td>
-								<td>{$contactP->getIsReply()}</td>
-								<if="$vsSettings->getSystemKey('contact_file', 0, 'contacts', 0, 1)">
-									<td>
-									<if="$contactP->getFileId()">
-									<a class="ui-state-default ui-corner-all ui-state-focus" href="{$bw->vars['board_url']}/files/download/{$contactP->getFileId()}" >
-									{$vsLang->getWords('recruitment_file','Download')}
-									</a>
-									</if>
-									</td>
-								</if>	
-							</tr>
-					    </foreach>
-					    </if>
-					    </tbody>
-					    <if=" $option['paging'] ">
-					    <tfoot>
-						    <tr>
-						    	<th colspan="5" align="right">
-						        	{$option['paging']}
-						        </th>
-						    </tr>
-						</tfoot>
-						</if>
-					</table>
-				</div>
-			</div>
-			<div id="replyForm"><div style="color:red;">{$option['message']}</div></div>
+class skin_contacts extends skin_objectadmin {
 
 
-			<script type='text/javascript'>
-				function checkAll{$option['contactType']}() {
-					var checked_status = $("input[name=all{$option['contactType']}]:checked").length;
-					var checkedString = '';
-					$("input[type=checkbox]").each(function(){
-						if($(this).hasClass('myCheckbox{$option['contactType']}')){
-						this.checked = checked_status;
-						if(checked_status) checkedString += $(this).val()+',';
-						}
-					});
-					$('#checked-obj').val(checkedString);
+	function objListHtml($option = array()) {
+		global $bw;
+		$BWHTML .= <<<EOF
+		<div class="vs_panel" id="vs_panel_{$this->modelName}">
+		<div class="ui-dialog">
+<div >
+<span class="ui-dialog-title">{$this->getLang()->getWords($this->modelName,$this->modelName)}</span>
+</div>
+<if="$this->getSettings()->getSystemKey($bw->input[0].'_'.$this->modelName."_search_form",1,$bw->input[0])">
+<form class="frm_search" id="frm_search">
+	<label>
+		{$this->getLang()->getWords('id')}
+		<input size="2" type="text"  name='search[id]' value="{$bw->input['search']['id']}"/>
+	</label>
+	<label>
+		{$this->getLang()->getWords('title')}
+		<input  name='search[title]' size="25" type="text" value="{$bw->input['search']['title']}"/>
+	</label>
+	
+	
+	
+	<input class="btnSearch" type="submit" value="Search" />
+</form>
+</if>
+		<form class="frm_obj_list" id="frm_obj_list">
+		<div class="vs-button">
+			{$this->addOption()}
+		</div>
+		<div id="{$this->modelName}_item_panel">
+		{$option['table']}
+		</div>
+		<div class="more_action">
+			<img width="38" height="22" alt="With selected:" src="{$bw->vars['img_url']}/arrow_ltr.png" class="selectallarrow">
+		</div>
+		</form>
+		</div>
+		<script>
+			var objChecked=new Array();
+			function checkAllClick(){
+				var check=$("#vs_panel_{$this->modelName}  .check_alll").attr("checked");
+				objChecked=new Array();
+				$("#vs_panel_{$this->modelName} .btn_checkbox").each(function(){
+					if(check){
+						$(this).attr("checked","checked").change();
+						objChecked.push($(this).val());
+					}else{
+						$(this).attr("checked","").change();
+					}
+				});
+			}
+			function checkRow(){
+				objChecked=new Array();
+				$(".btn_checkbox").each(function(){
+					if($(this).attr("checked")){
+						objChecked.push($(this).val());
+						$(this).change();
+					}
+				});
+			}
+			$(".btn_checkbox").change(function(){
+				if($(this).attr("checked")){
+					$(this).parents("tr").addClass("marked");
+				}else{
+					$(this).parents("tr").removeClass("marked");
 				}
-				function deleteObj(contactType, pIndex){
-					jConfirm(
-						'{$vsLang->getWords("contact_deleteContactConfirm","Are you sure to delete this contact information?")}',
-						'{$bw->vars['global_websitename']} Dialog',
-						function(r){
-							if(r){
-								var jsonStr = "";
-								$("input[type=checkbox]").each(function(){
-									if($(this).hasClass('myCheckbox'+contactType)){
-										if(this.checked) jsonStr += $(this).val()+',';
-									}
-								});
-
-								if(jsonStr == ""){
-									jAlert(
-										"{$vsLang->getWords('contact_deleteAllConfirm_NoItem', "You haven't choose any items!")}",
-										"{$bw->vars['global_websitename']} Dialog"
-									);
-									return false;
-								}
-
-								jsonStr = jsonStr.substr(0,jsonStr.lastIndexOf(','));
-
-								vsf.get('contacts/deleteAllContact/'+contactType+'/'+jsonStr+'/',"ContactList_"+contactType);
-							}
-						}
-					);
+				
+			});
+			////////////
+			
+			$("#vs_panel_{$this->modelName} #btn-delete-obj").click(function(){
+				if(objChecked.length==0){
+					alert("{$this->getLang()->getWords('error_none_select')}");
+					return false;
 				}
-			</script>
-
+				jConfirm(
+                     "{$this->getLang()->getWords('yesno_delete')}?",
+                     "{$bw->vars['global_websitename']} Dialog",
+                     function(r){
+						if(r){
+							vsf.submitForm($("#vs_panel_{$this->modelName} #frm_obj_list"),'{$bw->input[0]}/{$this->modelName}_delete/'+objChecked,'vs_panel_{$this->modelName}');
+						}
+					 }
+				);
+				return false;
+			});
+			$("#vs_panel_{$this->modelName} #btn-disable-obj").click(function(){
+				if(objChecked.length==0){
+					alert("{$this->getLang()->getWords('error_none_select')}");
+					return false;
+				}
+				vsf.submitForm($("#vs_panel_{$this->modelName} #frm_obj_list"),'{$bw->input[0]}/{$this->modelName}_hide_checked/'+objChecked,'vs_panel_{$this->modelName}');
+				return false;
+			});
+			$("#vs_panel_{$this->modelName} #btn-enable-obj").click(function(){
+				if(objChecked.length==0){
+					alert("{$this->getLang()->getWords('error_none_select')}");
+					return false;
+				}
+				vsf.submitForm($("#vs_panel_{$this->modelName} #frm_obj_list"),'{$bw->input[0]}/{$this->modelName}_visible_checked/'+objChecked,'vs_panel_{$this->modelName}');
+				return false;
+			});
+			
+			function btnReadItem_Click(id){
+					vsf.submitForm($("#vs_panel_{$this->modelName} #frm_obj_list"),'{$bw->input[0]}/{$this->modelName}_read/'+id,'vs_panel_{$this->modelName}');
+					return false;
+			}
+			function btnRemoveItem_Click(id){
+				jConfirm(
+                     "{$this->getLang()->getWords('yesno_delete')}?",
+                     "{$bw->vars['global_websitename']} Dialog",
+                     function(r){
+						if(r){
+							vsf.submitForm($("#vs_panel_{$this->modelName} #frm_obj_list"),'{$bw->input[0]}/{$this->modelName}_delete/'+id,'vs_panel_{$this->modelName}');
+						}
+					 }
+				);
+					return false;
+			}
+			
+		</script>
+		</div>
 EOF;
-			return $BWHTML;
-		}
+return $BWHTML;
+	}
+	
+	function getListItemTable($objItems=array(),$option=array()){
+		global $bw;
+		
+		$BWHTML .= <<<EOF
+		
+		<input type="hidden" name="catId" value="{$bw->input['catId']}"/>
+		<input type="hidden" name="pageIndex" value="{$bw->input['pageIndex']}"/>
+		<table class="obj_list">
+		<thead>
+			<tr>
+				<th class="cb"><input type="checkbox" onClick="checkAllClick()" class="check_alll" name=""/></th>
+				<th class="title">Họ tên</th>
+				<th>Email</th>
+				<th class="date">{$this->getLang()->getWords("date")}</th>
+				<th class="action">{$this->getLang()->getWords("action")}</th>
+			</tr>
+		</thead>
+		<tbody>
+		<if="is_array($objItems)">
+		<foreach="$objItems as $item">
+			<tr class="$vsf_class">
+				<td style="text-align: center;"><input onClick="checkRow()" class="btn_checkbox" value="{$item->getId()}" type="checkbox" /></td>
+				<td> <a href="#" onClick="btnReadItem_Click({$item->getId()})">{$item->getTitle()}</a></td>
+				<td>{$item->getEmail()}</td>
+				<td>{$this->dateTimeFormat($item->getPostDate(),"d/m/Y")}</td>
+				
+				<td class="action">
+				{$this->addOtionList($item)}
+				</td>
+			</tr>
+		</foreach>
+		</if>
+		</tbody>
+		<tfoot>
+			<tr>
+				<th colspan="7">{$option['paging']}</th>
+			</tr>
+		</tfoot>
+		</table>
+		<if="$option['vdata']">
+		<input type="hidden" value='{$option['vdata']}' name="vdata"/>
+		</if>
+		<script>
+		<if="$option['message']">
+		jAlert('{$option['message']}');
+		</if>
+		</script>
+EOF;
+	}
 
-		function readContactInfo($contact, $contactProfile){
-			global $vsLang, $vsSettings;
+	function addOtionList($obj) {
+           global  $bw;
+            $BWHTML .= <<<EOF
+            	
+            	<if="$this->getSettings()->getSystemKey($bw->input[0].'_'.$this->modelName.'_button_delete',1)">
+				<input value="Xóa" type="button" onClick="btnRemoveItem_Click({$obj->getId()})" class="btnDelete">
+				</if>
+				
+EOF;
+            return $BWHTML;
+        }
+        
+        
+    
+
+	function readContact($contact, $contactProfile){
+			global $bw;
+			
+			
+			
+		
 			$BWHTML .= <<<EOF
 				<div id='viewFormContainer' class='ui-dialog ui-widget ui-widget-content ui-corner-all'>
-				    <div class="ui-dialog-titlebar ui-widget-header ui-helper-clearfix ui-corner-all-inner">
-						<span class="ui-dialog-title">{$vsLang->getWords('contactReadTitle','Read Email')}: {$contact->getTitle()}</span>
+				    <div >
+						<span class="ui-dialog-title">{$this->getLang()->getWords('contactReadTitle','Read Email')}: {$contact->getTitle()}</span>
 				        	<p style="float:right; cursor:pointer;">
-							<span class='ui-dialog-title' id='viewForm'>
-								{$vsLang->getWords('obj_back', 'Back')}
+							<span class='ui-dialog-title' id='closeread'>
+								{$this->getLang()->getWords('obj_back', 'Back')}
 							</span>
 						</p>
 				        </a>
 					</div>
 					
 					<table cellpadding="1" cellspacing="1" border="0" class="ui-dialog-content ui-widget-content" width="100%">
-
-						<if=" $vsSettings->getSystemKey("contact_form_name", 1, "contacts", 0, 1)">
+						<if=" $this->getSettings()->getSystemKey("contact_form_name", 1, "contacts", 0, 1)">
+						
+						</if>
 						<tr class="smalltitle">
-				        	<td class='left' width="100">{$vsLang->getWords('contactName','Fullname')}:</td>
-							<td class='right'>{$contact->getName()}</td>
+				        	<td class='left' width="100">Tiêu đề:</td>
+				             <td>{$contact->getTitle()}</td>
 						</tr>
-						</if>
-
-						<if=" $vsSettings->getSystemKey("contact_form_email", 1, "contacts", 0, 1)">
-				        <tr class="smalltitle">
-				        	<td class='left' width="100">{$vsLang->getWords('contactEmail','Email')}:</td>
-				            <td class='right'>{$contact->getEmail()}</td>
-						</tr>
-						</if>
-
-						<if=" $vsSettings->getSystemKey("contact_form_phone", 0, "contacts", 0, 1)">
-				        <tr class="smalltitle">
-				        	<td class='left' width="100">{$vsLang->getWords('contactPhone','Phone')}:</td>
-				            <td class='right'>{$contactProfile['contactPhone']}</td>
-						</tr>
-						</if>
-
-						<if=" $vsSettings->getSystemKey("contact_form_address", 1, "contacts", 0, 1)">
+						
 						<tr class="smalltitle">
-				        	<td class='left' width="100">{$vsLang->getWords('contactAddress','Address')}:</td>
-				             <td class='right'>{$contactProfile['contactAddress']}</td>
+				        	<td class='left' width="100">{$this->getLang()->getWords('Email')}:</td>
+				             <td>{$contact->getEmail()}</td>
 						</tr>
-						</if>
+						
+						
+						
 						
 				        <tr class="smalltitle">
-				        	<td class='left' width="100">{$vsLang->getWords('contactTime','Post Time')}:</td>
-				            <td class='right'>{$contact->getPostDate("SHORT")}</td>
+				        	<td class='left' width="100">{$this->getLang()->getWords('contactTime','Thời gian')}:</td>
+				            <td>{$this->dateTimeFormat($contact->getPostDate(),"d/m/Y")}</td>
 						</tr>
-				        <tr>
-				        	<td valign="top" class="smalltitle">{$vsLang->getWords('contactMessage','Message')}:</td>
+				         <tr>
+				        	<td valign="top" class="smalltitle">{$this->getLang()->getWords('contactMessage','Message')}:</td>
 				            <td class="ui-dialog-buttonpanel smalltitle">
-				            	<input id='replyButton' value="{$vsLang->getWords('contactReply','Reply')}" type="button" />
+				            	<input id='replyButton' value="{$this->getLang()->getWords('contactReply','Reply')}" type="button" />
 							</td>
 						</tr>
 				        <tr>
-				        	<td colspan="2" valign="top">
-				            	<div id='contactMessage' style=" background-color: #EBEEF7; padding: 0px 5px;">
+				        	<td colspan="2" valign="top" style='padding: 2px 0;'>
+				            	<div style="background-color: #EBEEF7; padding: 5px;">
 									{$contact->getContent()}
 				               	</div>
 							</td>
@@ -191,97 +250,78 @@ EOF;
 				</div>
 
 				<script type='text/javascript'>
-					$('#viewForm').click(function(){
-						$('#viewFormContainer').remove();
+					$('#closeread').click(function(){
+						vsf.get('{$this->modelName}/{$this->modelName}_display_tab/{$bw->input[2]}', 'vs_panel_{$this->modelName}');
 					});
-
+				
 					$('#replyButton').click(function(){
-						var containerDiv='<div id="container" style="top:20px!important;"></div>'
-						$('#vswrapper').append(containerDiv);
-
-						vsf.get('contacts/reply/{$contact->getId()}/', 'replyForm');
+						vsf.get('contacts/{$this->modelName}_reply/{$contact->getId()}/&pageIndex={$bw->input[2]}', 'vs_panel_{$this->modelName}');
 					});
 				</script>
 EOF;
 			return $BWHTML;
 		}
 
-		function replyContactForm( $option){
-			global $vsLang;
+		
+	function replyContactForm($obj, $option){
+		global $bw;
+		
+			$prehtml = <<<EOF
+				{$this->dateTimeFormat($obj->getPostDate(),"d/m/Y")} <strong>{$obj->getName()} <i>&lt;{$obj->getEmail()}&gt;</i></strong>:<br />
+				<blockquote style="border-left: 2px solid rgb(16, 16, 255); margin: 0pt 0pt 0pt 0.8ex; padding-left: 1ex; background:#F4F4F4;">
+		        	{$this->getLang()->getWords('reply_from','From')}: 
+					{$obj->getEmail()} <{$obj->getEmail()}><br />
+		        	
+					{$this->getLang()->getWords('reply_subject','Subject')}:
+					{$obj->getTitle()}<br />
+					
+		        	{$this->getLang()->getWords('reply_to','To')}:
+		        	
+					{$this->getSettings()->getSystemKey ( "email_admin", "vuongnguyen0712@gmail.com", "configs" )}<br />
+		        	{$obj->getContent()}
+		        </blockquote><br /><br />
+EOF;
+			$obj->setContent($prehtml);
+			//echo 124;exit();
 			$BWHTML .= <<<EOF
 				<div class='ui-dialog ui-widget ui-widget-content ui-corner-all'>
 					<form id="formReply" method="post">
-						<input type="hidden" name="email" value="{$option['obj']->getEmail()}"/>
-						<input type="hidden" name="name"  value="{$option['obj']->getName()}"/>
-						<div class="ui-dialog-titlebar ui-widget-header ui-helper-clearfix ui-corner-all-inner">
+						<input type="hidden" name="{$this->modelName}[isubmit]" value="reply"/>
+						<input type="hidden" name="{$this->modelName}[email]" value="{$obj->getEmail()}"/>
+						<input type="hidden" name="{$this->modelName}[name]"  value="{$obj->getName()}"/>
+						<div >
 							<span class="ui-dialog-title">
-								{$vsLang->getWords('contactReplyFormTitle','Reply Email')}
+								{$this->getLang()->getWords('contactReplyFormTitle','Reply Email')}
 							</span>
-
-							<span id="buttonClose" class="close">{$vsLang->getWords('obj_back', 'Back')}</span>
+							
+							
+							<p style="float:right; cursor:pointer;">
+							<span class='ui-dialog-title' id='buttonClose'>
+								{$this->getLang()->getWords('obj_back', 'Back')}
+							</span>
+						</p>
 						</div>
-						{$option['replyFormEditor']}
+						<br />
+						{$this->createEditor($obj->getContent(), "{$this->modelName}[content]", "100%", "500px")}
 					</form>
-					<a class="ui-state-default ui-corner-all ui-state-focus" id="buttonSend" style="float:right; width: 80px; margin: 5px; align: right;">
-						{$vsLang->getWords('contacts_replyForm_Send','Send Reply')}
+					<input id="reply" type="submit" class="btnOk" value="{$this->getLang()->getWords('contacts_replyForm_Send','Send Reply')}">
+						
 					</a>
 					<div class="clear"></div>
 				</div>
 
 				<script type='text/javascript'>
-					function sendReply(){
-						$('#formReply').submit();
-						$('#buttonClose').click();
-					}
-
-					$('#buttonSend').click(function(){
-						$('#formReply').submit();
-						$('#buttonClose').click();
-					});
-
 					$('#buttonClose').click(function(){
-						$("#replyForm").html('');
+						vsf.get('{$this->modelName}/{$this->modelName}_display_tab/{$bw->input['pageIndex']}', 'vs_panel_{$this->modelName}');
 					});
-
-					$('#formReply').submit(function(){
-						vsf.submitForm($(this),'contacts/replyProcess/{$option["obj"]->getId()}/{$option["obj"]->getType()}/','maincontent');
+				
+					$('#reply').click(function(){
+					
+						vsf.submitForm($('#formReply'), 'contacts/{$this->modelName}_reply/{$obj->getId()}/&pageIndex={$bw->input['pageIndex']}', 'vs_panel_{$this->modelName}');
 						return false;
 					});
 				</script>
 EOF;
 			return $BWHTML;
 		}
-
-		function contactMainLayout($option){
-			global $bw,$vsLang,$vsSettings;
-			$BWHTML  = "";
-			$BWHTML .= <<<EOF
-			
-				<div id="page_tabs" class="ui-tabs ui-widget ui-widget-content ui-corner-all-top">
-					<ul id="tabs_nav" class="ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-corner-all-inner">
-						<if="$vsSettings->getSystemKey('content_tab', 1, $bw->input[0], 0, 1)">
-				        <li class="ui-state-default ui-corner-top">
-				        	<a href="{$bw->base_url}pcontacts/display-obj-tab/&ajax=1"><span>{$vsLang->getWords('tab_contacts_content','Nội dung')}</span></a>
-				        </li>
-				        </if>
-				        
-				        <li class="ui-state-default ui-corner-top  ui-tabs-selected ui-state-active">
-				        	<a href="{$bw->base_url}contacts/showContact/0/&ajax=1" >
-				        		<span>{$vsLang->getWords('contact_tab','Liên hệ')}</span>
-				        	</a>
-				        </li>
-				        
-				        <if="$vsSettings->getSystemKey($bw->input[0].'_setting_tab', 0, $bw->input[0], 1, 1)">
-				        <li class="ui-state-default ui-corner-top">
-			        		<a href="{$bw->base_url}settings/moduleObjTab/{$bw->input[0]}/&ajax=1">{$vsLang->getWords('tab_contact_Setting','Settings')}</a>
-			        	</li>
-			        	</if>
-					</ul>
-				</div>
-
-EOF;
-return $BWHTML;
 }
-
-}
-?>

@@ -28,7 +28,10 @@ class SEO extends BasicObject{
 	function __construct() {
 		parent::__construct();
 	}
-
+function validate() {
+		$status = true;
+		return $status;
+	}
 	function __destruct() {
 		parent::__destruct();
 		unset($this->aliasUrl);
@@ -39,8 +42,8 @@ class SEO extends BasicObject{
 
 	public function convertToDB() {
 		isset($this->id)        	? ($dbobj['seoId'] 				= $this->id) 		: '';
-		isset($this->aliasUrl)      ? ($dbobj['seoAliasUrl'] 		= trim($this->aliasUrl,"/")) 	: '';
-		isset($this->realUrl)       ? ($dbobj['seoRealUrl'] 		= trim($this->realUrl,"/") )	: '';
+		isset($this->aliasUrl)      ? ($dbobj['seoAliasUrl'] 		= $this->aliasUrl) 	: '';
+		isset($this->realUrl)       ? ($dbobj['seoRealUrl'] 		= $this->realUrl) 	: '';
 		isset($this->keyword)       ? ($dbobj['seoKeyword'] 		= $this->keyword) 	: '';
 		isset($this->intro)        	? ($dbobj['seoIntro'] 			= $this->intro) 	: '';
 		isset($this->title)        	? ($dbobj['seoTitle'] 			= $this->title) 	: '';
@@ -49,7 +52,6 @@ class SEO extends BasicObject{
 	}
 
 	function convertToObject($object) {
-		global $vsMenu;
 		isset ( $object ['seoId'] ) 		? $this->setId ( $object ['seoId'] ) 			: '';
 		isset ( $object ['seoAliasUrl'] ) 	? $this->setAliasUrl($object['seoAliasUrl'])	: '';
 		isset ( $object ['seoRealUrl'] ) 	? $this->setRealUrl( $object ['seoRealUrl'] )	: '';
@@ -90,15 +92,6 @@ class SEO extends BasicObject{
 
 	public function setTitle($title) {
 		$this->title = $title;
-	}
-        
-        function validate() {
-		$status = true;
-		if ($this->aliasUrl == "" && $this->realUrl == "") {
-			$this->message .= " title can not be blank!";
-			$status = false;
-		}
-		return $status;
 	}
 }
 ?>

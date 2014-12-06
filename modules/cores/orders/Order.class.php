@@ -1,172 +1,275 @@
-<?php
-/*
-+-----------------------------------------------------------------------------
-|   VIET SOLUTION SJC  base on IPB Code version 3.0.0
-|	Author: tongnguyen
-|	Start Date: 5/04/2009
-|	Finish Date: 11/04/2009
-|	moduleName Description: This module is for management all languages in system.
-+-----------------------------------------------------------------------------
-*/
+<?php 
 
-class Order extends BasicObject{
-	private $name 	= NULL;
-	private $email 	= NULL;
-	public 	$message	= NULL;
-	private $userId = NULL;
-	private $address= NULL;
-	private $phone	= NULL;
-	private $info 	= NULL;
-	private $total 	= NULL;
-	private $location = NULL;
-	private $shipping = NULL;
-	
-	public function convertToDB() {
-		isset ( $this->id ) 		? ($dbobj ['orderId'] 		= $this->id) 		: '';
-		isset ( $this->name ) 		? ($dbobj ['orderName'] 	= $this->name) 		: '';
-		isset ( $this->address ) 	? ($dbobj ['orderAddress'] 	= $this->address) 	: '';
-		isset ( $this->email ) 		? ($dbobj ['orderEmail'] 	= $this->email) 	: "";
-		isset ( $this->postdate ) 	? ($dbobj ['orderTime'] 	= $this->postdate) 	: '';
-		isset ( $this->info ) 		? ($dbobj ['orderInfo'] 	= $this->info) 		: '';
-		isset ( $this->phone ) 		? ($dbobj ['orderPhone'] 	= $this->phone) 	: '';
-		isset ( $this->userId )		? ($dbobj ['userId'] 		= $this->userId) 	: "";
-		isset ( $this->status )		? ($dbobj ['orderStatus'] 	= $this->status) 	: "";
-		isset ( $this->total )		? ($dbobj ['orderTotal'] 	= $this->total) 	: "";
-		isset ( $this->location )	? ($dbobj ['orderLocation'] 	= $this->location) 	: "";
-		isset ( $this->shipping )	? ($dbobj ['orderShipping'] 	= $this->shipping) 	: "";
+class Order extends BasicObject {
+
+	public	function convertToDB(){
+			isset ( $this->id ) ? ($dbobj ['id'] = $this->id) : '';
+		isset ( $this->title ) ? ($dbobj ['title'] = $this->title) : '';
+		isset ( $this->intro ) ? ($dbobj ['intro'] = $this->intro) : '';
+		isset ( $this->userId ) ? ($dbobj ['userId'] = $this->userId) : '';
+		isset ( $this->address ) ? ($dbobj ['address'] = $this->address) : '';
+		isset ( $this->email ) ? ($dbobj ['email'] = $this->email) : '';
+		isset ( $this->info ) ? ($dbobj ['info'] = $this->info) : '';
+		isset ( $this->postDate ) ? ($dbobj ['postDate'] = $this->postDate) : '';
+		isset ( $this->phone ) ? ($dbobj ['phone'] = $this->phone) : '';
+		isset ( $this->seri ) ? ($dbobj ['seri'] = $this->seri) : '';
+		isset ( $this->total ) ? ($dbobj ['total'] = $this->total) : '';
+		isset ( $this->quantity ) ? ($dbobj ['quantity'] = $this->quantity) : '';
+		isset ( $this->userinfo ) ? ($dbobj ['userinfo'] = $this->userinfo) : '';
+		isset ( $this->paymethod ) ? ($dbobj ['paymethod'] = $this->paymethod) : '';
+		isset ( $this->status ) ? ($dbobj ['status'] = $this->status) : '';
 		return $dbobj;
-	}
-	
-function convertToObject($object) {
-		isset ( $object ['orderId'] ) 		? $this->setId ( $object ['orderId'] ) 			: '';
-		isset ( $object ['orderName'] ) 	? $this->setName( $object ['orderName'] ) 		: '';
-		isset ( $object ['orderAddress'] ) 	? $this->setAddress ( $object ['orderAddress'] ): '';
-		isset ( $object ['orderEmail'] ) 	? $this->setEmail ( $object ['orderEmail'] ) 	: '';
-		isset ( $object ['orderMessage'] ) 	? $this->setMessage ( $object ['orderMessage'] ): '';
-		isset ( $object ['userId'] ) 		? $this->setUserId ( $object ['userId'] )		: '';
-		isset ( $object ['orderTime'] ) 	? $this->setPostDate ( $object ['orderTime'] )	: '';
-		isset ( $object ['orderPhone'] ) 	? $this->setPhone ( $object ['orderPhone'] )	: '';
-		isset ( $object ['orderLocation'] ) ? $this->setLocation ( $object ['orderLocation'] )	: '';
-		isset ( $object ['orderLocation'] ) ? $this->setLocation ( $object ['orderLocation'] )	: '';
-		isset ( $object ['orderInfo'] ) 	? $this->setInfo ( $object ['orderInfo'] )		: '';
-		isset ( $object ['orderInfoU'] ) 	? $this->setInfoU ( $object ['orderInfoU'] )	: '';
-		isset ( $object ['orderSeri'] ) 	? $this->setSeri ( $object ['orderSeri'] )		: '';
-		isset ( $object ['orderUR'] ) 		? $this->setUR ( $object ['orderUR'] )			: '';
-		isset ( $object ['orderTotal'] ) 	? $this->setTotal ( $object ['orderTotal'] )	: '';
-        isset ( $object ['orderLocation'] ) ?( $this->location = $object ['orderLocation'] )	: '';
-        isset ( $object ['orderShipping'] ) ?( $this->shipping = $object ['orderShipping'] )	: '';        
-	}
-	
-	public function getPayment(){
-		global $bw,$vsLang;
-		if($this->info)return "<a href='".$bw->vars['board_url']."/orders/infoPay/".$this->id."/' title='View payment'>View</a>";
-//		else if($this->UR)return "<a href='".$bw->vars['board_url']."/orders/ReviewOrder/?".$this->UR."' title='View payment'>Confim</a>";
-		return "<a href='".$bw->vars['board_url']."/orders/paymentpal/".$this->id."/' title='View payment'>Payment</a>";;
-	}
 
-	public function setTotal($total) {
-		$this->total = $total;
 	}
 
 
-	function getTotal($number = true) {
-		global $vsLang;
-		if(APPLICATION_TYPE=='user' && $number){
-			if ($this->total > 0){
-				return number_format ( $this->total, 2, ",", "." );
-			}
-			return $vsLang->getWords('callprice','Call');
-		}
-		return $this->total;
+
+
+
+	public	function convertToObject($object = array()){
+			isset ( $object ['id'] ) ? $this->setId ( $object ['id'] ) : '';
+		isset ( $object ['title'] ) ? $this->setTitle ( $object ['title'] ) : '';
+		isset ( $object ['intro'] ) ? $this->setIntro ( $object ['intro'] ) : '';
+		isset ( $object ['userId'] ) ? $this->setUserId ( $object ['userId'] ) : '';
+		isset ( $object ['address'] ) ? $this->setAddress ( $object ['address'] ) : '';
+		isset ( $object ['email'] ) ? $this->setEmail ( $object ['email'] ) : '';
+		isset ( $object ['info'] ) ? $this->setInfo ( $object ['info'] ) : '';
+		isset ( $object ['postDate'] ) ? $this->setPostDate ( $object ['postDate'] ) : '';
+		isset ( $object ['phone'] ) ? $this->setPhone ( $object ['phone'] ) : '';
+		isset ( $object ['seri'] ) ? $this->setSeri ( $object ['seri'] ) : '';
+		isset ( $object ['total'] ) ? $this->setTotal ( $object ['total'] ) : '';
+		isset ( $object ['quantity'] ) ? $this->setQuantity ( $object ['quantity'] ) : '';
+		isset ( $object ['userinfo'] ) ? $this->setUserinfo ( $object ['userinfo'] ) : '';
+		isset ( $object ['paymethod'] ) ? $this->setPaymethod ( $object ['paymethod'] ) : '';
+		isset ( $object ['status'] ) ? $this->setStatus ( $object ['status'] ) : '';
+
 	}
 
 
-	
 
-	public function getInfo() {
-		return unserialize($this->info);
-	}
 
-	public function setInfo($info) {
-		$this->info = serialize($info);
-	}
-	
 
-      
-	public function getAddress() {
-		return $this->address;
+	function getId(){
+		return $this->id;
 	}
 
 
-	public function setAddress($address) {
-		$this->address = $address;
+
+	function getTitle(){
+		return $this->title;
 	}
 
-	public function getName() {
-		return $this->name;
+
+
+	function getIntro(){
+		return $this->intro;
 	}
 
-	public function getPhone() {
-		return $this->phone;
-	}
 
-	
-	public function getEmail() {
-		return $this->email;
-	}
 
-	
-	public function getUserId() {
+	function getUserId(){
 		return $this->userId;
 	}
 
 
-	public function setName($name) {
-		$this->name = $name;
+
+	function getAddress(){
+		return $this->address;
 	}
 
 
-	public function setPhone($phone) {
-		$this->phone = $phone;
+
+	function getEmail(){
+		return $this->email;
 	}
 
-	
-	public function setEmail($email) {
-		$this->email = $email;
+
+
+	function getInfo(){
+		return $this->info;
 	}
 
-	
-	public function setUserId($userId) {
-		$this->userId = $userId;
+
+
+	function getPostDate(){
+		return $this->postDate;
 	}
 
-	 function validate() {
-		$status = true;
-		if ($this->name == "") {
-			$this->message .= " title can not be blank!";
-			$status = false;
-		}
-		return $status;
-	}
-	public function getLocation() {
-		return $this->location;
+
+
+	function getPhone(){
+		return $this->phone;
 	}
 
-	public function getShipping($format = false){
-		
-		if ($this->shipping > 0 && $format){
-			return number_format($this->shipping, 2, ". ", ", ");
-		}
-		return $this->shipping;
+
+
+	function getSeri(){
+		return $this->seri;
 	}
 
-	public function setLocation($location) {
-		$this->location = $location;
+
+
+	function getTotal(){
+		return $this->total;
 	}
 
-	public function setShipping($shipping) {
-		$this->shipping = $shipping;
+
+
+	function getQuantity(){
+		return $this->quantity;
 	}
 
+
+
+	function getUserinfo(){
+		return $this->userinfo;
+	}
+
+
+
+	function getPaymethod(){
+		return $this->paymethod;
+	}
+
+
+
+	function getStatus(){
+		return $this->status;
+	}
+
+
+
+	function setId($id){
+		$this->id=$id;
+	}
+
+
+
+
+	function setTitle($title){
+		$this->title=$title;
+	}
+
+
+
+
+	function setIntro($intro){
+		$this->intro=$intro;
+	}
+
+
+
+
+	function setUserId($userId){
+		$this->userId=$userId;
+	}
+
+
+
+
+	function setAddress($address){
+		$this->address=$address;
+	}
+
+
+
+
+	function setEmail($email){
+		$this->email=$email;
+	}
+
+
+
+
+	function setInfo($info){
+		$this->info=$info;
+	}
+
+
+
+
+	function setPostDate($postDate){
+		$this->postDate=$postDate;
+	}
+
+
+
+
+	function setPhone($phone){
+		$this->phone=$phone;
+	}
+
+
+
+
+	function setSeri($seri){
+		$this->seri=$seri;
+	}
+
+
+
+
+	function setTotal($total){
+		$this->total=$total;
+	}
+
+
+
+
+	function setQuantity($quantity){
+		$this->quantity=$quantity;
+	}
+
+
+
+
+	function setUserinfo($userinfo){
+		$this->userinfo=$userinfo;
+	}
+
+
+
+
+	function setPaymethod($paymethod){
+		$this->paymethod=$paymethod;
+	}
+
+
+
+
+	function setStatus($status){
+		$this->status=$status;
+	}
+
+
+
+		var		$id;
+
+		var		$title;
+
+		var		$intro;
+
+		var		$userId;
+
+		var		$address;
+
+		var		$email;
+
+		var		$info;
+
+		var		$postDate;
+
+		var		$phone;
+
+		var		$seri;
+
+		var		$total;
+
+		var		$quantity;
+
+		var		$userinfo;
+
+		var		$paymethod;
+
+		var		$status;
 }
-?>

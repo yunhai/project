@@ -1,19 +1,17 @@
 <?php
 $lang = array (
-  'pageTitle' => 'Thư viện',
-  'main_title' => 'Thư viện',
-  'file_type_add_bt' => 'Thêm',
-  'file_type_add_title' => 'Thêm hình',
-  'file_upload_form_name' => 'Tên hình',
-  'file_upload_form_source' => 'File hình',
-  'file_index' => 'Thứ tự',
-  'gallery_file_empty' => 'Không có hình ảnh nào.',
-  'newsItem_EditObjTitle' => 'Click here to edit this gallerys',
-  'file_size' => 'Kích thước',
-  'file_type_edit_bt' => 'Edit',
-  'file_type_edit_title' => 'Edit File',
-  'file_err_name_blank' => 'File name cannot be blank!',
-  'multiupload' => 'Multi Upload',
+  'error_none_select' => 'Error None Select',
+  'error_title' => 'Error Title',
+  'error_intro' => 'Error Intro',
+  'gallerys_category' => 'gallerys Category',
+  'category' => 'Category',
+  'status' => 'Status',
+  'home' => 'Home',
+  'group_global_module' => 'global',
+  'option' => 'Option',
+  'action_checkall' => 'Action Checkall',
+  'action_uncheckall' => 'Action Uncheckall',
+  'yesno_delete' => 'Yesno Delete',
 );
 $userLang = array (
 );

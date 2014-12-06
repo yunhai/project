@@ -45,15 +45,16 @@ class skins_admin  {
 	}
 
 	function getObjList($message=""){
-		global $bw, $vsSettings;
-		$size = $vsSettings->getSystemKey("admin_{$bw->input[0]}_list_number",10);
+		global $bw;
+		$size = VSFactory::getSettings()->getSystemKey("admin_{$bw->input[0]}_list_number",10);
 		$option=$this->module->getPageList("{$bw->input[0]}/display-obj-list/", 2, $size,1,'obj-panel');
 		$option['message'] = $message;
 		return $this->output= $this->html->skinList($option);
 	}
 
 	function addEditObjForm($objId=0, $option=array()){
-		global $vsLang, $vsStd,$bw ,$vsSettings, $vsPrint;
+		global $bw;
+		$vsLang = VSFactory::getLangs();
 		$obj = $this->module->createBasicObject();
 		$option['formSubmit'] = $vsLang->getWords('obj_EditObjFormButton_Add', 'Add');
 		$option['formTitle']  = $vsLang->getWords('obj_EditObjFormTitile_Add', "Add {$bw->input[0]}");
@@ -66,19 +67,19 @@ class skins_admin  {
 	}
 
 	function addEditSkinProcess(){
-		global $bw, $vsStd, $vsLang;
+		global $bw;
 		if($bw->input['skinStatus']) $bw->input['skinStatus'] = 1;
 		if($bw->input['skinDefault']) $bw->input['skinDefault'] = 1;
 		// If there is skin Id passed, processing updating skin
 		if($bw->input['skinId']){
-			$this->module->obj->convertToObject($bw->input);
+			$this->module->basicObject->convertToObject($bw->input);
 			$this->module->updateSkin();
 		}
 		else {
-			$this->module->obj->convertToObject($bw->input);
+			$this->module->basicObject->convertToObject($bw->input);
 			$this->module->insertSkin($bw->input['skinInherit']);
 		}
-		if($this->result['status']) $this->module->obj->__destruct();
+		if($this->result['status']) $this->module->basicObject->__destruct();
 		///////////
 
 		/////////////////////
@@ -87,7 +88,6 @@ class skins_admin  {
 	}
 
 	function loadDefault() {
-		global $vsPrint;
 		$addEditFormHTML = $this->addEditObjForm();
 		$skinList = $this->getObjList();
 		$this->output=$this->html->MainPage($addEditFormHTML, $skinList);

@@ -1,33 +1,40 @@
-<?php
-global $vsStd;
-$vsStd->requireFile ( CORE_PATH . "orders/Order.class.php");
-$vsStd->requireFile ( CORE_PATH . "orders/orderitem.php" );
+<?php 
+require_once(CORE_PATH."orders/Order.class.php");
+
 class orders extends VSFObject {
-	public $obj;
-	public $arrayObj = array();
-	public $className;
-	public $orderitem;
-	
-	function __construct() {
-		global $DB;
-		parent::__construct ();
-		$this->primaryField = 'orderId';
-		$this->basicClassName = 'Order';
-		$this->tableName = 'order';
-                
-		$this->obj	=$this->createBasicObject ();
-		$this->fields = $this->obj->convertToDB();
-		$this->orderitems = new orderItems();
-					
+
+
+	/**
+	*Enter description here ...
+	**/
+	public	function __construct($category=''){
+			$this->primaryField 	= 'id';
+		$this->basicClassName 	= 'Order';
+		$this->tableName 		= 'order';
+		//$this->categoryField='catId';
+		//$this->categoryName=$category?$category:"orders";
+		$this->createBasicObject();		parent::__construct();
+
 	}
-	
-	function __destruct() {
-		unset ( $this->obj );
-		unset ( $this->className );
-		unset ( $this->objsource );
+
+
+function onDeleteObjectById($id){
+		require_once CORE_PATH.'orders/order_items.php';
+		$order_items=new order_items();
+		$order_items->setCondition("`orderId`='$id'");
+		$order_items->deleteObjectByCondition();
 	}
-        
-        
+	function onDeleteObjectByCondition($condition){
+		require_once CORE_PATH.'orders/order_items.php';
+		$order_items=new order_items();
+		$order_items->setCondition("`orderId` in (select `id` from vsf_order where $condition )");
+		$order_items->deleteObjectByCondition();
+	}
+
 	
+	/**
+	*Enter description here ...
+	*@var Order
+	**/
+	var		$obj;
 }
-?>

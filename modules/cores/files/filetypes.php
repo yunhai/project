@@ -27,8 +27,7 @@ class filetypes extends VSFObject{
 	}
 
 	function validateType($checkExisted = false) {
-		global $vsLang, $DB;
-
+		$vsLang = VSFactory::getLangs();
 		$this->result['status'] = true;
 		$this->result['message'] = $vsLang->getWords('filetype_validate_success',"Validate file type successfully!");
 
@@ -50,7 +49,6 @@ class filetypes extends VSFObject{
 
 
 	function getAllType() {
-		global $DB;
 		$this->getObjectsByCondition();
 		$this->arrayType = $this->getArrayObj();
 

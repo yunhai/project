@@ -1,212 +1,331 @@
 <?php
-class skin_pages extends skin_objectadmin{
-	function displayVirtualTab($option=array()){
-		global $vsLang, $bw;
 
-		$BWHTML = <<<EOF
-			<div id='virtualTabContainer'>
-				<div class="left-cell">
-					<div class="ui-dialog ui-widget ui-widget-content ui-corner-all">
-						<div class="ui-dialog-titlebar ui-widget-header ui-helper-clearfix ui-corner-all-inner">
-							<span class="ui-icon ui-icon-triangle-1-e"></span>
-							<span class="ui-dialog-title">{$vsLang->getWords('pages_virtual_module_title_header','Virtual Module')}</span>
-						</div>
+class skin_pages extends skin_objectadmin {
 
-						<div id="virtualForm">{$option['form']}</div>
+	function addEditObjForm($obj, $option = array()) {
+		global $bw;
+		
+		$seo = "style='display:none'";
+		if ($obj->getMTitle() or $obj->getMKeyword() or $obj->getMUrl() or $obj->getMIntro()){
+			$seo = "";
+		}
+		
+		if($obj->getOption()){
+			$this->option=explode(",",$obj->getOption());
+		}
+		
+		
+		$BWHTML .= <<<EOF
+		
+		
+
+		<div class="vs_panel" id="vs_panel_{$this->modelName}">
+		<div class="ui-dialog">
+		
+		<form class="frm_add_edit_obj" id="frm_add_edit_obj"  method="POST" enctype='multipart/form-data'>
+		<input type="hidden" value="{$bw->input['vdata']}" name="vdata"/>
+		<input type="hidden" value="{$bw->input['pageIndex']}" name="pageIndex"/>
+		<input type="hidden" value="{$obj->getId()}" name="{$this->modelName}[id]" />
+		<!--<input type="hidden" value="{$obj->getSlug ()}" name="{$this->modelName}[mUrl]" id="mUrl" data-module="{$this->modelName}" data-id = "{$obj->getId()}" />-->
+			<table class="obj_add_edit" width="100%">
+				<thead>
+					<tr>
+						<th colspan="2">
+							<span class="ui-dialog-title-form">{$this->getLang()->getWords('add_edit_'.$bw->input[0],'Thêm/Sửa tin')}</span>
+							
+							<div class="vs-buttons">
+								<button type="submit" ><span><img src="{$bw->vars['img_url']}/pixel-vfl3z5WfW.gif" class="icon-wrapper-vs vs-icon-accept"></span><span>{$this->getLang()->getWords('global_accept')}</span></button>
+								<button type="button" id="frm_close" class="btnCancel frm_close"><span><img src="{$bw->vars['img_url']}/pixel-vfl3z5WfW.gif" class="icon-wrapper-vs vs-icon-cancel"></span><span>{$this->getLang()->getWords("global_cancel")}</span></button>
+							</div>
+						</th>
+					</tr>
+					
+				</thead>
+				<tbody>
+				<tr>
+					<td style="width: 111px;"><label>{$this->getLang()->getWords('title','Tiêu đề')}</label></td>
+					<td>
+						<input  name="{$this->modelName}[title]" id="{$this->modelName}_title" type="text" value="{$obj->getTitle()}" style='width:99%' />
+					</td>
+				</tr>
+				
+				<if="$this->getSettings()->getSystemKey($bw->input[0].'_'.$this->modelName."_website",0,$bw->input[0])">
+				<tr>
+					<td style="width: 111px;"><label>{$this->getLang()->getWords('website','website')}</label></td>
+					<td>
+						<input  name="{$this->modelName}[website]" id="{$this->modelName}_website" type="text" value="{$obj->getWebsite()}" style='width:99%' />
+					</td>
+				</tr>
+				
+				</if>
+
+				
+				
+				<if="$this->getSettings()->getKeyGroup($bw->input[0].'_'.$this->modelName.'_status','Status',$bw->input[0].'_'.$this->modelName.'_form')">
+				<tr>
+					<td style="width: 121px;"><label>{$this->getLang()->getWords('status','Trạng thái')}</label></td>
+					<td>
+					<label>
+						<input <if="$obj->getStatus()=='0'">checked='checked'</if>  name="{$this->modelName}[status]" id="{$this->modelName}_status_0" type="radio" value="0"  />
+						{$this->getLang()->getWords('global_hide','Ẩn')}
+					</label>
+					<label>
+						<input <if="$obj->getStatus()==1||$obj->getStatus()==null">checked='checked'</if>  name="{$this->modelName}[status]" id="{$this->modelName}_status_1" type="radio" value="1"  />
+						{$this->getLang()->getWords('global_visible','Hiện')}
+					</label>
+					<if="$this->getSettings()->getSystemKey($bw->input[0].'_'.$this->modelName."_status_home",0,$bw->input[0])">
+					<label>
+						<input  <if="$obj->getStatus()==2">checked='checked'</if>  name="{$this->modelName}[status]" id="{$this->modelName}_status_2" type="radio" value="2"  />
+						{$this->getLang()->getWords('global_home','Trang chủ')}
+					</label>
+					</if>
+					<if="$this->getSettings()->getSystemKey($bw->input[0].'_'.$this->modelName."_status_highlight",0,$bw->input[0])">
+					<label>
+						<input  <if="$obj->getStatus()==3">checked='checked'</if>  name="{$this->modelName}[status]" id="{$this->modelName}_status_3" type="radio" value="3"  />
+						Nổi bật
+					</label>
+					</if>
+					</td>
+				</tr>
+				</if>
+				
+				
+				
+				
+				
+				
+				
+				
+				
+			
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				<if="$this->getSettings()->getKeyGroup($bw->input[0].'_'.$this->modelName.'_category_list','Category',$bw->input[0].'_'.$this->modelName.'_form') and $this->model->getCategories()->getChildren()">
+				<tr>
+					<td><label>{$this->getLang()->getWords("category",'Danh mục')}</label></td>
+					<td>
+						<select name="{$this->modelName}[catId]" id="vs_cate">
+								{$this->model->getCategories()->getChildrenBoxOption($obj->getCatId())}
+						</select>
+					<br>
+					</td>
+				</tr>
+				</if>
+				
+				
+				
+			
+				
+				<if="$this->getSettings()->getKeyGroup($bw->input[0].'_'.$this->modelName.'_price','price',$bw->input[0].'_'.$this->modelName.'_price',0)">
+				<tr>
+					<td><label>{$this->getLang()->getWords("price","Giá")}</label></td>
+					<td>
+					<input  name="{$this->modelName}[price]" type="text" value="{$obj->getPrice()}" style="width:50%" />
+					</td>
+				</tr>
+				</if>
+				
+				<if="$this->getSettings()->getKeyGroup($bw->input[0].'_'.$this->modelName.'_phone','phone',$bw->input[0].'_'.$this->modelName.'_phone',0)">
+					<tr>
+						<td><label>{$this->getLang()->getWords("phone","Điện thoại")}</label></td>
+						<td>
+						<input  name="{$this->modelName}[phone]" type="text" value="{$obj->getPhone()}" style="width:50%" />
+						</td>
+					</tr>
+				</if>
+				
+				<if="$this->getSettings()->getSystemKey($bw->input[0].'_'.$this->modelName."_number",0,$bw->input[0])">
+					<tr>
+						<td><label>Số lượng:</label></td>
+						<td>
+						<input  name="{$this->modelName}[number]" type="text" value="{$obj->getNumber()}" style="width:50%" />
+						
+						</td>
+					</tr>
+				</if>
+				<if="$this->getSettings()->getSystemKey($bw->input[0].'_'.$this->modelName."_deadline",0,$bw->input[0])">
+					<tr>
+						<td><label>{$this->getLang()->getWords("deadline","Thời hạn nộp ")}</label></td>
+						<td>
+						<input  name="{$this->modelName}[deadline]" type="text" value="{$obj->getDeadline()}" style="width:50%" />
+						
+						</td>
+					</tr>
+				</if>		
+				
+				<if="$this->getSettings()->getKeyGroup($bw->input[0].'_'.$this->modelName.'_index','index',$bw->input[0].'_'.$this->modelName.'_form')">
+				<tr>
+					<td><label>{$this->getLang()->getWords("index",'Thứ tự')}</label></td>
+					<td>
+						<input  name="{$this->modelName}[index]" id="{$this->modelName}_index" type="text" value="{$obj->getIndex()}" />
+					</td>
+				</tr>
+				</if>
+				<if="$this->getSettings()->getKeyGroup($bw->input[0].'_'.$this->modelName.'_code','code',$bw->input[0].'_'.$this->modelName.'_form',0)">
+				<tr>
+					<td><label>{$this->getLang()->getWords("code","Mã")}</label></td>
+					<td>
+					<input  name="{$this->modelName}[code]" id="{$this->modelName}_code" type="text" value="{$obj->getCode()}" />
+					</td>
+				</tr>
+				</if>
+				<if="$this->getSettings()->getKeyGroup($bw->input[0].'_'.$this->modelName.'_image_field','Image',$bw->input[0].'_'.$this->modelName.'_form')">
+				<tr>
+					<td><label>{$this->getLang()->getWords('image','Hình ảnh')}</label>
+					<p>
+					<if="$this->getSettings()->getSystemKey($bw->input[0].'_'.$this->modelName."_image_width",'')&&$this->getSettings()->getSystemKey($bw->input[0].'_'.$this->modelName."_image_height",'')">
+							{$this->getSettings()->getSystemKey($bw->input[0].'_'.$this->modelName."_image_width",'')}x{$this->getSettings()->getSystemKey($bw->input[0].'_'.$this->modelName."_image_height",'')}px
+					</if>
+					</p>
+					</td>
+					<td>
+					<div style="float:left;width:300px">
+						<label>
+							<input name="filetype[image]" value="file" type="radio" checked='checked' obj="image-file"/>
+							{$this->getLang()->getWords('upload','Tải lên từ máy')}:</label>
+						<label>
+							<input    type="file" value="" style='width:250px;'  id="image-file" name="image"/>
+						</label>
+						<br/>
+						<label>
+							<input name="filetype[image]"   value="link" type="radio" obj="image-link"/>
+							{$this->getLang()->getWords('download_from','Tải về từ đường dẫn')}:
+						</label>
+						<label>
+							<input disabled='disabled' type="text" value="" style='width:250px;' id="image-link" name="links[image]"/>
+						</label>
 					</div>
-				</div>
-				<div class='right-cell' id="mainPageContainer">
-					{$option['list']}
-				</div>
-				<div class="clear"></div>
-			</div>
-EOF;
-				return $BWHTML;
-	}
-
-	function displayVirtualItemContainer($virtualList = array(), $option=array()){
-		global $vsLang, $bw;
-		$message = $vsLang->getWords('pages_deleteConfirm_NoItem', "You haven't choose any items!");
-
-
-		$BWHTML .= <<<EOF
-        	<input type='hidden' id="checked-obj1" value=""/>
-			<div class='ui-dialog ui-widget ui-widget-content ui-corner-all'>
-			    <div class="ui-dialog-titlebar ui-widget-header ui-helper-clearfix ui-corner-all-inner">
-			        <span class="ui-icon ui-icon-triangle-1-e"></span>
-			        <span class="ui-dialog-title">
-						{$vsLang->getWords('virtual_list','List of Virtual Module')}
-					</span>
-
-			        <p class="closeObj">
-			        	<span id="deleteVirtual">Delete</span>
-			        </p>
-			    </div>
-				<table cellspacing="1" cellpadding="1" id='productListTable' width="100%">
-					<thead>
-					    <tr>
-					        <th width="15"><input type="checkbox" onclick="vsf.checkAll('myCheckbox1','checked-obj1')" onclicktext="vsf.checkAll('myCheckbox1','checked-obj1')" name="all" /></th>
-					        <th >{$vsLang->getWords('pages_virtual_labelStatus', 'Tên module')}</td>
-                                                <th >{$vsLang->getWords('pages_virtual_Parent', 'Parent')}</td>
-					    </tr>
-					</thead>
-					<tbody>
-						<if=" count($virtualList) > 0">
-						<foreach="$virtualList as $virtual">
-							<tr>
-								<td align="center" width="15">
-									<input type="checkbox" onclicktext="vsf.checkObject('myCheckbox1','checked-obj1');" onclick="vsf.checkObject('myCheckbox1','checked-obj1');" name="obj_{$virtual->getId()}" value="{$virtual->getId()}" class="myCheckbox1" />
-								</td>
-								<td>
-									<a href="javascript:vsf.get('pages/virtualForm/{$virtual->getId()}','virtualForm')" title='{$vsLang->getWords('edit_virtual_module_title','Click here to edit')}' class="editObj">
-										<strong>{$virtual->getTitle()} ({$virtual->getClass()})</strong>
-									</a>
-									<br />
-									<div class="desctext">{$virtual->getIntro()}</div>
-								</td>
-                                                                <td>
-									{$virtual->getParent()}
-								</td>
-							</tr>
-						</foreach>
+					<div style="float:left;width:200px">
+						<if="$obj->getImage()">
+							<if="$this->getSettings()->getSystemKey($bw->input[0].'_'.$this->modelName."_image_height",'')&&$this->getSettings()->getSystemKey($bw->input[0].'_'.$this->modelName."_image_width",'')">
+								{$obj->createImageEditable($obj->getImage(),100,90,$this->getSettings()->getSystemKey($bw->input[0].'_'.$this->modelName."_image_width",''),$this->getSettings()->getSystemKey($bw->input[0].'_'.$this->modelName."_image_height",''))}
+							<else />
+								{$obj->createImageEditable($obj->getImage(),100,90)}
+							</if>
 						</if>
-					</tbody>
-				</table>
-			</div>
-			<script type='text/javascript'>
-				$('#deleteVirtual').click(function(){
-                                if(vsf.checkValue('checked-obj1'))
-					jConfirm(
-						'{$vsLang->getWords("delete_virtual_confirm","Are you sure to delete these information?")}',
-						'{$bw->vars['global_websitename']} Dialog',
-						function(r){
-							if(r){
-								jsonStr = $('#checked-obj1').val();
-								vsf.get('pages/deleteVirtual/'+jsonStr+'/', 'virtualTabContainer');
+					</div>
+					</td>
+				</tr>
+				</if>
+				<if="$this->getSettings()->getKeyGroup($bw->input[0].'_'.$this->modelName.'_intro','Intro',$bw->input[0].'_'.$this->modelName.'_form')">
+				<tr>
+					<td><label>{$this->getLang()->getWords('intro','Mô tả')}</label></td>
+					<td>
+						<if="$this->getSettings()->getSystemKey($bw->input[0].'_'.$this->modelName."_editor_intro",0,$bw->input[0])">
+							{$this->createEditor($obj->getIntro(), "{$this->modelName}[intro]", "100%", "111px","full")}
+						<else />
+							<textarea id="{$this->modelName}_intro" name="{$this->modelName}[intro]" style="width: 99%; height: 111px;">{$obj->getIntro()}</textarea>
+						</if>
+					</td>
+				</tr>
+				</if>
+				<if="$this->getSettings()->getKeyGroup($bw->input[0].'_'.$this->modelName.'_content','Content',$bw->input[0].'_'.$this->modelName.'_form')">
+					<tr>
+						<td><label>{$this->getLang()->getWords('content','Nội dung')}</label></td>
+						<td>
+						{$this->createEditor($obj->getContent(), "{$this->modelName}[content]", "100%", "333px","full")}
+						</td>
+					</tr>
+				</if>
+				<if="$this->getSettings()->getSystemKey($bw->input[0].'_'.$this->modelName."_tag",0,$bw->input[0])">
+				<td><label>{$this->getLang()->getWords('tags')}</label></td>
+					<td>
+					<div id="tag_panel_diplay">
+						<script src='{$bw->base_url}tags/tags_get_tag_for_obj/{$bw->input[0]}/{$obj->getId()}'>
+						</script>
+					</div>
+					</td>
+				</tr>  
+				</if>
+				
+				<tr>
+					<td></td>
+					<td><if="$this->getSettings()->getKeyGroup($bw->input[0].'_'.$this->modelName.'_seo_option','SEO Option',$bw->input[0].'_'.$this->modelName.'_form')">
+						<button onclick="$('#seo').toggle();return false;">Seo option</button>
+					</if>
+					</td>	
+				</tr>
+
+				<if="$this->getSettings()->getKeyGroup($bw->input[0].'_'.$this->modelName.'_seo_option','SEO Option',$bw->input[0].'_'.$this->modelName.'_form')">
+					<tr id="seo" $seo>
+						<td><label>{$this->getLang()->getWords('seo')}</label></td>
+						<td>
+							<label>Slug:<input type="text" style="width:100%" value="{$obj->getSlug()}" name="{$this->modelName}[slug]" /></label>
+							<label>Meta Title:<input type="text" style="width:100%" value="{$obj->getMTitle()}" name="{$this->modelName}[mTitle]" /></label>
+							<label>Meta Description:<textarea style="width:100%"   name="{$this->modelName}[mIntro]" >{$obj->getMIntro()}</textarea></label>
+							<label>Meta Keyword:<textarea style="width:100%"   name="{$this->modelName}[mKeyword]" >{$obj->getMKeyword()}</textarea></label>
+						</td>
+					</tr>
+				</if>
+				<tr style="border:none">
+					<td class="vs-button" colspan="2" >
+					
+						<button type="submit" ><span><img src="{$bw->vars['img_url']}/pixel-vfl3z5WfW.gif" class="icon-wrapper-vs vs-icon-accept"></span><span>{$this->getLang()->getWords('global_accept')}</span></button>
+						<button type="button" id="frm_close" class="btnCancel frm_close"><span><img src="{$bw->vars['img_url']}/pixel-vfl3z5WfW.gif" class="icon-wrapper-vs vs-icon-cancel"></span><span>{$this->getLang()->getWords("global_cancel")}</span></button>
+					</td>
+				</tr>
+				</tbody>
+			</table>
+		</form>
+		
+		
+		</div>
+		<script>
+			
+		$("#frm_add_edit_obj").submit(function(){
+				var flag=false;
+				var message="";
+				var frm=$(this);
+				if($("#{$this->modelName}_title").val().length<3){
+					message+='{$this->getLang()->getWords('error_title')}{$this->DS}n';
+					flag=true;
+				}
+				if(flag){
+					jAlert(message);
+					return false;
+				}
+				vsf.uploadFile("frm_add_edit_obj", "{$bw->input[0]}", "{$this->modelName}_add_edit_process", "vs_panel_{$this->modelName}","{$bw->input[0]}",1,
+							function(){
+								var hashbase=frm.parents('.ui-tabs-panel').attr('id');
+								window.location.hash=hashbase+"/{$bw->input['back']}";	
 							}
-						}
-					);
-				});
-
-			</script>
+				);
+				return false;
+		});
+		$(".frm_close").click(function(){
+			var hashbase=$(this).parents('.ui-tabs-panel').attr('id');
+			window.location.hash=hashbase+"{$bw->input['back']}";
+				///alert(window.location.hash);
+			//vsf.get('{$bw->input[0]}/{$this->modelName}_display_tab&pageIndex={$bw->input['pageIndex']}&vdata={$_REQUEST['vdata']}','vs_panel_{$this->modelName}');
+			//vsf.get('{$bw->input[0]}/{$this->modelName}_display_tab','vs_panel_{$this->modelName}',{vdata:'{$_REQUEST['vdata']}',pageIndex:'{$bw->input['pageIndex']}'});
+			return false;
+		});
+		////////*********************select file field*************************/
+						$("input[type='radio']").change(function(){
+							if($(this).val()=='link'||$(this).val()=='file'){
+							
+								$("input[name='"+this.name+"']").each(function(){
+										if($(this).attr("checked")){
+											$("#"+$(this).attr('obj')).removeAttr("disabled");
+										}else{
+											$("#"+$(this).attr('obj')).attr("disabled","disabled");
+										}
+								});
+								
+							}
+						});
+		</script>
+		
 EOF;
-		return $BWHTML;
-
-	}
-
-	function virtualForm($module="", $option=''){
-		global $vsLang;
-
-		$BWHTML = <<<EOF
-			    <form id="editVirtualForm" method="post">
-			    	<input class="input" type="hidden" value="{$module->getId()}" name="moduleId" />
-			    	<input class="input" type="hidden" value="{$module->getTitle()}" name="oldModuleTitle" />
-					<table cellpadding="0" cellspacing="1" width="100%">
-				    	<tr>
-				        	<th>{$vsLang->getWords('module_list_name','Title')}</th>
-				            <td><input id="moduleTitle" type="text" value="{$module->getTitle()}" name="moduleTitle" /></td>
-				        </tr>
-				        <tr>
-				        	<th>{$vsLang->getWords('module_list_desc','Intro')}</th>
-				            <td><textarea cols="18" rows="5" name="moduleIntro">{$module->getIntro()}</textarea></td>
-				        </tr>
-                                        <tr>
-				        	<th>{$vsLang->getWords('module_list_pr','Parent')}</th>
-				            <td>
-				            	<select name="moduleParent" id="moduleParent">
-                                                    <option value="pages">Pages </option>
-                                                    <option value="partners">Partners </option>
-                                                    <option value="pcontacts">P Contact </option>
-                                                    <option value="advisorys">Advisorys </option>
-                                                    <option value="gallerys">Gallerys </option>
-                                                    <option value="products">Products </option>
-                                                </select>
-				            </td>
-				        </tr>
-				        <tr>
-				        	<th>{$vsLang->getWords('module_list_use','Base')}</th>
-				            <td>
-				            	{$vsLang->getWords('module_list_use_admin','Admin')}
-				            	<input type="checkbox" name="moduleIsAdmin" id="moduleIsAdmin" value="1" />
-
-				            	{$vsLang->getWords('module_list_use_user','User')}
-				            	<input type="checkbox" name="moduleIsUser" id="moduleIsUser" value="1" />
-				            </td>
-				        </tr>
-				        <tr>
-				        	<th>&nbsp;</th>
-				            <td>
-				            	<button class="ui-state-default ui-corner-all" type="submit">
-				            		{$option['submitValue']}
-				            	</button>
-			            	</td>
-				        </tr>
-				    </table>
-				</form>
-
-			<div id="result"></div>
-			<script type="text/javascript">
-				$(window).ready(function() {
-					vsf.jCheckbox('{$module->getAdmin()}','moduleIsAdmin');
-					vsf.jCheckbox('{$module->getUser()}','moduleIsUser');
-                                        vsf.jSelect('{$module->getParent()}','moduleParent');
-				});
-				$('#editVirtualForm').submit(function(){
-					if(!$('#moduleTitle').val()){
-						jAlert(
-		        			'{$vsLang->getWords('page_virtualModule_empty','This field can not be empty!')}',
-		        			'{$bw->vars['global_websitename']} Dialog'
-	        			);
-		        		$('#moduleTitle').focus();
-						$('#moduleTitle').addClass('ui-state-error ui-corner-all-inner');
-		        		return false;
-					}
-		        	vsf.submitForm($('#editVirtualForm'),'pages/editVirtual/', 'virtualTabContainer');
-		        	return false;
-				});
-			</script>
-EOF;
-			return $BWHTML;
-	}
-
-	function managerObjHtml() {
-		global $bw, $vsLang,$vsSettings,$langObject;
-		$BWHTML .= <<<EOF
-			<div id="page_tabs" class="ui-tabs ui-widget ui-widget-content ui-corner-all-top">
-				<ul id="tabs_nav" class="ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-corner-all-inner">
-                                <if="$bw->input['module'] == 'pages' ">
-                                    <li class="ui-state-default ui-corner-top">
-                                            <a href="{$bw->base_url}pages/displayVirtualTab/&ajax=1">
-                                                    <span>{$langObject['tabVirtualModule']}</span>
-                                            </a>
-                                    </li>
-	        		</if>
-			    	<li class="ui-state-default ui-corner-top">
-			        	<a href="{$bw->base_url}{$bw->input[0]}/display-obj-tab/&ajax=1"><span>{$vsLang->getWords("tab_obj_objes_{$bw->input[0]}","{$bw->input[0]}")}</span></a>
-			        </li>
-                                <if="$vsSettings->getSystemKey($bw->input[0].'_category_tab',0, "{$bw->input[0]}", 1, 1)">
-                                        <li class="ui-state-default ui-corner-top">
-                                        <a href="{$bw->base_url}menus/display-category-tab/{$bw->input[0]}/&ajax=1">
-                                        <span>{$langObject['categoriesTitle']}</span></a>
-                                </li>
-			        </if>
-			       
-                                   <!--     <li class="ui-state-default ui-corner-top">
-                                        <a href="{$bw->base_url}menus/display-category-tab/picon/&ajax=1">
-                                        <span>picon</span></a>
-                                </li> -->
-			      
-			        <if="$vsSettings->getSystemKey($bw->input[0].'_setting_tab',0, "{$bw->input[0]}", 1, 1)">
-				        <li class="ui-state-default ui-corner-top">
-				        	<a href="{$bw->base_url}settings/moduleObjTab/{$bw->input[0]}/&ajax=1">
-								<span>Settings</span>
-							</a>
-			        	</li>
-		        	</if>
-				</ul>
-			</div>
-EOF;
-		return $BWHTML;
-	}
+	}   
+       
+	
+	
 }
-?>

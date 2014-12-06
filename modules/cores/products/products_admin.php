@@ -1,67 +1,58 @@
 <?php
-class products_admin extends ObjectAdmin{
-	function __construct(){
-            global $vsTemplate;
-		parent::__construct('products', CORE_PATH.'products/', 'products');
-                 $this->html = $vsTemplate->load_template('skin_products');
-	}
-        
-	function addEditObjForm($objId = 0, $option = array()) {
-		global $vsLang, $vsStd, $bw, $vsPrint,$vsSettings,$search_module,$langObject;
-		
-     	$option['skey'] = $bw->input['module'];
-		$obj = $this->model->createBasicObject ();
-		$option ['formSubmit'] = $langObject['itemFormAddButton'];
-		$option ['formTitle'] = $langObject['itemFormAdd'];
-		if ($objId) {
-			$option ['formSubmit'] = $langObject['itemFormEditButton'];
-			$option ['formTitle'] = $langObject['itemFormEdit'];
-			$obj = $this->model->getObjectById ( $objId ,1);
-		} 
-              
-		$vsPrint->addJavaScriptFile ( "tiny_mce/tiny_mce" );
-		$vsStd->requireFile ( JAVASCRIPT_PATH . "/tiny_mce/tinyMCE.php" );
-		$editor = new tinyMCE ();
-		
-		if($vsSettings->getSystemKey($option['skey'].'_intro_editor', 1, $option['skey'])){
-			$editor->setWidth ( '100%' );
-			$editor->setHeight ( '150px' );
-			$editor->setToolbar ( 'narrow' );
-			$editor->setTheme ( "advanced" );
-			$editor->setInstanceName ( "{$this->tableName}Intro" );
-			$editor->setValue ( $obj->getIntro () );
-			$obj->setIntro ( $editor->createHtml () );
-		}else
-			$obj->setIntro ('<textarea name="'.$this->tableName.'Intro" style="width:100%;height:100px;">'. strip_tags($obj->getIntro()) .'</textarea>');
-                   
-		$editor->setWidth ( '100%' );
-		$editor->setHeight ( '350px' );
-		$editor->setToolbar ( 'full' );
-		$editor->setTheme ( "advanced" );
-		$editor->setInstanceName($this->tableName."Spec");
-		if($obj->getSpec()) $editor->setValue($obj->getSpec());
-		elseif($vsSettings->getSystemKey($bw->input[0]."_specdefault{$vsLang->currentLang->getFoldername()}", '', $bw->input[0], 1, 1))
-			$editor->setValue($vsSettings->getSystemKey($bw->input[0]."_specdefault{$vsLang->currentLang->getFoldername()}", '', $bw->input[0], 1, 1));
-		$obj->setSpec($editor->createHtml());
-		
-		$editor->setWidth ( '100%' );
-		$editor->setHeight ( '350px' );
-		$editor->setToolbar ( 'full' );
-		$editor->setTheme ( "advanced" );
-		$editor->setInstanceName ( "{$this->tableName}Content");
-		$editor->setValue('');
-		if($obj->getContent()){
-			$editor->setValue($obj->getContent());
-		}else{
-			$val=$vsSettings->getSystemKey($bw->input[0]."_contentdefault{$vsLang->currentLang->getFoldername()}", 0, $bw->input[0], 1, 1);
-			if(!is_numeric($val)){
-				$editor->setValue($vsSettings->getSystemKey($bw->input[0]."_contentdefault{$vsLang->currentLang->getFoldername()}", 0, $bw->input[0], 1, 1));
-			}
-		}
-		$obj->setContent ( $editor->createHtml () );
+require_once(LIBS_PATH.'boards/VSAdminBoard.php');
 
-	    
-		return $this->output = $this->html->addEditObjForm ( $obj, $option );
+class products_admin extends VSAdminBoard {
+
+
+	/**
+	*auto run function
+	*System IDE create
+	**/
+	public	function auto_run(){
+	
+		global $bw;		
+		$this->tabs[]=array(
+				'id'=>"{$bw->input[0]}",
+				'href'=>"{$bw->base_url}products/products_display_tab/&ajax=1",
+				'title'=>$this->getLang()->getWords("tab_product",'product'),
+				'default'=>1,
+		);
+		
+		/*$this->tabs[]=array(
+				'id'=>"{$bw->input[0]}_labelss",
+				'href'=>"{$bw->base_url}products/productlabels_display_tab/&ajax=1",
+				'title'=>$this->getLang()->getWords("{$bw->input[0]}_labels","Nhãn"),
+				'default'=>1,
+		);*/
+		
+	if(VSFactory::getSettings()->getSystemKey ( $bw->input[0]. '_products_category_list', 0, $bw->input[0] )){
+			$this->tabs[]=array(
+				'href'=>"{$bw->base_url}menus/display-category-tab/{$bw->input[0]}/&ajax=1",
+				'title'=>$this->getLang()->getWords("{$bw->input[0]}_category","{$bw->input[0]} Category"),
+				'default'=>0,
+				);
 	}
+	
+	if(VSFactory::getSettings()->getSystemKey ( $bw->input[0]. '_products_typetea_list', 0, $bw->input[0] )){
+			$this->tabs[]=array(
+				'href'=>"{$bw->base_url}menus/display-category-tab/typetea/&ajax=1",
+				'title'=>$this->getLang()->getWords("typetea_category","Loại trà"),
+				'default'=>0,
+				);
+	}
+	/*if(VSFactory::getSettings()->getSystemKey ( $bw->input[0]. '_products_label', 0, $bw->input[0] )){
+			$this->tabs[]=array(
+				'id'=>"{$bw->input[0]}_label",
+				'href'=>"{$bw->base_url}menus/display-category-tab/{$bw->input[0]}_label/&ajax=1",
+				'title'=>$this->getLang()->getWords("{$bw->input[0]}_label","Nhãn"),
+				'default'=>0,
+				);
+	}*/
+	
+	
+		parent::auto_run();
+	}
+
+
+
 }
-?>

@@ -14,67 +14,49 @@ class GlobalLoad {
 	 * @return void
 	 */
 	function addDefaultScript() {
-		global $vsPrint, $vsUser, $bw,$vsLang;
+		global $vsPrint,  $bw,$vsSkin;
 		
 		$vsPrint->addJavaScriptFile ( 'jquery', 1 );
-		if (! $vsUser->obj->getId ())
+		$vsPrint->addJavaScriptFile ( 'jquery-migrate-1.2.1.min' );
+		if (! VSFactory::getAdmins()->basicObject->getId ())
 			return;
 		$vsPrint->addJavaScriptString ( 'global_var', '
     			var vs = {};
-    		    var ajaxfile = "admin.php";
 				var noimage=0;
 				var imgurl = "' . $bw->vars ['img_url'] . '/";
-				var global_website_title = "' . $bw->vars ['global_websitename'] . '/";
-				var global_website_choise = "' .$vsLang->getWordsGlobal('global_website_choise','You haven\'t choose any items !') . '";
+				var global_website_title = "' . $bw->vars ['global_websitename'] . '";
+				var global_website_choise = "' .VSFactory::getLangs()->getWords('global_website_choise','You haven\'t choose any items !') . '";
 				var boardUrl = "' . $bw->vars ['board_url'] . '";
 				var baseUrl  = "' . $bw->base_url . '";
+				 var ajaxfile = boardUrl + "/admin.php";
+				var allowFile = {"doc" : "doc", "docx" : "docx", "xls" : "xls", "xlsx" : "xlsx","pdf" : "pdf", "zip" : "zip", "rar" : "rar", "rtf":"rtf"};
+				var allowImage = {"png" : "png","jpeg" : "jpeg", "jpg" : "jpg", "gif" : "gif", "psd" : "psd", "crd" : "crd"};
+				var allowVideo = {"dat" : "dat","avi" : "avi", "mp4" : "mp4", "3gp" : "3gp", "wmv" : "wmv", "swf" : "swf", "mpeg":"mpeg", "mpg":"mpg","flv":"flv" }; 
     		' );
-		 $vsPrint->addJavaScriptString ( 'global_var1', '
-    		$(document).ready(function(){
-               
-                $("#topmenu li a").each(function(){
-              
-                if(this.href == document.location.href){
-
-			$(this).parent("li").addClass("active selected");
-			$(this).parent().parent().parent("li").addClass("active selected");
-			
-		}
-});
-});
-    		' );
-		$vsPrint->addJavaScriptFile ( 'ajaxupload/ajaxfileupload' );
-		$vsPrint->addJavaScriptFile ( 'vs.ajax' );
-		$vsPrint->addJavaScriptFile ( 'jquery/ui.core' );
-		$vsPrint->addJavaScriptFile ( "jquery/ui.widget");
-		$vsPrint->addJavaScriptFile ( "jquery/ui.mouse");
 		
-		$vsPrint->addJavaScriptFile ( 'jquery/ui.position' );
-		$vsPrint->addJavaScriptFile ( 'jquery/ui.tabs' );
-		$vsPrint->addJavaScriptFile ( 'jquery/ui.dialog' );
-		$vsPrint->addJavaScriptFile ( 'jquery/ui.draggable' );
-		$vsPrint->addJavaScriptFile ( 'jquery/ui.accordion' );
+		$vsPrint->addJavaScriptFile ( 'ajaxupload/ajaxfileupload' );
+		$vsPrint->addJavaScriptFile ('vs.fwadmin');
+		$vsPrint->addJavaScriptFile ( 'vs.ajax' );
+		$vsPrint->addCurentJavaScriptFile ("jquery.dd");
+		$vsPrint->addCurentJavaScriptFile ("imenu");
+	
+		
+ 		$vsPrint->addJavaScriptFile ( 'jquery-ui-1.8.16' );
+ 		$vsPrint->addJavaScriptFile("jquery.price_format.1.8");
+		$vsPrint->addJavaScriptFile ( "tiny_mce/tiny_mce" );
+		$vsPrint->addJavaScriptFile ( "tiny_mce/jquery.tinymce" );
 		$vsPrint->addJavaScriptFile ( 'jquery/ui.alerts' );
 		$vsPrint->addJavaScriptFile ( 'jquery.numeric' );
-		$vsPrint->addJavaScriptFile ( 'jquery/ui.datepicker' );
-		$vsPrint->addJavaScriptFile ( "fileuploader");
-
-		$vsPrint->addJavaScriptFile ( 'ddsmoothmenu' );
-                
-
-//		$vsPrint->addJavaScriptFile ( 'checkbox' );
-		$vsPrint->addJavaScriptString ( 'topmenu', '
-    		$(document).ready(function(){
-    			ddsmoothmenu.init({
-				mainmenuid: "topmenu",
-				orientation: "h",
-				classname: "ddsmoothmenu vsf-topmenu",
-				img: 0,
-				//customtheme: ["#1c5a80", "#18374a"], //override default menu CSS background values? Uncomment: ["normal_background", "hover_background"]
-				contentsource: "markup" //"markup" or ["container_id", "path_to_menu_file"]
-				
-				});
-    		})' );
+		$vsPrint->addJavaScriptFile ( 'jquery.address-1.5.min' );
+		$vsPrint->addJavaScriptFile ( 'jquery.history' );
+		$vsPrint->addJavaScriptFile("jquery/jquery-ui-datetimepicker");
+        $vsPrint->addJavaScriptFile("fileuploader");
+		$vsPrint->addJavaScriptFile("star-rating");
+        $vsPrint->addJavaScriptFile ( 'jquery.timeout' );
+		$vsPrint->addJavaScriptFile("default");
+		
+		
+		$vsPrint->addJavaScriptFile ( "html5uploader" );
 	}
 	
 	/**
@@ -85,31 +67,41 @@ class GlobalLoad {
 	 */
 	
 	function addDefaultCSS() {
-		global $vsUser, $vsPrint, $vsModule;
+		global  $vsPrint,$vsSkin;
 		
-		if (! $vsUser->obj->getId ()) {
+		$vsPrint->addCSSFile ( 'global','screen' );
+ 		if (! VSFactory::getAdmins()->basicObject->getId ()) {
 			$vsPrint->addCSSFile ( 'uvn-login' );
 			return;
 		}
+		$vsPrint->addCSSFile ( 'dd' );
 		
-		// Add the default script that only use for admin
-		//    	$vsPrint->addGlobalCSSFile('jquery/base/ui.all');
-		$vsPrint->addCSSFile ( 'global' );
-		$vsPrint->addCSSFile ( 'ceedos' );
-//		$vsPrint->addCSSFile ( 'input_style' );
-                $vsPrint->addCSSFile ( 'fileuploader' );
-                $vsPrint->addCSSFile ( 'ui.datepicker' );
-                $vsPrint->addCSSFile ( 'comments' );
-		
-		$vsPrint->addGlobalCSSFile ( 'jquery/base/ui.core' );
-		$vsPrint->addGlobalCSSFile ( 'ddsmoothmenu' );
-		$vsPrint->addGlobalCSSFile ( 'jquery/base/ui.theme' );
-		$vsPrint->addGlobalCSSFile ( 'jquery/base/ui.tabs' );
-		$vsPrint->addGlobalCSSFile ( 'jquery/base/ui.accordion' );
-		$vsPrint->addGlobalCSSFile ( 'jquery/base/ui.dialog' );
-		$vsPrint->addGlobalCSSFile ( 'jquery/base/ui.custom' );
-		
-		$vsPrint->addCSSFile ( $vsModule->obj->getClass () );
+		$vsPrint->addCSSFile("jquery/jquery-ui");
+		$vsPrint->addCSSFile ( 'jquery/jquery.ui.tabs' );
+		$vsPrint->addGlobalCSSFile('jquery/base/ui.alert');
+		$vsPrint->addCSSFile ( 'star-rating' );
+		$vsPrint->addCSSFile ( 'bootstrap' );
+		$vsPrint->addCSSFile ( VSFactory::getModules()->basicObject->getClass () );
+	}
+	
+	private function find($direct, $pattern){
+		$files = array();
+			if ($dir = opendir($direct)) {
+				
+				while (false !== ($file = readdir($dir))) {
+					if ($file != "." && $file != ".."&&$file!='.svn') {
+						if(is_dir($file)){
+							//$images=array_merge($images,$this->find($file,$pattern,$file."/"));
+						}else{
+							if(preg_match($pattern,$file)){
+								$files[] = $file;
+							}
+						}
+					}
+				}
+				closedir($dir);
+			}
+	    return $files;
 	}
 }
 

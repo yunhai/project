@@ -1,380 +1,576 @@
-<?php
+<?php 
+
 class User extends BasicObject {
-	private $name = null;
-	private $password = null;
-	private $birthday = null;
-	private $arrayinfo = null;
-	private $address = null;
-	private $phone = null;
-	private $email = null;
-	private $lastLogin = null;
-	private $joinDate = null;
-	private $avatar = null;
-	private $firstName = null;
-	private $province = null;
-	private $score = NULL;
-	private $newsletter = NULL;
-	private $mobile = NULL;
-	private $dealer = NULL;
- 	private $groups = array ();
-	function __construct() {
-		parent::__construct ();
-	}
-	/**
-	 * @param $arrayinfo the $arrayinfo to set
-	 */
-	function __destruct() {
-		unset ( $this->score );
-		unset ( $this->name );
-		unset ( $this->password );
-		unset ( $this->birthday );
-		unset ( $this->address );
-		unset ( $this->phone );
-		unset ( $this->fax );
-		unset ( $this->email );
-		unset ( $this->lastLogin );
-		unset ( $this->joinDate );
-		unset ( $this->arrayinfo );
-		unset ( $this->avatar );
-		unset ( $this->newsletter );
-		unset ( $this->mobile );
-		unset ( $this->groups );
-		unset ( $this->firstName );
-		unset ( $this->province );
-		unset ( $this->dealer);
-	}
-	
-	function validate() {
-		global $vsLang;
-		$status = true;
-		if ($this->getName () == "") {
-			$this->message .= $vsLang->getWords ( 'err_user_name_blank', "Username can't be left blank!" );
-			$status = false;
-		}
-		return $status;
-	}
-	/**
-	 * change User object to array to insert database
-	 * @return array $dbobj
-	 */
-	///////////// infomation gom firstName ,lastName ,Gender ,Birthday ,Company ,Fax ,Town ,City ,Country
-	function convertToDB() {
-		isset ( $this->id ) ? ($dbobj ['userId'] = $this->id) : '';
-		isset ( $this->name ) ? ($dbobj ['userName'] = $this->name) : '';
-		isset ( $this->arrayinfo ) ? ($dbobj ['userInfo'] = serialize ( $this->arrayinfo )) : '';
+
+	public	function convertToDB(){
+			isset ( $this->id ) ? ($dbobj ['id'] = $this->id) : '';
+		isset ( $this->name ) ? ($dbobj ['name'] = $this->name) : '';
+		isset ( $this->password ) ? ($dbobj ['password'] = $this->password) : '';
+		isset ( $this->email ) ? ($dbobj ['email'] = $this->email) : '';
+		isset ( $this->postDate ) ? ($dbobj ['postDate'] = $this->postDate) : '';
+		isset ( $this->status ) ? ($dbobj ['status'] = $this->status) : '';
+		isset ( $this->image ) ? ($dbobj ['image'] = $this->image) : '';
+		isset ( $this->firstName ) ? ($dbobj ['firstName'] = $this->firstName) : '';
+		isset ( $this->title ) ? ($dbobj ['title'] = $this->title) : '';
+		isset ( $this->gender ) ? ($dbobj ['gender'] = $this->gender) : '';
+		isset ( $this->minutes ) ? ($dbobj ['minutes'] = $this->minutes) : '';
+		isset ( $this->hour ) ? ($dbobj ['hour'] = $this->hour) : '';
+		isset ( $this->day ) ? ($dbobj ['day'] = $this->day) : '';
+		isset ( $this->month ) ? ($dbobj ['month'] = $this->month) : '';
+		isset ( $this->year ) ? ($dbobj ['year'] = $this->year) : '';
+		isset ( $this->phone ) ? ($dbobj ['phone'] = $this->phone) : '';
+		isset ( $this->mobile ) ? ($dbobj ['mobile'] = $this->mobile) : '';
+		isset ( $this->company ) ? ($dbobj ['company'] = $this->company) : '';
+		isset ( $this->interested ) ? ($dbobj ['interested'] = $this->interested) : '';
+		isset ( $this->fax ) ? ($dbobj ['fax'] = $this->fax) : '';
+		isset ( $this->address ) ? ($dbobj ['address'] = $this->address) : '';
+		isset ( $this->province ) ? ($dbobj ['province'] = $this->province) : '';
+		isset ( $this->skype ) ? ($dbobj ['skype'] = $this->skype) : '';
+		isset ( $this->yahoo ) ? ($dbobj ['yahoo'] = $this->yahoo) : '';
+		isset ( $this->country ) ? ($dbobj ['country'] = $this->country) : '';
+		isset ( $this->score ) ? ($dbobj ['score'] = $this->score) : '';
+		isset ( $this->intro ) ? ($dbobj ['intro'] = $this->intro) : '';
+		isset ( $this->location ) ? ($dbobj ['location'] = $this->location) : '';
 		
-		isset ( $this->address ) ? ($dbobj ['userAddress'] = $this->address) : '';
-		isset ( $this->email ) ? ($dbobj ['userEmail'] = $this->email) : '';
-		isset ( $this->joinDate ) ? ($dbobj ['userJoinDate'] = $this->joinDate) : '';
-		isset ( $this->lastLogin ) ? ($dbobj ['userLastLogin'] = $this->lastLogin) : '';
-		isset ( $this->status ) ? ($dbobj ['userStatus'] = $this->status) : '';
+		isset ( $this->catecity ) ? ($dbobj ['catecity'] = $this->catecity) : '';
 		
-		// Password will just set when user have input it
-		if ($this->password)
-			$dbobj ['userPassword'] = $this->password;
+		isset ( $this->idthue ) ? ($dbobj ['idthue'] = $this->idthue) : '';
+		
+		isset ( $this->bophan ) ? ($dbobj ['bophan'] = $this->bophan) : '';
+		
+		isset ( $this->type ) ? ($dbobj ['type'] = $this->type) : '';
+		
 		return $dbobj;
+
 	}
-	/**
-	 * change User from database object to User object
-	 * @param array $dbobj Database object
-	 * @return void
-	 *
-	 */
-	function convertToObject($object) {
+
+
+
+
+
+	public	function convertToObject($object = array()){
+//		print  "<pre>";
+//		print_r ($object);
+//		print  "<pre>";
+//		exit();
+			isset ( $object ['id'] ) ? $this->setId ( $object ['id'] ) : '';
+		isset ( $object ['name'] ) ? $this->setName ( $object ['name'] ) : '';
+		isset ( $object ['password'] ) ? $this->setPassword ( $object ['password'] ) : '';
+		isset ( $object ['email'] ) ? $this->setEmail ( $object ['email'] ) : '';
+		isset ( $object ['postDate'] ) ? $this->setPostDate ( $object ['postDate'] ) : '';
+		isset ( $object ['status'] ) ? $this->setStatus ( $object ['status'] ) : '';
+		isset ( $object ['image'] ) ? $this->setImage ( $object ['image'] ) : '';
+		isset ( $object ['firstName'] ) ? $this->setFirstName ( $object ['firstName'] ) : '';
+		isset ( $object ['title'] ) ? $this->setTitle ( $object ['title'] ) : '';
+		isset ( $object ['gender'] ) ? $this->setGender ( $object ['gender'] ) : '';
+		isset ( $object ['minutes'] ) ? $this->setMinutes ( $object ['minutes'] ) : '';
+		isset ( $object ['hour'] ) ? $this->setHour ( $object ['hour'] ) : '';
+		isset ( $object ['day'] ) ? $this->setDay ( $object ['day'] ) : '';
+		isset ( $object ['month'] ) ? $this->setMonth ( $object ['month'] ) : '';
+		isset ( $object ['year'] ) ? $this->setYear ( $object ['year'] ) : '';
+		isset ( $object ['phone'] ) ? $this->setPhone ( $object ['phone'] ) : '';
+		isset ( $object ['mobile'] ) ? $this->setMobile ( $object ['mobile'] ) : '';
+		isset ( $object ['company'] ) ? $this->setCompany ( $object ['company'] ) : '';
+		isset ( $object ['interested'] ) ? $this->setInterested ( $object ['interested'] ) : '';
+		isset ( $object ['fax'] ) ? $this->setFax ( $object ['fax'] ) : '';
+		isset ( $object ['address'] ) ? $this->setAddress ( $object ['address'] ) : '';
+		isset ( $object ['province'] ) ? $this->setProvince ( $object ['province'] ) : '';
+		isset ( $object ['skype'] ) ? $this->setSkype ( $object ['skype'] ) : '';
+		isset ( $object ['yahoo'] ) ? $this->setYahoo ( $object ['yahoo'] ) : '';
+		isset ( $object ['country'] ) ? $this->setCountry ( $object ['country'] ) : '';
+		isset ( $object ['score'] ) ? $this->setScore ( $object ['score'] ) : '';
+		isset ( $object ['intro'] ) ? $this->setIntro ( $object ['intro'] ) : '';
+		isset ( $object ['location'] ) ? $this->setLocation ( $object ['location'] ) : '';
+		isset ( $object ['catecity'] ) ? $this->setcatecity ( $object ['catecity'] ) : '';
 		
-		isset ( $object ['userId'] ) ? $this->setId ( $object ['userId'] ) : '';
-		isset ( $object ['userName'] ) ? $this->setName ( $object ['userName'] ) : '';
-		isset ( $object ['userPassword'] ) ? $this->password = $object ['userPassword'] : '';
-		isset ( $object ['userAddress'] ) ? $this->setAddress ( $object ['userAddress'] ) : '';
+		isset ( $object ['idthue'] ) ? $this->setIdThue ( $object ['idthue'] ) : '';
 		
-		isset ( $object ['userEmail'] ) ? $this->setEmail ( $object ['userEmail'] ) : '';
-		isset ( $object ['userJoinDate'] ) ? $this->setJoinDate ( $object ['userJoinDate'] ) : '';
-		isset ( $object ['userLastLogin'] ) ? $this->setLastLogin ( $object ['userLastLogin'] ) : '';
-		isset ( $object ['userStatus'] ) ? $this->setStatus ( $object ['userStatus'] ) : '';
+		isset ( $object ['bophan'] ) ? $this->setBophan ( $object ['bophan'] ) : '';
 		
-		isset ( $object ['userInfo'] ) ? $this->setArrayInfo ( unserialize ( $object ['userInfo'] ) ) : '';
-		isset ( $object ['userAvatar'] ) ? $this->setAvatar ( $object ['userAvatar'] ) : '';
-		isset ( $object ['userFirstName'] ) ? $this->setFirstName ( $object ['userFirstName'] ) : '';
-		isset ( $object ['userFullName'] ) ? $this->setFullName ( $object ['userFullName'] ) : '';
-		isset ( $object ['userGender'] ) ? $this->setGender ( $object ['userGender'] ) : '';
-		isset ( $object ['userBirthday'] ) ? $this->setBirthday ( $object ['userBirthday'] ) : '';
-		isset ( $object ['userPhone'] ) ? $this->setPhone ( $object ['userPhone'] ) : '';
-		isset ( $object ['userCompany'] ) ? $this->setCompany ( $object ['userCompany'] ) : '';
-		
-		isset ( $object ['realInterested'] ) ? $this->setRealInterested ( $object ['realInterested'] ) : '';
-		isset ( $object ['projectInterested'] ) ? $this->setProjectInterested ( $object ['projectInterested'] ) : '';
-		isset ( $object ['userFax'] ) ? $this->setFax ( $object ['userFax'] ) : '';
-		
-		isset ( $object ['userTown'] ) ? $this->setTown ( $object ['userTown'] ) : '';
-		isset ( $object ['userNewsletter'] ) ? $this->setNewsletter ( $object ['userNewsletter'] ) : '';
-		isset ( $object ['userCity'] ) ? $this->setCity ( $object ['userCity'] ) : '';
-		isset ( $object ['userCountry'] ) ? $this->setCountry ( $object ['defaultAvatar'] ) : '';
-		isset ( $object ['userSkype'] ) ? $this->setYahoo ( $object ['userSkype'] ) : '';
-		isset ( $object ['userYahoo'] ) ? $this->setSkype ( $object ['userYahoo'] ) : '';
-		isset ( $object ['userMobile'] ) ? $this->setMobile ( $object ['userMobile'] ) : '';
-		isset ( $object ['userProvince'] ) ? $this->setProvince ( $object ['userProvince'] ) : '';
-		isset ( $object ['userScore'] ) ? $this->setScore ( $object ['userScore'] ) : '';
-		isset ( $object ['userDealer'] ) ? $this->setDealer ( $object ['userDealer'] ) : '';
+		isset ( $object ['type'] ) ? $this->setType ( $object ['type'] ) : '';
+
 	}
+
+	var $timeStart;
 	
-	function getStatus($type = null) {
-		global $bw;
-		if (! $type)
-			return $this->status;
-		if ($type == "image") {
-			$imgArray = array ('disabled.png', 'enable.png', 'home.gif' );
-			return $this->status = "<img src='{$bw->vars ['img_url']}/{$imgArray[$this->getStatus()]}' alt='{$this->getStatus()}' />";
-		}
-		if ($type == "text")
-			return $this->status ? "Hiển thị" : "Ẩn";
-	}
+	var $timeEnd;
 	
-	function addGroup($group) {
-		$this->groups [$group->getId ()] = $group;
-	}
+	var $type;
+
+
+
 	/**
-	 * @return array object $this->groups of User class
+	 * @return the $timeStart
 	 */
-	function getGroups() {
-		return $this->groups;
-	}
 	/**
-	 * get array Groups object of GroupUser class
-	 *
-	 * @return array object $this->groups of User class
+	 * @return the $type
 	 */
-	function getArrayInfo() {
-		return $this->arrayinfo;
+	public function getType() {
+		return $this->type;
 	}
+
 	/**
-	 * get the Name of User class
-	 *
-	 * @return string $this->name of User class
+	 * @param field_type $type
 	 */
-	function getName() {
+	public function setType($type) {
+		$this->type = $type;
+	}
+
+
+	function getId(){
+		return $this->id;
+	}
+
+
+
+	function getName(){
 		return $this->name;
 	}
-	/**
-	 *
-	 */
-	function getNick() {
-		return $this->nick;
-	}
-	//get all info
-	/**
-	 * @return array object $this->groups of User class
-	 */
-	function getAvatar() {
-		return $this->arrayinfo ['userAvatar'];
-	}
-	
-	function getDealer() {
-		return $this->arrayinfo ['userDealer'];
-	}
-	
-	function getScore() {
-		return $this->arrayinfo ['userScore'];
-	}
-	
-	function getFirstName() {
-		return $this->arrayinfo ['userFirstName'];
-	}
-	/**
-	 * @return array object $this->groups of User class
-	 */
-	function getCompany() {
-		return $this->arrayinfo ['userCompany'];
-	}
-	/**
-	 * @return unknown
-	 */
-	function getYahoo() {
-		return $this->arrayinfo ['userYahoo'];
-	}
-	/**
-	 * @return unknown
-	 */
-	function getSkype() {
-		return $this->arrayinfo ['userSkype'];
-	}
-	function getPassword() {
+
+
+
+	function getPassword(){
 		return $this->password;
 	}
-	
-	function getFullName() {
-		return $this->arrayinfo ['userFullName'];
-	}
-	
-	function getGender() {
-		return $this->arrayinfo ['userGender'];
-	}
-	
-	function getBirthday($format = "") {
-		if ($format)
-			return VSFDateTime::GetDate ( $this->arrayinfo ['userBirthday'], $format );
-		return $this->arrayinfo ['userBirthday'];
-	}
-	
-	function getAddress() {
-		return $this->address;
-	}
-	function getPhone() {
-		return $this->arrayinfo ['userPhone'];
-	}
-	function getProvince() {
-		return $this->arrayinfo ['userProvince'];
-	}
-	function getFax() {
-		return $this->arrayinfo ['userFax'];
-	}
-	function getEmail() {
+
+
+
+	function getEmail(){
 		return $this->email;
 	}
-	function getTown() {
-		return $this->arrayinfo ['userTown'];
+
+
+
+	function getPostDate(){
+		return $this->postDate;
 	}
-	function getCity() {
-		return $this->arrayinfo ['userCity'];
+
+
+
+	function getStatus(){
+		return $this->status;
 	}
-	function getRoot() {
-		return $this->root;
+
+
+
+	function getImage(){
+		return $this->image;
 	}
-	function getCountry() {
-		return $this->arrayinfo ['userCountry'];
+
+
+
+	function getFirstName(){
+		return $this->firstName;
 	}
-	/**
-	 * get Last Login time of User class
-	 * @return  int $this->lastLogin of User class
-	 */
-	function getLastLogin($format = "") {
-		if ($format)
-			return VSFDateTime::GetDate ( $this->lastLogin, $format );
-		return $this->lastLogin;
+
+
+
+	function getTitle(){
+		return $this->title;
+	}
+
+
+
+	function getGender(){
+		return $this->gender;
+	}
+
+
+
+	function getMinutes(){
+		return $this->minutes;
+	}
+
+
+
+	function getHour(){
+		return $this->hour;
+	}
+
+
+
+	function getDay(){
+		return $this->day;
+	}
+
+
+
+	function getMonth(){
+		return $this->month;
+	}
+
+
+
+	function getYear(){
+		return $this->year;
+	}
+
+
+
+	function getPhone(){
+		return $this->phone;
+	}
+
+
+
+	function getMobile(){
+		return $this->mobile;
+	}
+
+
+
+	function getCompany(){
+		return $this->company;
+	}
+
+
+
+	function getInterested(){
+		return $this->interested;
+	}
+
+
+
+	function getFax(){
+		return $this->fax;
+	}
+
+
+
+	function getAddress(){
+		return $this->address;
+	}
+
+
+
+	function getProvince(){
+		return $this->province;
+	}
+
+
+
+	function getSkype(){
+		return $this->skype;
+	}
+
+
+
+	function getYahoo(){
+		return $this->yahoo;
+	}
+
+
+
+	function getCountry(){
+		return $this->country;
+	}
+
+
+
+	function getScore(){
+		return $this->score;
+	}
+
+
+
+	function getIntro(){
+		return $this->intro;
+	}
+
+
+
+	function getLocation(){
+		return $this->location;
+	}
+
+
+
+	function setId($id){
+		$this->id=$id;
+	}
+
+
+
+
+	function setName($name){
+		$this->name=$name;
+	}
+
+
+
+
+	function setPassword($password){
+		$this->password=$password;
+	}
+
+
+
+
+	function setEmail($email){
+		$this->email=$email;
+	}
+
+
+
+
+	function setPostDate($postDate){
+		$this->postDate=$postDate;
+	}
+
+
+
+
+	function setStatus($status){
+		$this->status=$status;
+	}
+
+
+
+
+	function setImage($image){
+		$this->image=$image;
+	}
+
+
+
+
+	function setFirstName($firstName){
+		$this->firstName=$firstName;
+	}
+
+
+
+
+	function setTitle($title){
+		$this->title=$title;
+	}
+
+
+
+
+	function setGender($gender){
+		$this->gender=$gender;
+	}
+
+
+
+
+	function setMinutes($minutes){
+		$this->minutes=$minutes;
+	}
+
+
+
+
+	function setHour($hour){
+		$this->hour=$hour;
+	}
+
+
+
+
+	function setDay($day){
+		$this->day=$day;
+	}
+
+
+
+
+	function setMonth($month){
+		$this->month=$month;
+	}
+
+
+
+
+	function setYear($year){
+		$this->year=$year;
+	}
+
+
+
+
+	function setPhone($phone){
+		$this->phone=$phone;
+	}
+
+
+
+
+	function setMobile($mobile){
+		$this->mobile=$mobile;
+	}
+
+
+
+
+	function setCompany($company){
+		$this->company=$company;
+	}
+
+
+
+
+	function setInterested($interested){
+		$this->interested=$interested;
+	}
+
+
+
+
+	function setFax($fax){
+		$this->fax=$fax;
+	}
+
+
+
+
+	function setAddress($address){
+		$this->address=$address;
+	}
+
+
+
+
+	function setProvince($province){
+		$this->province=$province;
+	}
+
+
+
+
+	function setSkype($skype){
+		$this->skype=$skype;
+	}
+
+
+
+
+	function setYahoo($yahoo){
+		$this->yahoo=$yahoo;
+	}
+
+
+
+
+	function setCountry($country){
+		$this->country=$country;
+	}
+
+
+
+
+	function setScore($score){
+		$this->score=$score;
+	}
+
+
+
+
+	function setIntro($intro){
+		$this->intro=$intro;
+	}
+
+
+
+
+	function setLocation($location){
+		$this->location=$location;
 	}
 	
-	/**
-	 * get Join Date of the User class
-	 * @return
-	 */
-	function getJoinDate($format = '') {
-		if ($format)
-			return VSFDateTime::getDate ( $this->joinDate, $format );
-		return $this->joinDate;
+	
+	
+	function getCatecity(){
+			return $this->catecity;
+		}
+		
+	function setCatecity($catecity){
+			$this->catecity=$catecity;
 	}
 	
-	/**
-	 * set Groups for User
-	 *
-	 * @param array object of GroupUser class
-	 */
-	function setGroups($groups = array()) {
-		$this->groups = $groups;
-	}
-	/**
-	 * @param unknown_type $productImages
-	 */
-	function setArrayInfo($array) {
-		$this->arrayinfo = $array;
-	}
-	/**
-	 * @param unknown_type Avatar
-	 */
-	function setAvatar($avatar = '') {
-		$this->arrayinfo ['userAvatar'] = $avatar;
+function getIdThue(){
+			return $this->idthue;
+		}
+		
+	function setIdThue($idthue){
+			$this->idthue=$idthue;
 	}
 	
-	function setDealer($avatar = '') {
-		$this->arrayinfo ['userDealer'] = $avatar;
-	}
 	
-	function setScore($avatar = '') {
-		$this->arrayinfo ['userScore'] = $avatar;
-	}
-	/**
-	 * @param unknown_type Avatar
-	 */
-	function setNick($nick) {
-		$this->nick = $nick;
-	}
-	function setName($name = "") {
-		$this->name = strtolower ( $name );
-	}
-	function setPassword($password) {
-		$this->password = md5 ( $password );
-	}
-	function setFullName($name) {
-		$this->arrayinfo ['userFullName'] = $name;
-	}
-	function setProvince($name) {
-		$this->arrayinfo ['userProvince'] = $name;
-	}
-	
-	function setCompany($company = '') {
-		$this->arrayinfo ['userCompany'] = $company;
-	}
-	function setFirstName($company = '') {
-		$this->arrayinfo ['userFirstName'] = $company;
-	}
-	function setGender($gender) {
-		$this->arrayinfo ['userGender'] = $gender;
-	}
-	function setBirthday($birthday) {
-		$this->arrayinfo ['userBirthday'] = $birthday;
-	}
-	function setFax($fax) {
-		$this->arrayinfo ['userFax'] = $fax;
-	}
-	function setYahoo($yahoo) {
-		$this->arrayinfo ['userYahoo'] = $yahoo;
-	}
-	function setSkype($skype) {
-		$this->arrayinfo ['userSkype'] = $skype;
-	}
-	function setTown($town) {
-		$this->arrayinfo ['userTown'] = $town;
-	}
-	function setCity($city) {
-		$this->arrayinfo ['userCity'] = $city;
-	}
-	function setCountry($country) {
-		$this->arrayinfo ['userCountry'] = $country;
-	}
-	function setAddress($address) {
-		$this->address = $address;
-	}
-	
-	function setPhone($phone) {
-		$this->arrayinfo ['userPhone'] = $phone;
-	}
-	
-	function setEmail($email) {
-		$this->email = $email;
-	}
-	function setLastLogin($lastLogin) {
-		$this->lastLogin = $lastLogin;
-	}
-	function setJoinDate($joinDate) {
-		$this->joinDate = $joinDate;
-	}
-	function convertRelToDB($group) {
-		$dbobj = array ('userId' => $this->id, 'groupId' => $group->getId () );
-		return $dbobj;
-	}
-	
-	function getNewsletter() {
-		return $this->arrayinfo ['userNewsletter'];
-	}
-	
-	function setNewsletter($newsletter) {
-		$this->arrayinfo ['userNewsletter'] = $newsletter;
-	}
-	
-	function getMobile() {
-		return $this->arrayinfo ['userMobile'];
-	}
-	
-	function setMobile($mobile) {
-		$this->arrayinfo ['userMobile'] = $mobile;
-	}
+	function getBophan(){
+			return $this->bophan;
+		}
+		
+	function setBophan($bophan){
+			$this->bophan=$bophan;
+	}	
+		
+
+
+		var		$id;
+
+		var		$name;
+
+		var		$password;
+
+		var		$email;
+
+		var		$postDate;
+
+		var		$status;
+
+		var		$image;
+
+		var		$firstName;
+
+		var		$title;
+
+		var		$gender;
+
+		var		$minutes;
+
+		var		$hour;
+
+		var		$day;
+
+		var		$month;
+
+		var		$year;
+
+		var		$phone;
+
+		var		$mobile;
+
+		var		$company;
+
+		var		$interested;
+
+		var		$fax;
+
+		var		$address;
+
+		var		$province;
+
+		var		$skype;
+
+		var		$yahoo;
+
+		var		$country;
+
+		var		$score;
+
+		var		$intro;
+
+		var		$location;
+		
+		var		$catecity;
+		
+		var		$idthue;
+		
+		
+		function getComment(){
+			VSFactory::createConnectionDB()->query("select count(*) as vscount from vsf_comment where userId='{$this->getId()}'");
+			$row=VSFactory::createConnectionDB()->fetch_row();
+			return intval($row['vscount']);
+		}
 }
-?>

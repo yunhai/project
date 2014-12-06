@@ -7,7 +7,8 @@ class orderItems extends VSFObject {
 		parent::__construct();
 		$this->primaryField 	= 'itemId';
 		$this->basicClassName 	= 'OrderItem';
-		$this->tableName 	= 'order_item';
+		$this->tableName 		= 'order_item';
+		
 		$this->obj = $this->createBasicObject();
 		$this->fields = $this->obj->convertToDB();
 	}
@@ -16,6 +17,9 @@ class orderItems extends VSFObject {
 		unset($this);
 	}	
 	
-
+	function getListByProductId($productId=0){
+		$this->setCondition("productId IN (". $productId.")");
+		return $this->getObjectsByCondition();
+	}
 }
 ?>

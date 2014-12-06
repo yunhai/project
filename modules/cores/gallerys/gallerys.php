@@ -1,123 +1,149 @@
 <?php
 
 require_once (CORE_PATH . "gallerys/Gallery.class.php");
-class gallerys extends VSFObject{
-	public $obj;
+class gallerys extends VSFObject {
 	protected $relTableName;
 	function __construct() {
-		global $DB,$vsMenu,$bw;
+//		$DB = VSFactory::createConnectionDB ();
+//		$vsMenu = VSFactory::getMenus ();
 		parent::__construct ();
-                $this->categoryField 	= "galleryCatId";
-		$this->primaryField = 'galleryId';
+		$this->categoryField = "catId";
+		$this->categoryName="gallerys";
+		$this->primaryField = 'id';
 		$this->basicClassName = 'Gallery';
 		$this->tableName = 'gallery';
-		$this->obj = $this->createBasicObject ();
-		$this->relTableName 	= "rel_gallery_file";
-		$this->categories = $vsMenu->getCategoryGroup($bw->input['module']);
-		if(!$DB->field_exists('galleryPassWord',$this->tableName))
-			$DB->sql_add_field($this->tableName,'galleryPassWord','varchar(32)');
-		if(!$DB->field_exists('galleryImage',$this->tableName))
-			$DB->sql_add_field($this->tableName,'galleryImage','int(10)');
+		$this->createBasicObject ();
+		$this->relTableName = "gallery_file_rel";
+		//$this->categories = $vsMenu->getCategoryGroup ( "gallerys" );
+//		if (! $DB->field_exists ( 'passWord', $this->tableName ))
+//			$DB->sql_add_field ( $this->tableName, 'passWord', 'varchar(32)' );
+//		if (! $DB->field_exists ( 'image', $this->tableName ))
+//			$DB->sql_add_field ( $this->tableName, 'image', 'int(10)' );
 	}
-
+	
 	function getRelTableName() {
 		return $this->relTableName;
 	}
-
+	
 	function setRelTableName($relTableName) {
 		$this->relTableName = $relTableName;
 	}
-
-	function getAlbumByCode($code= null) {
-            global $vsMenu;
-		if(!$code) return;
-		$strIds = $vsMenu->getChildrenIdInTree($this->getCategories());
-		$this->condition="galleryCatId in ({$strIds}) and galleryCode = '{$code}'";
-		$this->getOneObjectsByCondition();
-
-		return $this->getFileByAlbumId($this->obj->getId());
-	}
-
-	function getFileByAlbumId($albumId,$groupFile=0){
-		$this->vsRelation->setRelId($albumId);
-		$this->vsRelation->setTableName($this->getRelTableName());
-		$fileId = $this->vsRelation->getObjectByRel();
-		if($fileId)	{
-			$this->vsFile->setCondition("fileId in({$fileId})");
-			$this->vsFile->setOrder("fileIndex, fileId DESC");
-			$this->vsFile->getObjectsByCondition();
-			$arrayFile = $this->vsFile->getArrayObj();
-		}
-		if($groupFile){
-			$groupFile=array();
-			foreach ($this->vsRelation->arrval as $group){
-				if($arrayFile[$group['objectId']])
-				$groupFile[$group['relId']][$group['objectId']]=$arrayFile[$group['objectId']];
-			}
-			return $this->arrayObj =$groupFile;
-		}
-		return $this->arrayObj =$arrayFile;
-	}
-
-	function getAlbumByObj($objId, $relname, $code){
- 		if(!($relname && $objId && $code)) return array();
- 		$this->vsRelation->setRelId($objId);
-		$this->vsRelation->setTableName("gallery_".$relname);
-		$strId = $this->vsRelation->getObjectByRel();
-		
-		if($strId){
-			$this->setCondition("galleryCode='{$code}' and galleryId in ({$strId})");
-			$obj=$this->getOneObjectsByCondition();
-		}
-		if(!$obj) return array();
-		
- 		return $this->getFileByAlbumId($obj->getId());
- 	}
 	
-	
-	function getAlbumById($albumId=0,$tableName="",$groupFile=0){
-		if(intval($albumId) or !$tableName) return;
-		$this->vsRelation->setRelId($albumId);
-		$this->vsRelation->setTableName($tableName);
-		$strId=$this->vsRelation->getObjectByRel();
-		return $this->getFileByAlbumId($strId,$groupFile);
+	function getAlbumByCode($code = null,$limit=0) {
+		if (! $code)
+			return;
+		$vsMenu = VSFactory::getMenus ();
+		$strIds = $vsMenu->getChildrenIdInTree ( $this->getCategories () );
+		$this->condition = "`code` ='{$code}'";
+		$this->getOneObjectsByCondition ();
+		
+		return $this->getFileByAlbumId ( $this->basicObject->getId (),$limit );
 	}
-        
+	
+	function getFileByAlbumId($albumId,$limit=0) {
+		$files=new files();
+		$files->setCondition("`id` in (select `fileId` from vsf_{$this->relTableName} where galleryId='$albumId')");
+		$files->setOrder("`index` desc");
+		if($limit){
+			$files->setLimit(array(0,$limit));
+		}
+		return $files->getObjectsByCondition();
+	}
+	function getAlbumPaging($code = null,$url,$index,$size) {
+		if (! $code)
+			return;
+		$vsMenu = VSFactory::getMenus ();
+		$strIds = $vsMenu->getChildrenIdInTree ( $this->getCategories () );
+		$this->condition = "`code` ='{$code}'";
+		$this->getOneObjectsByCondition ();
+		
+		return $this->getFilePaging ( $this->basicObject->getId (),$url,$index,$size );
+	}
+	function getFilePaging($albumId,$url,$index,$size) {
+		$files=new files();
+		$files->setCondition("`id` in (select `fileId` from vsf_{$this->relTableName} where galleryId='$albumId')");
+		$files->setOrder("`index` desc");
+		return $files->getPageList($url,$index,$size);
+		
+	}
+	function addFileToAlbum($fileId,$albumId) {
+		$query="
+			INSERT INTO `vsf_{$this->getRelTableName()}` (`galleryId`, `fileId`) VALUES ('$albumId', '$fileId');
+		";
+		VSFactory::createConnectionDB()->query($query);
+		return true;
+	}
+	
+	function getAlbumById($albumId = 0, $tableName = "", $groupFile = 0) {
+		if (intval ( $albumId ) or ! $tableName)
+			return;
+		$vsRelation = VSFactory::getRelation ();
+		$vsRelation->setRelId ( $albumId );
+		$vsRelation->setTableName ( $tableName );
+		$strId = $vsRelation->getObjectByRel ();
+		return $this->getFileByAlbumId ( $strId, $groupFile );
+	}
+	
 	function __destruct() {
 		unset ( $this );
 	}
-        function getAlbumByCode1($code= null,$group=0) {
-            global $vsMenu,$vsSettings,$bw;
-     
-          $strIds = $vsMenu->getChildrenIdInTree($this->getCategories());
-          $this->setFieldsString("galleryId, vsf_file.*");
-          $this->setTableName("rel_gallery_file LEFT JOIN vsf_gallery ON galleryId = relId LEFT JOIN vsf_file ON objectId = fileId");
-          $this->setOrder("fileIndex DESC,fileId DESC");
-          
-         
-          if ($code) $condi .=" galleryCode = '{$code}'";
-          else $code = "common";
-          
-          if($vsSettings->getSystemKey("gallerys_use_categroup_".$code, 1, $code))
-          		$condi .= " and galleryCatId in ({$strIds})";
-          	
-          $this->getCondition() == "" ? $this->setCondition($condi): $this->setCondition($this->getCondition()." and ".$condi) ;
-
-          $result = $this->getArrayByCondition();
-        
-          $count = 0;
-          foreach ($result as $obj){
-                    $file = new File();
-                    $file->convertToObject($obj);
-              if(!$group){
-                    $this->arrayObj[$obj['fileId']] = $file;
-                    $this->arrayObj;
-              }else{
-                    $this->arrayObj[$obj['galleryId']][$obj['fileId']] = $file;
-              }
-          }
-  		return $this->arrayObj;
-
- }
+	/**
+	 * @param $code code of albumn
+	 * @param $module module referer name
+	 * @param $obj Gallery return obj
+	 */
+	function createAlbum($code,$module='',&$obj=null){
+		global $bw;
+		if(!is_object($obj)) $obj=new Gallery();
+		$obj->setCode($code);
+		$obj->setModule($module);
+		
+		$obj->setModule($module);
+		$vsLang = VSFactory::getLangs();
+		$vsRelation = VSFactory::getRelation();
+		$this->setCondition("`code`='$code'");
+		$tmp=$this->getOneObjectsByCondition();
+		if($tmp){
+			return $obj=$tmp;
+		}
+		
+		if(!$obj->getCatId()) $obj->setCatId($this->getCategories()->getId()); 
+		if(!$obj->getStatus()) $obj->setStatus(-1);
+		if(!$obj->getTitle()) $obj->setTitle($module);
+		$this->insertObject($obj);
+		return $obj;
+	}
+	function deleteAlbumByCode($code){
+		$this->setCondition("`code`='$code'");
+		$this->deleteObjectByCondition();
+	}
+	
+	///overwride method
+	function onDeleteObjectByCondition($condition){
+		$files=new files();
+		$files->setCondition("
+			`id` in (
+						select fileId from vsf_{$this->getRelTableName()}
+						where galleryId in (
+												select `id` from vsf_{$this->tableName}
+												where $condition
+											)
+					) 
+			
+		");
+		$filelist=$files->getObjectsByCondition();
+		foreach ($filelist as $obj) {
+			$files->deleteFile($obj->getId());
+		}
+		///xoa table rel
+		VSFactory::createConnectionDB()->query("
+			delete from vsf_{$this->getRelTableName()}
+						where galleryId in (
+												select `id` from vsf_{$this->tableName}
+												where $condition
+											)
+		");
+		
+	}
 }
 

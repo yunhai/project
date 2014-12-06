@@ -1,173 +1,197 @@
-<?php
-class Module extends BasicObject{
-	/**
-	 * change menu to array modules to insert database
-	 * @return array $dbobj
-	 *
-	 */
-	public function convertToDB() {
-		isset ( $this->id ) 		? ($dbobj ['moduleId'] 			= $this->id) 			: '';
-		isset ( $this->title ) 		? ($dbobj ['moduleTitle'] 		= $this->title) 		: '';
-		isset ( $this->class ) 		? ($dbobj ['moduleClass'] 		= trim($this->class)) 	: '';
-		isset ( $this->admin ) 		? ($dbobj ['moduleIsAdmin']             = $this->admin) 		: '';
-		isset ( $this->user ) 		? ($dbobj ['moduleIsUser'] 		= $this->user) 			: '';
-		isset ( $this->intro )		? ($dbobj ['moduleIntro'] 		= $this->intro) 		: '';
-		isset ( $this->virtual )	? ($dbobj ['moduleVirtual']             = $this->virtual) 		: '';
-                isset ( $this->parent )         ? ($dbobj ['moduleParent']             = $this->parent) 		: '';
-		isset ( $this->version ) 	? ($dbobj ['moduleVersion']             = str_replace(".","",$this->version)) 	: '';
+<?php 
+
+class Module extends BasicObject {
+
+	public	function convertToDB(){
+			isset ( $this->id ) ? ($dbobj ['id'] = $this->id) : '';
+		isset ( $this->title ) ? ($dbobj ['title'] = $this->title) : '';
+		isset ( $this->version ) ? ($dbobj ['version'] = $this->version) : '';
+		isset ( $this->isAdmin ) ? ($dbobj ['isAdmin'] = $this->isAdmin) : '';
+		isset ( $this->isUser ) ? ($dbobj ['isUser'] = $this->isUser) : '';
+		isset ( $this->intro ) ? ($dbobj ['intro'] = $this->intro) : '';
+		isset ( $this->class ) ? ($dbobj ['class'] = $this->class) : '';
+		isset ( $this->virtual ) ? ($dbobj ['virtual'] = $this->virtual) : '';
+		isset ( $this->parent ) ? ($dbobj ['parent'] = $this->parent) : '';
+		isset ( $this->isParent ) ? ($dbobj ['isParent'] = $this->isParent) : '';
 		return $dbobj;
-	}
-	/**
-	 * change menu from database object to Module object
-	 * @param array $dbobj Database object
-	 * @return void
-	 *
-	 */
-	function convertToObject($object) {
-		global $vsMenu;
-		isset ( $object ['moduleId'] ) 		? $this->setId 		( $object ['moduleId'] ) 		: '';
-		isset ( $object ['moduleTitle'] ) 	? $this->setTitle 	( $object ['moduleTitle'] ) 	: '';
-		isset ( $object ['moduleClass'] ) 	? $this->setClass 	( $object ['moduleClass'] ) 	: '';
-		isset ( $object ['moduleIsAdmin'] ) ? $this->setAdmin 	( $object ['moduleIsAdmin'] ) 	: '';
-		isset ( $object ['moduleIsUser'] ) 	? $this->setUser 	( $object ['moduleIsUser'] ) 	: '';
-		isset ( $object ['moduleIntro'] )	? $this->setIntro 	( $object ['moduleIntro'] ) 	: '';
-		isset ( $object ['moduleVirtual'] )	? $this->setVirtual ( $object ['moduleVirtual'] ) 	: '';
-                isset ( $object ['moduleParent'] )	? $this->setParent ( $object ['moduleParent'] ) 	: '';
-		isset ( $object ['moduleVersion'] ) ? $this->setVersion ( intval($object['moduleVersion'][0]).".".intval($object['moduleVersion'][1]).".".intval($object['moduleVersion'][2]).".".intval($object['moduleVersion'][3]) ) : $this->setVersion (0);
-	}
-	function validate() {
-		global $DB, $vsLang;
 
-		$status = true;
-		$this->message = "";
-		if($this->getTitle() == "") {
-			$status = false;
-			$this->message .= $vsLang->getWords('err_module_name_blank',"Module name can't be left blank!<br>");
-		}
-		if($this->getClass() == "") {
-			$status = false;
-			$this->message .= $vsLang->getWords('err_module_action_blank',"Module action can't be left blank!<br>");
-		}
-		return $status;
-	}
-	private $class 			= NULL;
-	private $admin 			= NULL;
-	private $user 			= NULL;
-	private $version 		= NULL;
-	private $installed 		= NULL;
-	private $virtual 		= NULL;
-        private $parent                 = NULL;
-
-        
-        /**
-	 * @return the $virtual
-	 */
-	public function getParent() {
-		return $this->parent ;
-	}
-
-	/**
-	 * @param $virtual the $virtual to set
-	 */
-	public function setParent($parent ) {
-		$this->parent  = $parent ;
-	}
-        
-	/**
-	 * @return the $virtual
-	 */
-	public function getVirtual() {
-		return $this->virtual;
-	}
-
-	/**
-	 * @param $virtual the $virtual to set
-	 */
-	public function setVirtual($virtual) {
-		$this->virtual = $virtual;
-	}
-
-	function __construct(){
-		parent::__construct();
 	}
 
 
-	function __destruct(){
-		unset($this->class);
-		unset($this->admin);
-		unset($this->user);
-		unset($this->version);
+
+
+
+	public	function convertToObject($object = array()){
+			isset ( $object ['id'] ) ? $this->setId ( $object ['id'] ) : '';
+		isset ( $object ['title'] ) ? $this->setTitle ( $object ['title'] ) : '';
+		isset ( $object ['version'] ) ? $this->setVersion ( $object ['version'] ) : '';
+		isset ( $object ['isAdmin'] ) ? $this->setIsAdmin ( $object ['isAdmin'] ) : '';
+		isset ( $object ['isUser'] ) ? $this->setIsUser ( $object ['isUser'] ) : '';
+		isset ( $object ['intro'] ) ? $this->setIntro ( $object ['intro'] ) : '';
+		isset ( $object ['class'] ) ? $this->setClass ( $object ['class'] ) : '';
+		isset ( $object ['virtual'] ) ? $this->setVirtual ( $object ['virtual'] ) : '';
+		isset ( $object ['parent'] ) ? $this->setParent ( $object ['parent'] ) : '';
+		isset ( $object ['isParent'] ) ? $this->setIsParent ( $object ['isParent'] ) : '';
+
 	}
 
-	/**
-	 * @return unknown
-	 */
-	public function getInstalled() {
-		return $this->installed;
+
+
+
+
+	function getId(){
+		return $this->id;
 	}
 
-	/**
-	 * @param unknown_type $installed
-	 */
-	public function setInstalled($installed=-1) {
-		$this->installed = $installed;
+
+
+	function getTitle(){
+		return $this->title;
 	}
 
-	/**
-	 * @return unknown
-	 */
-	public function getAdmin() {
-		return $this->admin;
-	}
 
-	/**
-	 * @return unknown
-	 */
-	public function getClass() {
-		return $this->class;
-	}
 
-	/**
-	 * @return unknown
-	 */
-	public function getUser() {
-		return $this->user;
-	}
-
-	/**
-	 * get Version of the Module object
-	 * @return assign version to Module object
-	 *
-	 */
-	public function getVersion() {
+	function getVersion(){
 		return $this->version;
 	}
 
 
-	public function setVersion($version = "") {
-		$this->version = $version;
+
+	function getIsAdmin(){
+		return $this->isAdmin;
 	}
 
-	/**
-	 * @param unknown_type $admin
+
+
+	function getIsUser(){
+		return $this->isUser;
+	}
+function getUser(){
+		return $this->isUser;
+	}
+
+
+	function getIntro(){
+		return $this->intro;
+	}
+
+
+
+	function getClass(){
+		return $this->class;
+	}
+
+
+
+	function getVirtual(){
+		return $this->virtual;
+	}
+
+
+
+	function getParent(){
+		return $this->parent;
+	}
+
+
+
+	function getIsParent(){
+		return $this->isParent;
+	}
+
+
+
+	function setId($id){
+		$this->id=$id;
+	}
+
+
+
+
+	function setTitle($title){
+		$this->title=$title;
+	}
+
+
+
+
+	function setVersion($version){
+		$this->version=$version;
+	}
+
+
+
+
+	function setIsAdmin($isAdmin){
+		$this->isAdmin=$isAdmin;
+	}
+
+
+
+
+	function setIsUser($isUser){
+		$this->isUser=$isUser;
+	}
+
+
+
+
+	function setIntro($intro){
+		$this->intro=$intro;
+	}
+
+
+
+
+	function setClass($class){
+		$this->class=$class;
+	}
+
+
+
+
+	function setVirtual($virtual){
+		$this->virtual=$virtual;
+	}
+
+
+
+
+	function setParent($parent){
+		$this->parent=$parent;
+	}
+
+
+
+
+	function setIsParent($isParent){
+		$this->isParent=$isParent;
+	}
+/**
+	 * @return unknown
 	 */
-	public function setAdmin($admin) {
-		$this->admin = $admin;
+	public function getAdmin() {
+		return $this->isAdmin;
 	}
 
-	/**
-	 * @param unknown_type $class
-	 */
-	public function setClass($class) {
-		$this->class = strtolower($class);
-	}
 
-	/**
-	 * @param unknown_type $user
-	 */
-	public function setUser($user) {
-		$this->user = $user;
-	}
+		var		$id;
 
+		var		$title;
+
+		var		$version;
+
+		var		$isAdmin;
+
+		var		$isUser;
+
+		var		$intro;
+
+		var		$class;
+
+		var		$virtual;
+
+		var		$parent;
+
+		var		$isParent;
 }
-?>

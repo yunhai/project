@@ -1,6 +1,0 @@
-[24-Jun-2013 12:38:38] PHP Fatal error:  Call to a member function getTitle() on a non-object in /home/monica/public_html/modules/cores/contacts/contacts_public.php on line 88
-[24-Jun-2013 16:16:55] PHP Fatal error:  Call to a member function getTitle() on a non-object in /home/monica/public_html/modules/cores/contacts/contacts_public.php on line 88
-[29-Jun-2013 13:37:42] PHP Fatal error:  Call to a member function getTitle() on a non-object in /home/monica/public_html/modules/cores/contacts/contacts_public.php on line 88
-[05-Jul-2013 23:13:22] PHP Fatal error:  Call to a member function getTitle() on a non-object in /home/monica/public_html/modules/cores/contacts/contacts_public.php on line 88
-[08-Jul-2013 16:53:47] PHP Fatal error:  Call to a member function getTitle() on a non-object in /home/monica/public_html/modules/cores/contacts/contacts_public.php on line 88
-[11-Jul-2013 05:55:06] PHP Fatal error:  Call to a member function getTitle() on a non-object in /home/monica/public_html/modules/cores/contacts/contacts_public.php on line 88

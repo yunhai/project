@@ -1,14 +1,16 @@
 <?php
-class Session {
-	private $code 	= NULL;
-	private $id 	= NULL;
+class Session extends BasicObject{
+	public  $code 	= NULL;
+	public $id 	= NULL;
 	private $adminId = NULL;
 	private $time 	= NULL;
 
 	function __construct() {
 
 	}
-
+	function validate() {
+		return true;
+	}
 	function __destruct() {
 		unset($this->id);
 		unset($this->code);
@@ -69,7 +71,7 @@ class Session {
 	 */
 	public function getTime($format=null) {
 		if($format)
-		return VSFDateTime::GetDate($this->time,$format);
+		return VSFactory::getDateTime()->GetDate($this->time,$format);
 		return $this->time;
 	}
 		

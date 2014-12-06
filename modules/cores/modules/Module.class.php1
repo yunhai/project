@@ -1,0 +1,199 @@
+<?php
+class Module extends BasicObject{
+	/**
+	 * change menu to array modules to insert database
+	 * @return array $dbobj
+	 *
+	 */
+	public function convertToDB() {
+		isset ( $this->id ) 		? ($dbobj ['id'] 			= $this->id) 			: '';
+		isset ( $this->title ) 		? ($dbobj ['title'] 		= $this->title) 		: '';
+		isset ( $this->class ) 		? ($dbobj ['class'] 		= trim($this->class)) 	: '';
+		isset ( $this->admin ) 		? ($dbobj ['isAdmin'] 	= $this->admin) 		: '';
+		isset ( $this->user ) 		? ($dbobj ['isUser'] 		= $this->user) 			: '';
+		isset ( $this->intro )		? ($dbobj ['intro'] 		= $this->intro) 		: '';
+		isset ( $this->virtual )	? ($dbobj ['virtual'] 	= $this->virtual) 		: '';
+		isset ( $this->version ) 	? ($dbobj ['version'] 	= str_replace(".","",$this->version)) 	: '';
+		isset ( $this->parent ) 	? ($dbobj ['parent'] 	= $this->parent) 	: '';
+		return $dbobj;
+	}
+	/**
+	 * change menu from database object to Module object
+	 * @param array $dbobj Database object
+	 * @return void
+	 *
+	 */
+	function convertToObject($object) {
+		isset ( $object ['id'] ) 		? $this->setId 		( $object ['id'] ) 		: '';
+		isset ( $object ['title'] ) 	? $this->setTitle 	( $object ['title'] ) 	: '';
+		isset ( $object ['class'] ) 	? $this->setClass 	( $object ['class'] ) 	: '';
+		isset ( $object ['isAdmin'] ) ? $this->setAdmin 	( $object ['isAdmin'] ) 	: $this->admin = 0;
+		isset ( $object ['isUser'] ) 	? $this->setUser 	( $object ['isUser'] ) 	: $this->user = 0 ;
+		isset ( $object ['intro'] )	? $this->setIntro 	( $object ['intro'] ) 	: '';
+		isset ( $object ['virtual'] )	? $this->setVirtual ( $object ['virtual'] ) 	: '';
+		isset ( $object ['parent'] )	? $this->setParent ( $object ['parent'] ) 	: '';
+		isset ( $object ['version'] ) ? $this->setVersion ( intval($object['version'][0]).".".intval($object['version'][1]).".".intval($object['version'][2]).".".intval($object['version'][3]) ) : $this->setVersion (0);
+		
+	}
+	function validate() {
+$vsLang = VSFactory::getLangs();
+		$status = true;
+		$this->message = "";
+		if($this->getTitle() == "") {
+			$status = false;
+			$this->message .= $vsLang->getWords('err_module_name_blank',"Module name can't be left blank!<br>");
+		}
+		if($this->getClass() == "") {
+			$status = false;
+			$this->message .= $vsLang->getWords('err_module_class_blank',"Module class can't be left blank!<br>");
+		}
+		return $status;
+	}
+	private $class 			= NULL;
+	private $admin 			= NULL;
+	private $user 			= NULL;
+	private $version 		= NULL;
+	private $installed 		= NULL;
+	private $virtual 		= NULL;
+	private $parent 		= NULL;
+
+	/**
+	 * @return the $virtual
+	 */
+	/**
+	 * @return the $parent
+	 */
+	public function getParent() {
+		return $this->parent;
+	}
+
+	/**
+	 * @param $parent the $parent to set
+	 */
+	public function setParent($parent) {
+		$this->parent = $parent;
+	}
+
+	public function getVirtual() {
+		return $this->virtual;
+	}
+
+	/**
+	 * @param $virtual the $virtual to set
+	 */
+	public function setVirtual($virtual) {
+		$this->virtual = $virtual;
+	}
+
+	function __construct(){
+		parent::__construct();
+	}
+
+
+	function __destruct(){
+		unset($this->class);
+		unset($this->admin);
+		unset($this->user);
+		unset($this->version);
+	}
+
+	/**
+	 * @return unknown
+	 */
+	public function getInstalled() {
+		return $this->installed;
+	}
+
+	/**
+	 * @param unknown_type $installed
+	 */
+	public function setInstalled($installed=-1) {
+		$this->installed = $installed;
+	}
+
+	/**
+	 * @return unknown
+	 */
+	public function getAdmin() {
+		return $this->admin;
+	}
+
+	/**
+	 * @return unknown
+	 */
+	public function getClass() {
+		return $this->class;
+	}
+
+	/**
+	 * @return unknown
+	 */
+	public function getUser() {
+		return $this->user;
+	}
+
+	/**
+	 * get Version of the Module object
+	 * @return assign version to Module object
+	 *
+	 */
+	public function getVersion() {
+		return $this->version;
+	}
+
+
+	public function setVersion($version = "") {
+		$this->version = $version;
+	}
+
+	/**
+	 * @param unknown_type $admin
+	 */
+	public function setAdmin($admin) {
+		$this->admin = $admin;
+	}
+
+	/**
+	 * @param unknown_type $class
+	 */
+	public function setClass($class) {
+		$this->class = strtolower($class);
+	}
+
+	/**
+	 * @param unknown_type $user
+	 */
+	public function setUser($user) {
+		$this->user = $user;
+	}
+	/**
+	 * @return the $isAdmin
+	 */
+	public function getIsAdmin() {
+		return $this->admin;
+	}
+
+	/**
+	 * @return the $isUser
+	 */
+	public function getIsUser() {
+		return $this->user;
+	}
+
+	/**
+	 * @param $isAdmin the $isAdmin to set
+	 */
+	public function setIsAdmin($isAdmin) {
+		$this->admin = $isAdmin;
+	}
+
+	/**
+	 * @param $isUser the $isUser to set
+	 */
+	public function setIsUser($isUser) {
+		$this->user = $isUser;
+	}
+
+
+}
+?>

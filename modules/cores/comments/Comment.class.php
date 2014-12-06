@@ -1,94 +1,179 @@
 <?php
-require_once (CORE_PATH . "menus/Menu.class.php");
 class Comment extends BasicObject {
-	private $hits = NULL;
-	private $objId 		= NULL;
-	private $profile	= NULL;
-	public $parser = NULL;
-	public $message = NULL;
 
-	function __construct() {
-		parent::__construct ();
-	}
-
-	function __destruct() {
-		parent::__destruct ();
-		unset($this->objId);
-		unset($this->profile);
-		unset ( $this->hits );
-	}
 	public function convertToDB() {
-		$dbobj = parent::convertToDB('comment');
-		isset ( $this->objId) 		? ($dbobj ['commentObjId'] 		= $this->objId) 	: '';
-		isset ( $this->postdate ) ? ($dbobj ['commentPostdate'] = $this->postdate) : '';
-		isset ( $this->hits ) ? ($dbobj ['commentHits'] = $this->hits) : '';
-		isset ( $this->profile ) 	? ($dbobj ['commentProfile'] 	= $this->profile) 	: '';
+		isset ( $this->objId ) ? ($dbobj ['objId'] = $this->objId) : '';
+		isset ( $this->catId ) ? ($dbobj ['catId'] = $this->catId) : '';
+		isset ( $this->title ) ? ($dbobj ['title'] = $this->title) : '';
+		isset ( $this->image ) ? ($dbobj ['image'] = $this->image) : '';
+		isset ( $this->module ) ? ($dbobj ['module'] = $this->module) : '';
+		isset ( $this->content ) ? ($dbobj ['content'] = $this->content) : '';
+		isset ( $this->postdate ) ? ($dbobj ['postdate'] = $this->postdate) : '';
+		isset ( $this->lastUpdate ) ? ($dbobj ['lastUpdate'] = $this->lastUpdate) : '';
+		isset ( $this->status ) ? ($dbobj ['status'] = $this->status) : '';
+		isset ( $this->userId ) ? ($dbobj ['userId'] = $this->userId) : '';
+		isset ( $this->poster ) ? ($dbobj ['poster'] = $this->poster) : '';
+		isset ( $this->profile ) ? ($dbobj ['profile'] = $this->profile) : '';
+		isset ( $this->name ) ? ($dbobj ['name'] = $this->name) : '';
+		isset ( $this->email ) ? ($dbobj ['email'] = $this->email) : '';
 		return $dbobj;
 	}
-	function convertToObject($object) {
-		global $vsMenu;
-                parent::convertToObject($object,'comment');
-                if($object['menuId']){
-                            $menu = new Menu();
-                            $menu->convertToObject($object);
-                            $this->categoryObj = $menu;
-                        }
-		isset ( $object ['commentObjId'] ) 	? $this->setObjId($object ['commentObjId'] ) 	: '';
-		isset ( $object ['commentPostdate'] ) ? $this->setPostDate ( $object ['commentPostdate'] ) : '';
-		isset ( $object ['commentHits'] ) ? $this->setHits ( $object ['commentHits'] ) : '';
-		isset ( $object ['commentProfile'])	? $this->setProfile( $object ['commentProfile']): '';
+
+	public function convertToObject($object = array()) {
+		isset ( $object ['id'] ) ? $this->setId ( $object ['id'] ) : '';
+		isset ( $object ['objId'] ) ? $this->setObjId ( $object ['objId'] ) : '';
+		isset ( $object ['catId'] ) ? $this->setCatId ( $object ['catId'] ) : '';
+		isset ( $object ['title'] ) ? $this->setTitle ( $object ['title'] ) : '';
+		isset ( $object ['image'] ) ? $this->setImage ( $object ['image'] ) : '';
+		isset ( $object ['module'] ) ? $this->setModule ( $object ['module'] ) : '';
+		isset ( $object ['content'] ) ? $this->setContent ( $object ['content'] ) : '';
+		isset ( $object ['postdate'] ) ? $this->setPostdate ( $object ['postdate'] ) : '';
+		isset ( $object ['lastUpdate'] ) ? $this->setLastUpdate ( $object ['lastUpdate'] ) : '';
+		isset ( $object ['status'] ) ? $this->setStatus ( $object ['status'] ) : '';
+		isset ( $object ['userId'] ) ? $this->setUserId ( $object ['userId'] ) : '';
+		isset ( $object ['poster'] ) ? $this->setPoster ( $object ['poster'] ) : '';
+		isset ( $object ['profile'] ) ? $this->setProfile ( $object ['profile'] ) : '';
+		isset ( $object ['name'] ) ? $this->setName ( $object ['name'] ) : '';
+		isset ( $object ['email'] ) ? $this->setEmail ( $object ['email'] ) : '';
 	}
 
-	function validate() {
-		$status = true;
-		if ($this->author == "") {
-			$this->message .= "comments author can not be blank!<br />";
-			$status = false;
-		}
-
-		
-		return $status;
-	}
-	/**
-	 * @param $hits the $hits to set
-	 */
-	public function setHits($hits) {
-		$this->hits = $hits;
-	}
-
-	
-	public function setCategory($category) {
-		$this->category = $category;
-	}
-
-	
-	/**
-	 * @return the $hits
-	 */
-	public function getHits() {
-		return $this->hits;
+	function getId() {
+		return $this->id;
 	}
 
 	function getObjId() {
 		return $this->objId;
 	}
-	function getProfile() {
-		return unserialize($this->profile);
-	}
-	function getEmail() {
-		$profile = $this->getProfile();
-		
-		return $profile['email'];
+
+	function getCatId() {
+		return $this->catId;
 	}
 
-	
+	function getTitle() {
+		return $this->title;
+	}
+
+	function getImage() {
+		return $this->image;
+	}
+
+	function getModule() {
+		return $this->module;
+	}
+
+	function getContent() {
+		return $this->content;
+	}
+
+	function getPostdate() {
+		return $this->postdate;
+	}
+
+	function getLastUpdate() {
+		return $this->lastUpdate;
+	}
+
+	function getStatus() {
+		return $this->status;
+	}
+
+	function getUserId() {
+		return $this->userId;
+	}
+
+	function getPoster() {
+		return $this->poster;
+	}
+
+	function getProfile() {
+		return $this->profile;
+	}
+
+	function getName() {
+		return $this->name;
+	}
+
+	function getEmail() {
+		return $this->email;
+	}
+
+	function setId($id) {
+		$this->id = $id;
+	}
+
 	function setObjId($objId) {
 		$this->objId = $objId;
 	}
 
+	function setCatId($catId) {
+		$this->catId = $catId;
+	}
 
-	function setProfile($profile){
+	function setTitle($title) {
+		$this->title = $title;
+	}
+
+	function setImage($image) {
+		$this->image = $image;
+	}
+
+	function setModule($module) {
+		$this->module = $module;
+	}
+
+	function setContent($content) {
+		$this->content = $content;
+	}
+
+	function setPostdate($postdate) {
+		$this->postdate = $postdate;
+	}
+
+	function setLastUpdate($lastUpdate) {
+		$this->lastUpdate = $lastUpdate;
+	}
+
+	function setStatus($status) {
+		$this->status = $status;
+	}
+
+	function setUserId($userId) {
+		$this->userId = $userId;
+	}
+
+	function setPoster($poster) {
+		$this->poster = $poster;
+	}
+
+	function setProfile($profile) {
 		$this->profile = $profile;
 	}
 
+	function setName($name) {
+		$this->name = $name;
+	}
+
+	function setEmail($email) {
+		$this->email = $email;
+	}
+	
+	function validate() {
+		return true;
+	}
+	
+	var $id;
+	var $objId;
+	var $catId;
+	var $title;
+	var $image;
+	var $module;
+	var $content;
+	var $postdate;
+	var $lastUpdate;
+	var $status;
+	var $userId;
+	var $poster;
+	var $profile;
+	var $name;
+	var $email;
 }

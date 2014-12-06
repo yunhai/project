@@ -916,7 +916,7 @@ $.fn.cycle.transitions.shuffle = function($cont, $slides, opts) {
 	var w = $cont.css('overflow', 'visible').width();
 	$slides.css({left: 0, top: 0});
 	opts.before.push(function(curr,next,opts) {
-		$.fn.cycle.commonReset(curr,next,opts,true,true,true);
+		$.fn.cycle.commonReset(curr,next,opts,true,true,true);
 	});
 	opts.speed = opts.speed / 2; // shuffle has 2 transitions
 	opts.random = 0;

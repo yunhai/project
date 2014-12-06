@@ -1,128 +1,257 @@
-<?php
+<?php 
 
-class Contact extends BasicObject{
+class Contact extends BasicObject {
 
-	private $profile 	= NULL;
-	private $email 		= NULL;
-	private $isReply 	= NULL;
-	private $name  		= NULL;
-	private $type		= NULL;
-
-	function convertToDB() {
-		$dbobj = parent::convertToDB('contact');
-		
-		isset ( $this->name ) 			? ($dbobj ['contactName'] 			= $this->name) 				: '';//name
-		isset ( $this->profile ) 		? ($dbobj ['contactProfile'] 		= $this->profile) 			: '';//profile		
-		isset ( $this->email ) 			? ($dbobj ['contactEmail'] 			= $this->email) 			: '';//email
-		isset ( $this->type ) 			? ($dbobj ['contactType'] 			= $this->type) 				: '';//type	
-		isset ( $this->postdate ) 		? ($dbobj ['contactPostDate'] 		= $this->postdate) 			: '';//postdate
-		isset ( $this->isReply ) 		? ($dbobj ['contactIsReply'] 		= $this->isReply) 			: '';//reply
+	public	function convertToDB(){
+			isset ( $this->id ) ? ($dbobj ['id'] = $this->id) : '';
+		isset ( $this->name ) ? ($dbobj ['name'] = $this->name) : '';
+		isset ( $this->profile ) ? ($dbobj ['profile'] = $this->profile) : '';
+		isset ( $this->phone ) ? ($dbobj ['phone'] = $this->phone) : '';
+		isset ( $this->email ) ? ($dbobj ['email'] = $this->email) : '';
+		isset ( $this->title ) ? ($dbobj ['title'] = $this->title) : '';
+		isset ( $this->address ) ? ($dbobj ['address'] = $this->address) : '';
+		isset ( $this->status ) ? ($dbobj ['status'] = $this->status) : '';
+		isset ( $this->reply ) ? ($dbobj ['reply'] = $this->reply) : '';
+		isset ( $this->type ) ? ($dbobj ['type'] = $this->type) : '';
+		isset ( $this->content ) ? ($dbobj ['content'] = $this->content) : '';
+		isset ( $this->postDate ) ? ($dbobj ['postDate'] = $this->postDate) : '';
+		isset ( $this->company ) ? ($dbobj ['company'] = $this->company) : '';
+		isset ( $this->image ) ? ($dbobj ['image'] = $this->image) : '';
 		return $dbobj;
-	}
 
-	function convertToObject($object) {
-		global $vsMenu;
-		parent::convertToObject($object,'contact');
-		isset ( $object ['contactType'] ) 		? $this->setType ( $object ['contactType'] ) 			: '';
-		
-		isset ( $object ['contactEmail'] ) 		? $this->setEmail ( $object ['contactEmail'] ) 			: '';
-		isset ( $object ['contactProfile'] ) 	? $this->setProfile ( $object ['contactProfile'] ) 		: '';
-		
-		isset ( $object ['contactPostDate'] ) 	? $this->setPostDate ( $object ['contactPostDate'] ) 	: '';
-		isset ( $object ['contactIsReply'] ) 	? $this->setIsReply ( $object ['contactIsReply'] ) 		: '';
-		isset ( $object ['contactName'] ) 		? $this->setName ( $object ['contactName'] ) 			: '';
-	}
-
-	function __construct(){
-		parent::__construct();
-	}
-	
-	function validate(){
-		global $vsLang, $vsSettings;
-              
-		$this->result ['status'] = true;
-		$this->result ['message'] = "";
-		if($vsSettings->getSystemKey("contact_form_name", 1, "contacts", 1, 1)){
-			if($this->getName() == ""){
-				$this->result['status'] = false;
-				$this->result['message'] .= $vsLang->getWords("contacts_ErrorNameEmpty","* Name cannot be blank!");
-			}
-		}
-		
-		if($vsSettings->getSystemKey("contact_form_title", 1, "contacts", 1, 1)){
-			if($this->getTitle() == ""){
-				$this->result['status'] = false;
-				$this->result['message'] .= $vsLang->getWords("contacts_ErrorTitleEmpty","* Title cannot be blank!");
-			}
-		}
-		
-		
-		return $this->result['status'];
-	}
-	
-	function __destruct() {
-		parent::__destruct ();
-		unset ( $this->profile );
-		unset ( $this->email );
-		unset ( $this->isReply );
-		unset ( $this->address );
-		unset ( $this->phone );
-		unset ( $this->name );
-		unset ( $this->type );
-	}
-
-	public function setType($type) {
-		$this->type = $type;
-	}
-
-	
-	public function getType() {
-		return $this->type;
 	}
 
 
-	public function setName($name) {
-		$this->name = $name;
+
+
+
+	public	function convertToObject($object = array()){
+			isset ( $object ['id'] ) ? $this->setId ( $object ['id'] ) : '';
+		isset ( $object ['name'] ) ? $this->setName ( $object ['name'] ) : '';
+		isset ( $object ['profile'] ) ? $this->setProfile ( $object ['profile'] ) : '';
+		isset ( $object ['phone'] ) ? $this->setPhone ( $object ['phone'] ) : '';
+		isset ( $object ['email'] ) ? $this->setEmail ( $object ['email'] ) : '';
+		isset ( $object ['title'] ) ? $this->setTitle ( $object ['title'] ) : '';
+		isset ( $object ['address'] ) ? $this->setAddress ( $object ['address'] ) : '';
+		isset ( $object ['status'] ) ? $this->setStatus ( $object ['status'] ) : '';
+		isset ( $object ['reply'] ) ? $this->setReply ( $object ['reply'] ) : '';
+		isset ( $object ['type'] ) ? $this->setType ( $object ['type'] ) : '';
+		isset ( $object ['content'] ) ? $this->setContent ( $object ['content'] ) : '';
+		isset ( $object ['postDate'] ) ? $this->setPostDate ( $object ['postDate'] ) : '';
+		isset ( $object ['image'] ) ? $this->setImage ( $object ['image'] ) : '';
+		isset ( $object ['company'] ) ? $this->setCompany( $object ['company'] ) : '';
+
 	}
 
 
-	public function getName() {
+
+
+
+	function getId(){
+		return $this->id;
+	}
+
+
+
+	function getName(){
 		return $this->name;
 	}
 
-	public function setIsReply($isReply) {
-		$this->isReply = $isReply;
+
+
+	function getProfile(){
+		return $this->profile;
 	}
 
 
-	public function setAddress($address) {
-		$this->address = $address;
-	}
 
-	public function setEmail($email) {
-		$this->email = $email;
-	}
-
-	public function setProfile($profile) {
-		$this->profile = $profile;
-	}
-
-	public function getIsReply() {
-		return $this->isReply;
-	}
-
-	public function getAddress() {
-		return $this->address;
+	function getPhone(){
+		return $this->phone;
 	}
 
 
-	public function getEmail() {
+
+	function getEmail(){
 		return $this->email;
 	}
 
 
-	public function getProfile() {
-		return $this->profile;
+
+	function getTitle(){
+		return $this->title;
 	}
+
+
+
+	function getAddress(){
+		return $this->address;
+	}
+
+
+
+	function getStatus(){
+		return $this->status;
+	}
+
+
+
+	function getReply(){
+		return $this->reply;
+	}
+
+
+
+	function getType(){
+		return $this->type;
+	}
+
+
+
+	function getContent(){
+		return $this->content;
+	}
+
+
+
+	function getPostDate(){
+		return $this->postDate;
+	}
+
+
+
+	function getImage(){
+		return $this->image;
+	}
+
+
+
+	function setId($id){
+		$this->id=$id;
+	}
+
+
+
+
+	function setName($name){
+		$this->name=$name;
+	}
+
+
+
+
+	function setProfile($profile){
+		$this->profile=$profile;
+	}
+
+
+
+
+	function setPhone($phone){
+		$this->phone=$phone;
+	}
+
+
+
+
+	function setEmail($email){
+		$this->email=$email;
+	}
+
+
+
+
+	function setTitle($title){
+		$this->title=$title;
+	}
+
+
+
+
+	function setAddress($address){
+		$this->address=$address;
+	}
+
+
+
+
+	function setStatus($status){
+		$this->status=$status;
+	}
+
+
+
+
+	function setReply($reply){
+		$this->reply=$reply;
+	}
+
+
+
+
+	function setType($type){
+		$this->type=$type;
+	}
+
+
+
+
+	function setContent($content){
+		$this->content=$content;
+	}
+
+
+
+
+	function setPostDate($postDate){
+		$this->postDate=$postDate;
+	}
+
+
+
+
+	function setImage($image){
+		$this->image=$image;
+	}
+	
+	
+
+	function geCompany(){
+		return $this->company;
+	}
+
+
+
+	function setCompany($company){
+		$this->company=$company;
+	}
+
+
+
+		var		$id;
+
+		var		$name;
+
+		var		$profile;
+
+		var		$phone;
+
+		var		$email;
+
+		var		$title;
+
+		var		$address;
+
+		var		$status;
+
+		var		$reply;
+
+		var		$type;
+
+		var		$content;
+
+		var		$postDate;
+
+		var		$image;
+		
+		var 	$company;
 }
-?>

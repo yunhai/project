@@ -1,11 +1,11 @@
 <?php
-class skin_skins {
+class skin_skins extends skins_board{
 
 function skinList($option=array()) {
 global $vsLang, $bw;
 $BWHTML = <<<EOF
 <div class="ui-dialog ui-widget ui-widget-content ui-corner-all">
-<div class="ui-dialog-titlebar ui-widget-header ui-helper-clearfix ui-corner-all-inner">
+<div >
 <span class="ui-icon ui-icon-triangle-1-e"></span>
 <span class="ui-dialog-title">{$vsLang->getWords('skin_list','Current skin')}</span>
 </div>
@@ -43,49 +43,49 @@ return $BWHTML;
 }
 
 function addEditObjForm($obj=null, $form=array()) {
-global $vsLang,$vsSettings;
+global $vsLang;
 
 $BWHTML .= <<<EOF
 <form method="post" id="add-obj-form">
 <input type="hidden" name="skinId" value="{$obj->getId()}" />
 <div class="ui-dialog ui-widget ui-widget-content ui-corner-all vs-lbox">
-    <div class="ui-dialog-titlebar ui-widget-header ui-helper-clearfix ui-corner-all-inner">
+    <div >
         <span class="ui-icon ui-icon-triangle-1-e"></span><span class="ui-dialog-title">{$form['formTitle']}</span>
     </div>
     <div class="red">{$form['message']}</div>
     <table cellpadding="0" cellspacing="1" width="100%">
     	<thead>
-    		<if="$vsSettings->getSystemKey($bw->input[0].'_title',1)">
+    		<if="$this->getSettings()->getSystemKey($bw->input[0].'_title',1)">
         	<tr>
             	<th>{$vsLang->getWords('skin_form_name','Skin name')}</th>
                 <td><input id="input" type="text" value="{$obj->getTitle()}" name="skinTitle" size="26" /></td>
             </tr>
             </if>
-            <if="$vsSettings->getSystemKey($bw->input[0].'_author_name',1)">
+            <if="$this->getSettings()->getSystemKey($bw->input[0].'_author_name',1)">
             <tr>
             	<th>{$vsLang->getWords('skin_form_author','Author')}</th>
             	<td><input class="input" type="text" value="{$obj->getAuthorName()}" name="skinAuthorName" size="26" /></td>
             </tr>
             </if>
-            <if="$vsSettings->getSystemKey($bw->input[0].'_author_email',1)">
+            <if="$this->getSettings()->getSystemKey($bw->input[0].'_author_email',1)">
             <tr>
             	<th>{$vsLang->getWords('skin_form_author_email','Author email')}</th>
             	<td><input class="input" type="text" value="{$obj->getAuthorEmail()}" name="skinAuthorEmail" size="26" /></td>
             </tr>
             </if>
-            <if="$vsSettings->getSystemKey($bw->input[0].'_author_website',1)">
+            <if="$this->getSettings()->getSystemKey($bw->input[0].'_author_website',1)">
             <tr>
             	<th>{$vsLang->getWords('skin_form_author_url','Author url')}</th>
             	<td><input class="input" type="text" value="{$obj->getAuthorWebsite()}" name="skinAuthorWebsite" size="26" /></td>
             </tr>
             </if>
-            <if="$vsSettings->getSystemKey($bw->input[0].'_folder',1)">
+            <if="$this->getSettings()->getSystemKey($bw->input[0].'_folder',1)">
             <tr>
             	<th>{$vsLang->getWords('skin_form_folder','Folder')}</th>
                 <td><input class="input" type="text" value="{$obj->getFolder()}" name="skinFolder" size="26" /></td>
             </tr>
             </if>
-            <if="$vsSettings->getSystemKey($bw->input[0].'_admin',1)">
+            <if="$this->getSettings()->getSystemKey($bw->input[0].'_admin',1)">
             <tr>
             	<th>{$vsLang->getWords('skin_form_use_for','Use For')}</th>
                 <td>
@@ -94,7 +94,7 @@ $BWHTML .= <<<EOF
                 </td>
             </tr>
             </if>
-            <if="$vsSettings->getSystemKey($bw->input[0].'_default',1)">
+            <if="$this->getSettings()->getSystemKey($bw->input[0].'_default',1)">
              <tr>
             	<th>{$vsLang->getWords('skin_form_default','Default')}</th>
                 <td><input class="input" type="checkbox" value="1" name="skinDefault" id="skinDefault" /></td>

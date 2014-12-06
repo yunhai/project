@@ -1,150 +1,332 @@
-<?php
+<?php 
+
 class Partner extends BasicObject {
-	private $address = NULL;
-	private $expTime = NULL;
-	private $begTime = NULL;
-	
-	private $website = NULL;
-	private $hits = NULL;
-	private $position = NULL;
-	public $message = NULL;
-	public $clearsearch = NULL;
-	private $fileId = NULL;
-	
-	public function convertToDB() {
-		$dbobj = parent::convertToDB ( 'partner' );
-		isset ( $this->website ) ? ($dbobj ['partnerWebsite'] = $this->website) : '';
-		isset ( $this->expTime ) ? ($dbobj ['partnerExpTime'] = $this->expTime) : '';
-		isset ( $this->begTime ) ? ($dbobj ['partnerBeginTime'] = $this->begTime) : '';
-		isset ( $this->address ) ? ($dbobj ['partnerAddress'] = $this->address) : '';
-		isset ( $this->hits ) ? ($dbobj ['partnerHits'] = $this->hits) : '';
-		isset ( $this->price ) ? ($dbobj ['partnerPrice'] = $this->price) : '';
-		isset ( $this->position ) ? ($dbobj ['partnerPosition'] = $this->position) : '';
-		if (isset ( $this->intro ) || isset ( $this->content ) || isset ( $this->title )) {
-			$cleanContent = VSFTextCode::removeAccent ( $this->title ) . " ";
-			$cleanContent .= VSFTextCode::removeAccent ( strip_tags ( $this->getIntro () ) ) . " ";
-			$cleanContent .= VSFTextCode::removeAccent ( strip_tags ( $this->getContent () ) );
-			$dbobj ['partnerClearSearch'] = $cleanContent;
-		}
+
+	public	function convertToDB(){
+			isset ( $this->id ) ? ($dbobj ['id'] = $this->id) : '';
+		isset ( $this->catId ) ? ($dbobj ['catId'] = $this->catId) : '';
+		isset ( $this->title ) ? ($dbobj ['title'] = $this->title) : '';
+		isset ( $this->address ) ? ($dbobj ['address'] = $this->address) : '';
+		isset ( $this->intro ) ? ($dbobj ['intro'] = $this->intro) : '';
+		isset ( $this->website ) ? ($dbobj ['website'] = $this->website) : '';
+		isset ( $this->content ) ? ($dbobj ['content'] = $this->content) : '';
+		isset ( $this->fileId ) ? ($dbobj ['fileId'] = $this->fileId) : '';
+		isset ( $this->price ) ? ($dbobj ['price'] = $this->price) : '';
+		isset ( $this->beginTime ) ? ($dbobj ['beginTime'] = $this->beginTime) : '';
+		isset ( $this->expTime ) ? ($dbobj ['expTime'] = $this->expTime) : '';
+		isset ( $this->index ) ? ($dbobj ['index'] = $this->index) : '';
+		isset ( $this->position ) ? ($dbobj ['position'] = $this->position) : '';
+		isset ( $this->hits ) ? ($dbobj ['hits'] = $this->hits) : '';
+		isset ( $this->status ) ? ($dbobj ['status'] = $this->status) : '';
+		isset ( $this->clearSearch ) ? ($dbobj ['clearSearch'] = $this->clearSearch) : '';
+		isset ( $this->image ) ? ($dbobj ['image'] = $this->image) : '';
+		isset ( $this->code ) ? ($dbobj ['code'] = $this->code) : '';
 		return $dbobj;
-	}
-	
-	function convertToObject($object) {
-		parent::convertToObject ( $object, 'partner' );
-		isset ( $object ['partnerWebsite'] ) ? $this->setWebsite ( $object ['partnerWebsite'] ) : '';
-		isset ( $object ['partnerAddress'] ) ? $this->setAddress ( $object ['partnerAddress'] ) : '';
-		isset ( $object ['partnerPrice'] ) ? $this->setPrice ( $object ['partnerPrice'] ) : '';
-		isset ( $object ['partnerExpTime'] ) ? $this->setExpTime ( $object ['partnerExpTime'] ) : '';
-		isset ( $object ['partnerBeginTime'] ) ? $this->setBeginTime ( $object ['partnerBeginTime'] ) : '';
-		isset ( $object ['partnerFileId'] ) ? $this->setFileId ( $object ['partnerFileId'] ) : '';
-		isset ( $object ['partnerHits'] ) ? $this->setHits ( $object ['partnerHits'] ) : '';
-		isset ( $object ['partnerPosition'] ) ? $this->setPosition ( $object ['partnerPosition'] ) : '';
-		isset ( $object ['partnerClearSearch'] ) ? $this->setClearSearch ( $object ['partnerClearSearch'] ) : '';
-	
-	}
-	
-	public function getPosition() {
-		return $this->position;
-	}
-	
-	public function getFileId() {
-		return $this->fileId;
-	}
-	
-	public function setFileId($position) {
-		$this->fileId = $position;
-	}
-	
-	public function setPosition($position) {
-		$this->position = $position;
-	}
-	
-	public function getAddress() {
-		return $this->address;
-	}
-	
-	public function setAddress($address) {
-		$this->address = $address;
-	}
-	
-	function __construct() {
-		parent::__construct ();
-	}
-	
-	function __destruct() {
-		unset ( $this );
-	}
-	
-	public function setHits($hits) {
-		$this->hits = $hits;
-	}
-	
-	public function setClearSearch($clear) {
-		$this->clearsearch = $clear;
-	}
-	
-	public function getHits() {
-		return $this->hits;
-	}
-	
-	public function getExpTime($format = NULL) {
-		if ($format && $this->expTime) {
-			$datetime = new VSFDateTime ();
-			return $datetime->getDate ( $this->expTime, $format );
-		}
-	}
-	
-	public function getBeginTime($format = NULL) {
-		if ($format && $this->begTime) {
-			$datetime = new VSFDateTime ();
-			return $datetime->getDate ( $this->begTime, $format );
-		}
-	}
-	
-	public function getPrice() {
-		return $this->price;
-	}
-	
-	public function getWebsite() {
-		$website = str_replace("http://", "", $this->website);
-		if($website)
-			return "http://".$website;
-		return '#';
+
 	}
 
-	public function setExpTime($expTime) {
-		$this->expTime = $expTime;
+
+
+
+
+	public	function convertToObject($object = array()){
+			isset ( $object ['id'] ) ? $this->setId ( $object ['id'] ) : '';
+		isset ( $object ['catId'] ) ? $this->setCatId ( $object ['catId'] ) : '';
+		isset ( $object ['title'] ) ? $this->setTitle ( $object ['title'] ) : '';
+		isset ( $object ['address'] ) ? $this->setAddress ( $object ['address'] ) : '';
+		isset ( $object ['intro'] ) ? $this->setIntro ( $object ['intro'] ) : '';
+		isset ( $object ['website'] ) ? $this->setWebsite ( $object ['website'] ) : '';
+		isset ( $object ['content'] ) ? $this->setContent ( $object ['content'] ) : '';
+		isset ( $object ['fileId'] ) ? $this->setFileId ( $object ['fileId'] ) : '';
+		isset ( $object ['price'] ) ? $this->setPrice ( $object ['price'] ) : '';
+		isset ( $object ['beginTime'] ) ? $this->setBeginTime ( $object ['beginTime'] ) : '';
+		isset ( $object ['expTime'] ) ? $this->setExpTime ( $object ['expTime'] ) : '';
+		isset ( $object ['index'] ) ? $this->setIndex ( $object ['index'] ) : '';
+		isset ( $object ['position'] ) ? $this->setPosition ( $object ['position'] ) : '';
+		isset ( $object ['hits'] ) ? $this->setHits ( $object ['hits'] ) : '';
+		isset ( $object ['status'] ) ? $this->setStatus ( $object ['status'] ) : '';
+		isset ( $object ['clearSearch'] ) ? $this->setClearSearch ( $object ['clearSearch'] ) : '';
+		isset ( $object ['image'] ) ? $this->setImage ( $object ['image'] ) : '';
+		isset ( $object ['code'] ) ? $this->setCode ( $object ['code'] ) : '';
+
 	}
-	public function setBeginTime($begTime) {
-		$this->begTime = $begTime;
+
+
+
+
+
+	function getId(){
+		return $this->id;
 	}
+
+
+
+	function getCatId(){
+		return $this->catId;
+	}
+
+
+
+	function getTitle(){
+		return $this->title;
+	}
+
+
+
+	function getAddress(){
+		return $this->address;
+	}
+
+
+
+	function getIntro(){
+		return $this->intro;
+	}
+
+
+
+	function getWebsite(){
+		return $this->website;
+	}
+
+
+
+	function getContent(){
+		return $this->content;
+	}
+
+
+
+	function getFileId(){
+		return $this->fileId;
+	}
+
+
+
+	function getPrice(){
+		return $this->price;
+	}
+
+
+
+	function getBeginTime(){
+		return $this->beginTime;
+	}
+
+
+
+	function getExpTime(){
+		return $this->expTime;
+	}
+
+
+
+	function getIndex(){
+		return $this->index;
+	}
+
+
+
+	function getPosition(){
+		return $this->position;
+	}
+
+
+
+	function getHits(){
+		return $this->hits;
+	}
+
+
+
+	function getStatus(){
+		return $this->status;
+	}
+
+
+
+	function getClearSearch(){
+		return $this->clearSearch;
+	}
+
+
+
+	function getImage(){
+		return $this->image;
+	}
+
+
+
+	function getCode(){
+		return $this->code;
+	}
+
+
+
+	function setId($id){
+		$this->id=$id;
+	}
+
+
+
+
+	function setCatId($catId){
+		$this->catId=$catId;
+	}
+
+
+
+
+	function setTitle($title){
+		$this->title=$title;
+	}
+
+
+
+
+	function setAddress($address){
+		$this->address=$address;
+	}
+
+
+
+
+	function setIntro($intro){
+		$this->intro=$intro;
+	}
+
+
+
+
+	function setWebsite($website){
+		$this->website=$website;
+	}
+
+
+
+
+	function setContent($content){
+		$this->content=$content;
+	}
+
+
+
+
+	function setFileId($fileId){
+		$this->fileId=$fileId;
+	}
+
+
+
+
+	function setPrice($price){
+		$this->price=$price;
+	}
+
+
+
+
+	function setBeginTime($beginTime){
+		$this->beginTime=$beginTime;
+	}
+
+
+
+
+	function setExpTime($expTime){
+		$this->expTime=$expTime;
+	}
+
+
+
+
+	function setIndex($index){
+		$this->index=$index;
+	}
+
+
+
+
+	function setPosition($position){
+		$this->position=$position;
+	}
+
+
+
+
+	function setHits($hits){
+		$this->hits=$hits;
+	}
+
+
+
+
+	function setStatus($status){
+		$this->status=$status;
+	}
+
+
+
+
+	function setClearSearch($clearSearch){
+		$this->clearSearch=$clearSearch;
+	}
+
+
+
+
+	function setImage($image){
+		$this->image=$image;
+	}
+
+
+
+
+	function setCode($code){
+		$this->code=$code;
+	}
+
+
+
+		var		$id;
+
+		var		$catId;
+
+		var		$title;
+
+		var		$address;
+
+		var		$intro;
+
+		var		$website;
+
+		var		$content;
+
+		var		$fileId;
+
+		var		$price;
+
+		var		$beginTime;
+
+		var		$expTime;
+
+		var		$index;
+
+		var		$position;
+
+		var		$hits;
+
+		var		$status;
+
+		var		$clearSearch;
+
+		var		$image;
+
+		var		$code;
+
 	
-	public function setPrice($price) {
-		$this->price = $price;
-	}
-	
-	public function setWebsite($website) {
-		$this->website = $website;
-	}
-	
-	public function createNoImage() {
-		return '<img src="utils/timthumb.php?src=images/noimage.jpg&amp;w=250&amp;h=150&amp;zc=0" alt="no-image">';
-	}
-	
-	function showImagePartner($width = 100, $height = 100, $type = 0, $ishref = 1, $noimage = 0) {
-		global $vsFile, $bw, $vsStd;
-		$RET = "";
-		if ($this->file && file_exists ( $this->file->getPathView ( 0 ) ))
-			if ($ishref) {
-				$RET .= <<<EOF
-                <a href="{$this->getUrl('partners')}" title="{$this->title}">
-                                    {$this->createImageCache($this->file, $width, $height, $type, $noimage)}
-                </a>
-EOF;
-			} else {
-				return $this->createImageCache ( $this->file, $width, $height, $type, $noimage );
-			}
-		
-		return $RET;
-	}
+	/**
+	*List fields in table
+	**/
+	var		$fields=array('id','catId','title','address','intro','website','content','fileId','price','beginTime','expTime','index','position','hits','status','clearSearch','image','code',);
 }

@@ -1,29 +1,21 @@
+.vs-dialog {
+    overflow: hidden;
+    padding: 0.2em;
+    position: inherit;
+	 background: #FFFFFF;
+    border: 1px solid #EEEEEE;
+    color: #333333;
+	-moz-border-radius: 5px; -khtml-border-radius: 5px; -webkit-border-radius: 5px; border-radius: 5px;
+}
+.vs-dialog:hover{cursor: move;}
+.vs-dialog-titlebar{border-bottom: 1px solid #ebebeb;padding:10px 0 0 10px }
 #popup_content {
-	background: 16px 16px no-repeat url(images/info.gif);
-	padding: 1em 1.75em;
+	padding: 1em 0.85em;
 	margin: 0em;
 }
-
-#popup_content.alert {
-	background-image: url(images/info.gif);
-}
-
-#popup_content.confirm {
-	background-image: url(images/important.gif);
-}
-
-#popup_content.prompt {
-	background-image: url(images/help.gif);
-}
-#popup_message {
-	padding-left: 48px;
-}
-
 #popup_panel {
 	text-align: center;
 	margin: 1em 0em 0em 1em;
 }
-
-#popup_prompt {
-	margin: .5em 0em;
-}
+.ui-state-default{margin-right: 10px}
+.ui-widget-overlay { background: #a6a6a6 url(images/ui-bg_flat_0_e6b900_40x100.png) 50% 50% repeat; opacity: .40;filter:Alpha(Opacity=40); }

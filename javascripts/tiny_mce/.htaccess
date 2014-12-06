@@ -9,6 +9,3 @@ allow from all
 <Files login_session_auth.php>
 allow from all
 </Files>
-<Files emotions.php>
-allow from all
-</Files>

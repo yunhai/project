@@ -1,10 +1,9 @@
 <?php
-class  tinyMCE
-{
+class tinyMCE {
 	private $value = "";
 	private $width = 100;
 	private $height = 40;
-	private $skin  = "o2k7";
+	private $skin = "o2k7";
 	private $InstanceName = "";
 	private $url = "";
 	private $theme = "";
@@ -123,82 +122,87 @@ class  tinyMCE
 		$this->width = $width;
 	}
 	
-	
-	function setToolbar($toolbarSet="") {
+	function setToolbar($toolbarSet = "") {
 		switch ($toolbarSet) {
-			case 'full':
+			case 'full' :
 				$this->toolbarSet = <<<EOF
 				theme_advanced_buttons1 : "fullscreen,bold,italic,underline,strikethrough,|,justifyleft,justifycenter,justifyright,justifyfull,styleselect,formatselect,fontselect,fontsizeselect",
-				theme_advanced_buttons2 : "cut,copy,paste,pastetext,pasteword,|,search,replace,|,bullist,numlist,|,outdent,indent,blockquote,|,undo,redo,|,link,unlink,anchor,image,cleanup,help,code,|,forecolor,backcolor",
-				theme_advanced_buttons3 : "tablecontrols,|,hr,removeformat,|,sub,sup,|,charmap,emotions,template,|,insertimage",
+				theme_advanced_buttons2 : "cut,copy,paste,pastetext,pasteword,|,search,replace,|,bullist,numlist,|,outdent,indent,blockquote,|,vsindent,vsoutdent,vsresetindent,|,undo,redo,|,link,unlink,anchor,image,cleanup,help,code,|,forecolor,backcolor",
+				theme_advanced_buttons3 : "tablecontrols,|,hr,removeformat,|,sub,sup,|,charmap,emotions,template,|,insertimage,|,media",
 EOF;
 				break;
-
-			case 'medium':
+			
+			case 'medium' :
 				$this->toolbarSet = <<<EOF
-				theme_advanced_buttons1 : "bold,italic,underline,strikethrough,|,cut,copy,paste,pastetext,pasteword,|,justifyleft,justifycenter,justifyright,justifyfull,|bullist,numlist,|,outdent,indent,|,undo,redo",
+				theme_advanced_buttons1 : "bold,italic,underline,strikethrough,|,cut,copy,paste,pastetext,pasteword,|,justifyleft,justifycenter,justifyright,justifyfull,|,bullist,numlist,|,outdent,indent,|,vsindent,vsoutdent,vsresetindent,|,undo,redo",
 				theme_advanced_buttons2 : "link,unlink,image,insertimage, cleanup,code,forecolor,backcolor,fontsizeselect",
 				theme_advanced_buttons3 : '',
 EOF;
 				break;
-
-			case 'simple':
+			
+			case 'simple' :
 				$this->toolbarSet = <<<EOF
-				theme_advanced_buttons1 : "bold,italic,underline,strikethrough,pasteword,|,justifyleft,justifycenter,justifyright,justifyfull,styleselect,|,outdent,indent,blockquote,|,undo,redo,|,link,unlink,anchor,forecolor,backcolor,|,code",
+				theme_advanced_buttons1 : "bold,italic,underline,strikethrough,pasteword,|,justifyleft,justifycenter,justifyright,justifyfull,styleselect,|,outdent,indent,blockquote,|undo,redo,|,link,unlink,anchor,forecolor,backcolor,|,code",
 				theme_advanced_buttons2 : '',
 EOF;
-				break;
-				
-			case 'message':
+			break;
+			case 'basic' :
 				$this->toolbarSet = <<<EOF
-				theme_advanced_buttons1 : "bold,italic,underline,strikethrough,pasteword,|,justifyleft,justifycenter,justifyright,justifyfull,styleselect,|,outdent,indent,blockquote,|,undo,redo,|,link,unlink,|,emotions,charmap",
+				theme_advanced_buttons1 : "bold,italic,underline|,justifyleft,justifycenter,justifyright,justifyfull",
 				theme_advanced_buttons2 : '',
 EOF;
-				break;
-				
-			case 'narrow':
+			break;
+			case 'narrow' :
 				$this->toolbarSet = <<<EOF
-				theme_advanced_buttons1 : "bold,italic,underline,strikethrough,pasteword,|,justifyleft,justifycenter,justifyright,justifyfull,styleselect",
-				theme_advanced_buttons2 : ",outdent,indent,blockquote,|undo,redo,|,link,unlink,anchor,forecolor,backcolor,|,code",
-				theme_advanced_buttons2 : '',
+				theme_advanced_buttons1 : "bold,italic,underline,strikethrough,|,justifyleft,justifycenter,justifyright,justifyfull,styleselect,formatselect,fontselect,fontsizeselect",
+				theme_advanced_buttons2 : ",|,hr,removeformat,|,|,bullist,numlist,|,outdent,indent,blockquote,|,undo,redo,|,link,unlink,anchor,forecolor,backcolor,|,code,image,insertimage,tgthvideo,tgthalbum",
+				theme_advanced_buttons3 : "",
 EOF;
 				break;
-
-			default:
+			
+			default :
 				$this->toolbarSet = <<<EOF
 				theme_advanced_buttons1 : "fullscreen,bold,italic,underline,strikethrough,|,justifyleft,justifycenter,justifyright,justifyfull,styleselect,formatselect,fontselect,fontsizeselect",
-				theme_advanced_buttons2 : "cut,copy,paste,pastetext,pasteword,|,search,replace,|,bullist,numlist,|,outdent,indent,blockquote,|,undo,redo,|,link,unlink,anchor,image,cleanup,help,code,|,forecolor,backcolor",
+				theme_advanced_buttons2 : "cut,copy,paste,pastetext,pasteword,|,search,replace,|,bullist,numlist,|,outdent,indent,blockquote,|,vsindent,vsoutdent,vsresetindent,|,undo,redo,|,link,unlink,anchor,image,cleanup,help,code,|,forecolor,backcolor",
 				theme_advanced_buttons3 : "tablecontrols,|,hr,removeformat,|,sub,sup,|,charmap,emotions,template,|,insertimage",
 EOF;
 				break;
 		}
 	}
 	
-	function createHtml(){
+	function createHtml() {
+		global $bw;
+	
+		$time = rand(0, time());
+		
+		$path = JAVASCRIPT_PATH."tiny_mce/tiny_mce.js";
+		
+		preg_match("^\[(.*?)\]^",$this->InstanceName,$fields);
+		
 		$BWHTML .= <<<EOF
-		<script type='text/javascript'>
-			setTimeout("initEditor('{$this->InstanceName}')", 1);
-			function initEditor(instant){
-			tinyMCE.init({
-				mode : "textareas",
+		<script>
+		
+		$().ready(function() {
+			setTimeout("tinyMCE.execCommand('mceAddControl', false, addVSEditor_$time());", 1);
+		});
+		
+		function addVSEditor_{$time}(){
+		$('textarea#vs_{$fields[1]}').tinymce({
+			// Location of TinyMCE script
+			script_url : '$path',
+			content_css : "{$bw->vars['board_url']}/styles/fonts",
 				theme : "{$this->theme}",
 				skin	:	"{$this->skin}",
-				entity_encoding : "raw",
-				editor_selector : instant,
-				
 				/* Khai bao duong dan chay file*/
 				relative_urls:false,
-				remove_script_host: true,
-				document_base_url:"{$this->url}",
-				
-				 
-				force_p_newlines : true,
-				force_br_newlines : false,
-				forced_root_block : 'p',
-				convert_newlines_to_brs: false,
-				plugins: "safari,pagebreak,style,layer,table,save,advhr,advimage,advlink,emotions,inlinepopups,insertdatetime,preview,media,paste,directionality,fullscreen,noneditable,visualchars,nonbreaking,xhtmlxtras,template,imagemanager",
+				remove_script_host: false,
+                  force_p_newlines : true,
+				  force_br_newlines : false,
+				  forced_root_block : 'p',
+				  convert_newlines_to_brs: false,
+			
+			plugins : "vsindent,tgthalbum,pagebreak,style,layer,table,save,advhr,advimage,advlink,emotions,iespell,inlinepopups,insertdatetime,preview,media,searchreplace,print,contextmenu,paste,directionality,fullscreen,noneditable,visualchars,nonbreaking,xhtmlxtras,template,advlist,imagemanager",
 
-				
 				// Theme options
 				{$this->toolbarSet}
 				theme_advanced_toolbar_location : "top",
@@ -206,20 +210,25 @@ EOF;
 				align:"left",
 				theme_advanced_statusbar_location : "bottom",
 				theme_advanced_resizing : true,
-				extended_valid_elements : "a[name|href|target|title|onclick],img[class|style|src|border=0|alt|title|hspace|vspace|width|height|align|onmouseover|onmouseout|name],hr[class|width|size|noshade],font[face|size|color|style],span[class|align|style]",
-				theme_advanced_fonts : "Andale Mono=andale mono,times;Arial=arial,helvetica,sans-serif;Arial Black=arial black,avant garde;Book Antiqua=book antiqua,palatino;Comic Sans MS=comic sans ms,sans-serif;Courier New=courier new,courier;Georgia=georgia,palatino;Helvetica=helvetica;Impact=impact,chicago;Symbol=symbol;Tahoma=tahoma,arial,helvetica,sans-serif;Terminal=terminal,monaco;Times New Roman=times new roman,times;Trebuchet MS=trebuchet ms,geneva;Verdana=verdana,geneva;Webdings=webdings;Wingdings=wingdings,zapf dingbats,{$this->getFont()}",
-				
-				theme_advanced_font_sizes: "12px,14px,16px,18px,20px",
-				
+				extended_valid_elements : "iframe[name|src|id|class|frameborder|title|allowfullscreen|videoId|width|height],a[name|href|target|title|onclick],img[class|style|src|border=0|alt|title|hspace|vspace|width|height|align|onmouseover|onmouseout|name],hr[class|width|size|noshade],font[face|size|color|style],span[class|align|style],br[*]",
 				// Replace values for the template plugin
-				body_id : '{$this->InstanceName}',
-			});
-			}
+				theme_advanced_fonts : "Andale Mono=andale mono,times;Arial=arial,helvetica,sans-serif;Arial Black=arial black,avant garde;Book Antiqua=book antiqua,palatino;Comic Sans MS=comic sans ms,sans-serif;Courier New=courier new,courier;Georgia=georgia,palatino;Helvetica=helvetica;Impact=impact,chicago;Symbol=symbol;Tahoma=tahoma,arial,helvetica,sans-serif;Terminal=terminal,monaco;Times New Roman=times new roman,times;Trebuchet MS=trebuchet ms,geneva;Verdana=verdana,geneva;Webdings=webdings;Wingdings=wingdings,zapf dingbats,{$this->getFont()}",
+				template_replace_values : {
+					username : "tongnguyen",
+					staffid : "1234567"
+				}
+		});
+	}
+		
+    
+	
 		</script>
-		<textarea id="{$this->InstanceName}" name="{$this->InstanceName}" class="{$this->InstanceName}" rows="4" cols="50" style="height:{$this->height}; width:{$this->width};">{$this->value}</textarea>
+		<textarea id="vs_{$fields[1]}" name="{$this->InstanceName}" class="{$this->InstanceName}" rows="4" cols="50" style="height:{$this->height}; width:{$this->width};">{$this->value}</textarea>
 EOF;
-
+		
 		return $BWHTML;
+		
+		
 	}
 	function getFont(){
 			$fonts=$this->findFont($this->fontPath);
@@ -229,7 +238,7 @@ EOF;
 				
 				$result[$info['filename']]=	$info['filename']."=".basename($info['filename']);
 			}
-			ksort($return);
+			ksort($result);
 			$return= implode(",", $result);
 			return $return;
 		}
@@ -238,7 +247,7 @@ EOF;
 			if ($dir = opendir($direct)) {
 				
 				while (false !== ($file = readdir($dir))) {
-					if ($file != "." && $file != ".."&&$file!='.svn'&&$file!='index.php') {
+					if ($file != "." && $file != ".."&&$file!='.svn'&&$file!='index.php'&&$file!='exe') {
 						if(is_dir($file)){
 							//$images=array_merge($images,$this->find($file,$pattern,$file."/"));
 						}else{

@@ -4,16 +4,20 @@
 //-----------------------------------------------
 // Root path
 define ( 'ROOT_PATH'		, "./" );
+define ( 'SOURCE_PATH'		, "./sources/" );
 define ( 'UPLOAD_PATH'		, "./uploads/" );
+define ( 'INC_PATH'			, ROOT_PATH ."includes/" );
 define ( 'SYS_PATH'			, ROOT_PATH ."system/" );
-define ( 'UTILS_PATH'		, ROOT_PATH . 'utils/' );
-define ( 'LIBS_PATH'		, ROOT_PATH . 'libs/' );
+define ( 'UTILS_PATH'		, SOURCE_PATH . 'utils/' );
+define ( 'LIBS_PATH'		, SOURCE_PATH . 'libs/' );
 define ( 'COM_PATH'			, ROOT_PATH . 'components/' );
 define ( 'MODS_PATH'		, ROOT_PATH . 'modules/' );
 define ( 'CORE_PATH'		, MODS_PATH . 'cores/' );
 define ( 'EXTEND_PATH'		, MODS_PATH . 'extends/' );
 define ( "CACHE_PATH"		, ROOT_PATH . 'cache/' );
 define ( "JAVASCRIPT_PATH"	, ROOT_PATH .'javascripts/');
+
+
 
 define ( "SKIN_CACHE", 1);
 define ( "TIMTHUMB"	, 2);
@@ -43,7 +47,7 @@ define ( 'IN_VSF', 1 );
 define ( 'IN_DEV', 1);
 
 // PHP Configuration
-error_reporting ( E_ERROR | E_WARNING | E_PARSE );
-error_reporting(1);
-set_magic_quotes_runtime ( 0 );
+error_reporting ( E_ERROR  | E_PARSE  );
+//error_reporting(1);
+//set_magic_quotes_runtime ( 0 );
 ?>

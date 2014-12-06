@@ -1,0 +1,8 @@
+<IfModule mod_rewrite.c>
+RewriteEngine on	
+AddType text/x-component .htc	
+  #RewriteBase /styles
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule ^(.*)$ noimage.gif [L,QSA]
+  </IfModule>

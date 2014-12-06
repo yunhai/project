@@ -7,23 +7,37 @@
  /* Modify date: September 03, 2009
  /*--------------------------------------------------*/
 
-class skin_global {
+class skin_global extends skin_board_admin{
 
 	//===========================================================================
 	// css_external
 	//===========================================================================
-	function addCSS($cssUrl = "") {
+	function addCSS($cssUrl="", $media = "") {
+		
+		$media = $media?"media='$media'":'';
+		
 		$BWHTML .= <<<EOF
-<link type="text/css" rel="stylesheet" href="{$cssUrl}.css" />
-
+<link type="text/css" rel="stylesheet" href="{$cssUrl}.css"  $media/>
 EOF;
+		//--endhtml--//
 		return $BWHTML;
 	}
-	function addJavaScriptFile($file = "") {
+	
+	function addJavaScriptFile($file = "",$type='file') {
 		global $bw;
 		$BWHTML = "";
 		$BWHTML .= <<<EOF
-<script type="text/javascript" src='{$bw->vars['board_url']}/javascripts/{$file}.js'></script>
+<if="$type=='cur_file'">
+		<script type="text/javascript" src='{$bw->vars['cur_scripts']}/{$file}.js'></script>
+		<else />
+		<if="$type=='external'">
+			<script type="text/javascript" src='{$file}'></script>
+			<else />
+			<if="$type=='file'">
+				<script type="text/javascript" src='{$bw->vars['board_url']}/javascripts/{$file}.js'></script>
+			</if>
+		</if>
+	</if>
 
 EOF;
 		return $BWHTML;
@@ -96,70 +110,98 @@ EOF;
 	// vs_global
 	//===========================================================================
 	function vs_global() {
-		global $bw, $vsUser, $vsLang;
+		global $bw,  $vsUser;
+		
+		$this->bw = $bw;
 		$BWHTML = "";
+		
+		$vsUser = VSFactory::getAdmins();
+		$vsLang = VSFactory::getLangs();
+		
+		
+	
+		
 		$BWHTML .= <<<EOF
-		<if=" !$vsUser->obj->getId() ">
+		<if=" !$this->getAdmin()->basicObject->getId() ">
 			{$this->SITE_MAIN_CONTENT}
 		<else />
-		<center>
-			<a target="_blank" href="{$bw->vars ['board_url']}" class="buttom_back_cd" title="{$bw->vars ['global_websitename']}">Back to home page</a>
-			<div id="vsf-wrapper-container">
-			<div id="vsf-wrapper" align="center">
-			<!-- BEGIN OF HEADER -->
-			<div class="vsf-header">
-				<div class="header_vs_ceedos">
-					<span>Admin Control Panel</span>
-				</div>
-			    <div class="clear"></div>
-				<!-- BEGIN OF TOP MENU -->
-				<div class="vsf-topmenu" id="topmenu">
-					<ul>
-						<if=" $this->ADMIN_TOP_MENU ">
-						<foreach="$this->ADMIN_TOP_MENU as $menu">
-						<li ><a href="{$menu->getUrl(0)}" title="{$menu->getTitle()}" >{$menu->getTitle()}</a>
-							<if="$menu->isDropdown&&count($menu->children)">
-			                    <ul>
-			                    <foreach="$menu->children as $obj">
-			                    <li><a href="{$obj->getUrl(0)}" title="{$obj->getTitle()}">{$obj->getTitle()}</a></li>
-			                    </foreach>
-			                    </ul>
-							</if>
+			<div id="header">
+				<ul class="headerTop left">
+					
+					<li class="menu_collapse">
+						<span>Menu</span>		
+					</li>
+					<li class="user_header">
+						<if="$vsUser->obj->getImage()">
+							{$vsUser->obj->createImageCache($vsUser->obj->getImage(),40,40)}
+						<else />
+							<img src="{$bw->vars['img_url']}/avatar.png" />
+						</if>
+						<div>
+							<p>{$vsLang->getWords("admins_welcome",'Chào mừng')}, <span class="title_semibold">{$vsUser->obj->getName()}</span></p>
+							<p>{$vsLang->getWords("admins_login_last",'Hoạt động cuối')}: {$this->dateTimeFormat($vsUser->obj->getLastLogin(),'d/m/Y h:i')}</p>
+						</div>
+					</li>
+				</ul>
+				<ul class="right">
+					
+					<li><a href="{$bw->vars['board_url']}" class="back_home" target="_blank"/><span class="icon-wrapper"><img class="icon-wrapper-vs vs-icon-home" src="{$bw->vars['img_url']}/pixel-vfl3z5WfW.gif" /></span><span>{$vsLang->getWords("global_title_home",'Xem trang chủ')}</span></a></li>
+					<li><a href="{$bw->base_url}admins/logout" class="logout"/><span class="icon-wrapper"><img class="icon-wrapper-vs vs-icon-logout" src="{$bw->vars['img_url']}/pixel-vfl3z5WfW.gif" /></span><span>{$vsLang->getWords("global_logout",'Thoát')}</span></a></li>
+					
+					<li> {$this->getAddon()->getLangList()}</li>
+				</ul>
+				<div class="clear"></div>
+			</div>
+			<div id="vsf_wrapper">
+				<div id="adminmenuback"></div>
+				<div id="contextLeft">
+					<ul id="menu">
+						<if=" $this->getAddon()->getMenuTop() ">
+						<foreach="$this->getAddon()->getMenuTop() as $menu">
+						<li class="{$menu->active}"><a href="<if="$menu->getType()==1">{$menu->getUrl(1)}<else />{$menu->getUrl(0)}</if>" ><span>{$menu->getTitle()}</span><span class="icon-wrapper right"><img class="icon-wrapper-vs vs-menu-hover" src="{$bw->vars['img_url']}/pixel-vfl3z5WfW.gif" /></span></a>
 						</li>
 						</foreach>
 						</if>
 					</ul>
-					<div class="clear"></div></div>
-				<!-- END OF TOP MENU -->
-			    <div class="clear"></div>
+				</div>
+				<div id="contextRight">
+					{$this->SITE_MAIN_CONTENT}		
+				</div>
 			</div>
-			<!-- END OF HEADER -->
-			
-			<!-- BEGIN OF SITE NAV -->
-			<div class="site-nav">
-				{$vsLang->getWords('global_dungtaitrang', 'Bạn đang đứng tại trang')} :: {$vsLang->currentArrayWords['main_title']}
-			    (<a href="javascript:vsf.get('{$bw->input['vs']}/','maincontent');">{$vsLang->getWords('global_refresh','Refresh')}</a>)
-			    <div class="vsf-language-selection">
-			    {$this->LANGUAGE_LIST}
-			    </div>
+			<div id="footer" class="vs_footer">
+				<div id="footerWrap">
+					<ul class="navFooter">
+						
+					<ul>
+					<p class="coppyright"></p>
+				</div>	
 			</div>
-			<div class="clear"></div>
-			<!-- END OF SITE NAV -->
-			    {$this->ACP_HELP_SYSTEM}
-			<!-- BEGIN OF MAIN PAGE CONTENT -->
-			<div id="maincontent">
-			    {$this->SITE_MAIN_CONTENT}
-			<div class="clear"></div>
-			</div>
-			<!-- END OF MAIN PAGE CONTENT -->
-			<div class="clear"></div>
-			<!-- BEGIN OF FOOTER -->
-			<div id="footer"></div>
-			<!-- END OF FOOTER -->
-			</div>
-			</div>
-		</center>
+			<script type="text/javascript">
+				$(document).ready(function()
+				{
+						 $( document ).tooltip({items: "input, [data-title], button",
+								content: function() {
+									var element = $( this );
+									var title = element.attr( "title" );
+									if ( element.is( "[data-title]" ) ) title = element.attr( "data-title" ); 
+									return title;
+								}
+						});
+						$("#countries").msDropDown().data("dd");
+							 $('.menu_collapse').click(function() {
+									$('#contextRight').css('margin-left',265);
+									$('#adminmenuback').slideToggle(300,function() {
+									      if($(this).css('display')=='none') $('#contextRight').css('margin-left',0);
+										  else $('#contextRight').css('margin-left',265);
+									  });
+									$('#contextLeft').slideToggle(300);
+							
+								}); 
+				});
+			</script>
 		</if>
+		
+
 EOF;
   		return $BWHTML;
 	}
@@ -234,72 +276,5 @@ EOF;
 	//--endhtml--//
 	return $BWHTML;
 	}
-
-	//**********************************************************************************************************************
-	// Added by Vu
-	//**********************************************************************************************************************
-
-
-	function buildRadioButtonHTML($name = "", $checkedYes = true, $checkedNo = false, $readonly = "", $disabled = "", $sAttr = "") {
-		$BWHTML = <<<EOF
-<input type="radio" name="{$name}" value="Yes" $checkedYes $readonly $disabled $sAttr style='width:10px; margin-right:10px;'>Yes</input>
-<input type="radio"  name="{$name}" value="No" $checkedNo $readonly $disabled $sAttr style='width:10px; margin-right:10px;'>No</input>
-EOF;
-		return $BWHTML;
-	}
-
-	function buildTextTypeHTML($textType, $id, $name, $value, $readonly, $disabled, $sAttr) {
-		$BWHTML = <<<EOF
-<input type="$textType" id="{$id}" name="{$name}" value="$value" {$readonly} {$disabled} {$sAttr}></input>
-EOF;
-		return $BWHTML;
-	}
-
-	function buildCheckBoxHTML($id, $name, $checked, $readonly, $disabled, $sAttr) {
-		$BWHTML = <<<EOF
-<input type="checkbox" id="{$id}" name="{$name}" value="1" $readonly $checked $disabled $sAttr></input>
-EOF;
-		return $BWHTML;
-	}
-
-	function buildDropdownBoxHTML($id, $name, $currentValue, $currentDisplay, $listOption) {
-		$BWHTML = <<<EOF
-<select id="{$id}" name="{$name}">
-<option value="{$currentValue}">{$currentDisplay}</option>
-		{$listOption}
-</select>
-EOF;
-		return $BWHTML;
-	}
-
-	function buildOptionHTML($value, $display, $sAtr) {
-		$BWHTML = <<<EOF
-<option value="{$value}" $sAtr>{$display}</option>
-EOF;
-		return $BWHTML;
-	}
-
-	function buildRadioButtonHTML1($sAttr = "") {
-		$BWHTML = <<<EOF
-<input type="radio" {$sAttr}>Yes</input>
-<input type="radio" {$sAttr}>No</input>
-EOF;
-		return $BWHTML;
-	}
-
-	function buildTextTypeHTML1($sAttr) {
-		$BWHTML = <<<EOF
-<input {$sAttr}></input>
-EOF;
-		return $BWHTML;
-	}
-
-	function buildCheckBoxHTML1($sAttr) {
-		$BWHTML = <<<EOF
-<input type="checkbox" {$sAttr}></input>
-EOF;
-		return $BWHTML;
-	}
 }
-
 ?>

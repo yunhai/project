@@ -1,130 +1,128 @@
 <?php
-class skin_objectpublic{
+if(!class_exists('skin_board_public'))
+require_once ('./cache/skins/user/finance/skin_board_public.php');
+class skin_objectpublic extends skin_board_public {
 
 //===========================================================================
 // <vsf:showDefault:desc::trigger:>
 //===========================================================================
-function showDefault($option=array()) {global $bw, $vsLang;
+function showDefault($option=array()) {global $bw;
 
 //--starthtml--//
 $BWHTML .= <<<EOF
-        <div id="center">
-        <h3 class="center_title">
-        <a href="{$bw->base_url}{$bw->input[0]}" title='{$vsLang->getWords($bw->input[0]."_title", $bw->input[0])}'>
-{$vsLang->getWords($bw->input[0]."_title", $bw->input[0])}
-</a>
-</h3>
-        <div class="center_group">
-        {$this->__foreach_loop__id_524aa3d484b58($option)}
-        </div>
-        <div class='paging'>
-        {$option['paging']}
+        
+EOF;
+//--endhtml--//
+return $BWHTML;
+}
+//===========================================================================
+// <vsf:loadTour:desc::trigger:>
+//===========================================================================
+function loadTour($option=array()) {global $bw;
+
+//--starthtml--//
+$BWHTML .= <<<EOF
+        {$this->__foreach_loop__id_547dd9579f4bf8_37641513($option)}
+EOF;
+//--endhtml--//
+return $BWHTML;
+}
+
+//===========================================================================
+// Foreach loop function ifstatement
+//===========================================================================
+function __foreach_loop__id_547dd9579f4bf8_37641513($option=array())
+{
+global $bw;
+    $BWHTML = '';
+    $vsf_count = 1;
+    $vsf_class = '';
+    if(is_array($option)){
+    foreach( $option as $key=>$value )
+    {
+        $vsf_class = $vsf_count%2?'odd':'even';
+    $BWHTML .= <<<EOF
+        
+    <div class="tourtop_item">
+    <div class="im"><a href="{$value->getUrl($value->getModule())}">{$value->createImageCache($value->getImage(),260,178)}</a></div>
+        <div class="tour_ct">
+                <div class="left">
+                    <h2 class="na"><a href="{$value->getUrl($value->getModule())}">{$value->getTitle()}</a></h2>
+                    <div class="num">{$value->getNumber()}</div>
+                    <div class="intro">{$value->getIntro()}</div>
+                </div>
+                <div class="right">
+                    <div class="star">{$value->getStar()}</div>
+                    <div class="price">{$value->getPrice()}</div>
+                    <div class="time">Ngày/đêm</div>
+                    <a href="{$bw->base_url}bookings/tour/{$value->getId()}" class="booking_color bookTour">Đặt tour</a>
+                </div>
         </div>
     </div>
-EOF;
-//--endhtml--//
-return $BWHTML;
-}
-
-//===========================================================================
-// Foreach loop function 
-//===========================================================================
-function __foreach_loop__id_524aa3d484b58($option=array())
-{
-global $bw, $vsLang;
-    $BWHTML = '';
-    $vsf_count = 1;
-    $vsf_class = '';
-    foreach(  $option['pageList'] as $obj  )
-    {
-        $vsf_class = $vsf_count%2?'odd':'even';
-    $BWHTML .= <<<EOF
-        
-        <div class="item">
-        
-EOF;
-if( $obj->file ) {
-$BWHTML .= <<<EOF
-
-            <a href="{$obj->getUrl($bw->input[0])}" class="width_img" title='{$obj->getTitle()}'>
-            {$obj->createImageCache($obj->file, 200, 125, 1)}
-            </a>
-            
-EOF;
-}
-
-$BWHTML .= <<<EOF
-
-                <h3><a href="{$obj->getUrl($bw->input[0])}" title='{$obj->getTitle()}'>{$obj->getTitle()}</a></h3>
-                <p>{$obj->getContent(500)}</p>
-                <div class="clear_left"></div>
-            </div>
-            
+    
 EOF;
 $vsf_count++;
+    }
     }
     return $BWHTML;
 }
 //===========================================================================
-// <vsf:showDetail:desc::trigger:>
+// <vsf:loadTourDefault:desc::trigger:>
 //===========================================================================
-function showDetail($obj="",$option=array()) {global $bw, $vsLang;
+function loadTourDefault($option=array()) {global $bw;
 
 //--starthtml--//
 $BWHTML .= <<<EOF
-        <div id="center">
-        <h3 class="center_title detail_title">
-        <a href="{$bw->base_url}{$bw->input[0]}" title='{$vsLang->getWords($bw->input[0]."_title", $bw->input[0])}'>
-{$vsLang->getWords($bw->input[0]."_title", $bw->input[0])}
-</a>
-</h3>
-<div class="detail"> 
-        <h1 class='title'>{$obj->getTitle()}</h1>
-{$obj->getContent()}
-</div>
-        
-        
-EOF;
-if( $option['other'] ) {
-$BWHTML .= <<<EOF
-
-        <div class="other">
-        <h3>{$vsLang->getWords($bw->input[0].'_others', 'Bài viết khác')}</h3>
-        {$this->__foreach_loop__id_524aa3d485327($obj,$option)}
-        </div>
-        
-EOF;
-}
-
-$BWHTML .= <<<EOF
-
-</div>
+        {$this->__foreach_loop__id_547dd9579f6946_89897569($option)}
 EOF;
 //--endhtml--//
 return $BWHTML;
 }
 
 //===========================================================================
-// Foreach loop function 
+// Foreach loop function ifstatement
 //===========================================================================
-function __foreach_loop__id_524aa3d485327($obj="",$option=array())
+function __foreach_loop__id_547dd9579f6946_89897569($option=array())
 {
-global $bw, $vsLang;
+global $bw;
     $BWHTML = '';
     $vsf_count = 1;
     $vsf_class = '';
-    foreach(  $option['other'] as $item  )
+    if(is_array($option)){
+    foreach( $option as $key=>$value )
     {
         $vsf_class = $vsf_count%2?'odd':'even';
     $BWHTML .= <<<EOF
         
-            <a href="{$item->getUrl($bw->input[0])}" title="{$item->getTitle()}">{$item->getTitle()}</a>
-            
+     <div class="tour_item">
+        <div class="im"><a href="{$value->getUrl($value->getModule())}">{$value->createImageCache($value->getImage(),260,178)}</a></div>    
+            <div class="ser">
+            <div class="na"><a href="{$value->getUrl($value->getModule())}">{$value->getTitle()}</a></div>
+                <div class="phone">ĐT: {$value->getPhone()}</div>
+<div class="ser_item">
+                {$value->getOptionIcon()}
+                </div>
+                <div class="clear"></div>
+                <div class="note"></div>
+                <ul>{$value->getIntro()}</ul>
+            </div> 
+            <div class="booking">
+            <div class="line"></div>
+            <div class="star">{$value->getStar()}</div>
+                <div class="price">{$value->getPrice()}</div>
+                <div class="time">Ngày/đêm</div>
+                <a href="{$bw->base_url}bookings/tour/{$value->getId()}"  class="booking_color bookTour">Đặt tour</a>
+            </div>      
+        </div>
+        
+    
 EOF;
 $vsf_count++;
+    }
     }
     return $BWHTML;
 }
 
 
-}?>
+}
+?>

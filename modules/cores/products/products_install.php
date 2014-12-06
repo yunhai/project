@@ -13,43 +13,17 @@ class products_install {
 	public $query = "";
 	public $version = "3.3.4.1";
 	public $build = "628";
-	public $tableName = "product";
-	public $moduleTitle = "products";
-	function Install() {
-		$this->query[] = "DROP TABLE IF EXISTS`".SQL_PREFIX."{$this->tableName}`";
-		$this->query[] = "
-			CREATE TABLE IF NOT EXISTS `".SQL_PREFIX."{$this->tableName}` (
-			  `{$this->tableName}Id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-			  `{$this->tableName}CatId` int(11) NOT NULL,
-			  `{$this->tableName}Title` varchar(255) NOT NULL,
-			  `{$this->tableName}Intro` text NOT NULL,
-			  `{$this->tableName}Content` text NOT NULL,
-			  `{$this->tableName}Image` varchar(50) NOT NULL,
-			  `{$this->tableName}Price` double,
-			  `{$this->tableName}Index` int(11) NOT NULL,
-			  `{$this->tableName}PostDate` int(11) NOT NULL,
-			  `{$this->tableName}Status` tinyint(1) NOT NULL,
 
-			  PRIMARY KEY (`{$this->tableName}Id`)
-			) ENGINE=MyISAM AUTO_INCREMENT=1 ;
-		";
-//		$this->query[] = "
-//			CREATE TABLE IF NOT EXISTS `".SQL_PREFIX."{$this->tableName}_relation` (
-//			  `{$this->tableName}Id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-//			  `menuId` int(10) NOT NULL,
-//			  `relType` tinyint(1) NOT NULL,
-//			  PRIMARY KEY (`{$this->tableName}Id`)
-//			) ENGINE=MyISAM AUTO_INCREMENT=1 ;
-//		";
+	function Install(){
+
 		$this->query[] = "
-			INSERT INTO `".SQL_PREFIX."module`(`moduleTitle`,`moduleVersion`,`moduleIsAdmin`,`moduleIsUser`,`moduleIntro`,`moduleClass`) VALUES 
-			('{$this->moduleTitle} manager','".$this->version."',1,1,'This is a system module for management all {$this->moduleTitle}  for VS Framework.','{$this->moduleTitle}');
+			INSERT INTO `".SQL_PREFIX."module`(`moduleTitle`,`moduleVersion`,`moduleIsAdmin`,`moduleIsUser`,`moduleIntro`,`moduleClass`) values 
+			('Page Manager','".$this->version."',1,1,'This module had create auto by system for management all products for VS Framework.','products');
 		";
 	}
 
 	function Uninstall($moduleId) {
-		$this->query[] = "DROP TABLE `".SQL_PREFIX."{$this->tableName}`";
-		$this->query[] = "DELETE FROM `".SQL_PREFIX."module` WHERE `moduleClass`='{$this->moduleTitle}'";
+		$this->query[] = "DELETE FROM `".SQL_PREFIX."module` WHERE `moduleId`=".$moduleId;
 	}
 }
 ?>

@@ -1,150 +1,187 @@
 <?php
-class Admin extends BasicObject{
+class Admin extends BasicObject {
 
-	private $name 		= NULL;
-	private $password 	= NULL;
-	private $lastLogin 	= NULL;
-	private $joinDate 	= NULL;
-	private $groups 	= NULL;
-        private $email          = NULL;
-
-	function __construct() {
-		parent::__construct();
+	public function convertToDB() {
+		isset ( $this->id ) ? ($dbobj ['id'] = $this->id) : '';
+		isset ( $this->name ) ? ($dbobj ['name'] = $this->name) : '';
+		isset ( $this->address ) ? ($dbobj ['address'] = $this->address) : '';
+		isset ( $this->email ) ? ($dbobj ['email'] = $this->email) : '';
+		isset ( $this->phone ) ? ($dbobj ['phone'] = $this->phone) : '';
+		isset ( $this->password ) ? ($dbobj ['password'] = $this->password) : '';
+		isset ( $this->lastLogin ) ? ($dbobj ['lastLogin'] = $this->lastLogin) : '';
+		isset ( $this->joinDate ) ? ($dbobj ['joinDate'] = $this->joinDate) : '';
+		isset ( $this->status ) ? ($dbobj ['status'] = $this->status) : '';
+		isset ( $this->index ) ? ($dbobj ['index'] = $this->index) : '';
+		isset ( $this->image ) ? ($dbobj ['image'] = $this->image) : '';
+		return $dbobj;
 	}
 
-	function __destruct() {
-		parent::__destruct();
-		unset($this->name);
-		unset($this->password);
-		unset($this->lastLogin);
-		unset($this->joinDate);
-                unset($this->email);
+	public function convertToObject($object = array()) {
+		isset ( $object ['id'] ) ? $this->setId ( $object ['id'] ) : '';
+		isset ( $object ['title'] ) ? $this->setTitle ( $object ['title'] ) : '';
+		isset ( $object ['name'] ) ? $this->setName ( $object ['name'] ) : '';
+		isset ( $object ['address'] ) ? $this->setAddress ( $object ['address'] ) : '';
+		isset ( $object ['email'] ) ? $this->setEmail ( $object ['email'] ) : '';
+		isset ( $object ['phone'] ) ? $this->setPhone ( $object ['phone'] ) : '';
+		isset ( $object ['password'] ) ? $this->setPassword ( $object ['password'] ) : '';
+		isset ( $object ['lastLogin'] ) ? $this->setLastLogin ( $object ['lastLogin'] ) : '';
+		isset ( $object ['joinDate'] ) ? $this->setJoinDate ( $object ['joinDate'] ) : '';
+		isset ( $object ['status'] ) ? $this->setStatus ( $object ['status'] ) : '';
+		isset ( $object ['index'] ) ? $this->setIndex ( $object ['index'] ) : '';
+		isset ( $object ['image'] ) ? $this->setImage ( $object ['image'] ) : '';
 	}
 
-	public function addGroup($group) {
-		if(!is_object($group)) throw new Exception("Parameter is not an Group object!");
-
-		$this->groups[$group->getId()] = $group;
-	}
-	/**
-	 * get array Groups object of GroupAdmin class
-	 * @return array object $this->groups of Admin class
-	 */
-	public function getGroups() {
-		return $this->groups;
-	}
-        public function getEmail() {
-		return $this->email;
+	function getId() {
+		return $this->id;
 	}
 
-	public function getMainGroup() {
-		if(!count($this->groups))
-		return new GroupAdmin();
-		return current($this->groups);
-	}
-
-	/**
-	 * set Groups for Admin
-	 * @param array object of GroupAdmin class
-	 */
-	public function setGroups($groups=array()) {
-		$this->groups = $groups;
-	}
-        
-        public function setEmail($email="") {
-		$this->email = $email;
-	}
-
-	public function getName() {
+	function getName() {
 		return $this->name;
 	}
 
-	public function getPassword() {
+	function getAddress() {
+		return $this->address;
+	}
+
+	function getEmail() {
+		return $this->email;
+	}
+
+	function getPhone() {
+		return $this->phone;
+	}
+
+	function getPassword() {
 		return $this->password;
 	}
 
-	public function getLastLogin($isInt=true,$format="SHORT") {
-		if($isInt)
+	function getLastLogin() {
 		return $this->lastLogin;
-		return VSFDateTime::GetDate($this->lastLogin,$format);
 	}
 
-	public function getJoinDate($isInt=true,$format='SHORT') {
-		global $vsDateTime;
-		if($isInt)
+	function getJoinDate() {
 		return $this->joinDate;
-		return VSFDateTime::getDate($this->joinDate,$format);
 	}
 
-	public function setName($name="") {
+	function getIndex() {
+		return $this->index;
+	}
+
+	function setId($id) {
+		$this->id = $id;
+	}
+
+	function setName($name) {
 		$this->name = $name;
 	}
 
-	public function setPassword($password) {
-		$this->password = md5($password);
+	function setAddress($address) {
+		$this->address = $address;
 	}
-	public function setPasswordMd5($password) {
+
+	function setEmail($email) {
+		$this->email = $email;
+	}
+
+	function setPhone($phone) {
+		$this->phone = $phone;
+	}
+
+	function setPassword($password) {
 		$this->password = $password;
 	}
 
-	public function setLastLogin($lastLogin=0) {
+	function setLastLogin($lastLogin) {
 		$this->lastLogin = $lastLogin;
 	}
 
-	public function setJoinDate($joinDate=0) {
+	function setJoinDate($joinDate) {
 		$this->joinDate = $joinDate;
 	}
 
+	function setStatus($status) {
+		$this->status = $status;
+	}
 
-
-	function convertRelToDB($group) {
-		$dbobj = array(	'adminId'	=> $this->id,
-						'groupId'	=> $group->getId()
-		);
-		return $dbobj;
+	function setIndex($index) {
+		$this->index = $index;
 	}
 
 	/**
-	 * change Admin object to array to insert database
-	 * @return array $dbobj
 	 *
+	 * @return the $title
 	 */
-	function convertToDB() {
-		isset ( $this->id ) 		? ($dbobj ['adminId'] 			= $this->id) 		: '';
-		isset ( $this->password ) 	? ($dbobj ['adminPassword'] 	= $this->password) 	: '';
-		isset ( $this->name ) 		? ($dbobj ['adminName'] 		= $this->name) 		: '';
-		isset ( $this->lastLogin)	? ($dbobj ['adminLastLogin'] 	= $this->lastLogin) : '';
-		isset ( $this->joinDate ) 	? ($dbobj ['adminJoinDate'] 	= $this->joinDate) 	: '';
-		isset ( $this->status )		? ($dbobj ['adminStatus'] 		= $this->status) 	: '';
-		isset ( $this->index ) 		? ($dbobj ['adminIndex'] 		= $this->index) 	: '';
-                isset ( $this->email ) 		? ($dbobj ['adminEmail'] 		= $this->email) 	: '';
-		return $dbobj;
+	public function getTitle() {
+		return $this->name;
 	}
+
 	/**
-	 * change Admin from database object to Admin object
-	 * @param array $dbobj Database object
-	 * @return void
 	 *
+	 * @param field_type $title        	
 	 */
-	function convertToObject($object) {
-		isset ( $object ['adminId'] ) 			? $this->setId ( $object ['adminId'] ) 				: '';
-		isset ( $object ['adminName'] ) 		? $this->setName ( $object ['adminName'] ) 			: '';
-		isset ( $object ['adminPassword'] ) 	? $this->password	= $object['adminPassword']		: '';
-		isset ( $object ['adminLastLogin'] ) 	? $this->setLastLogin ( $object ['adminLastLogin'] ): '';
-		isset ( $object ['adminJoinDate'] ) 	? $this->setJoinDate ( $object ['adminJoinDate'] ) 	: '';
-		isset ( $object ['adminStatus'] )		? $this->setStatus ( $object ['adminStatus'] ) 		: '';
-		isset ( $object ['adminIndex'] )		? $this->setIndex( $object ['adminIndex'] ) 		: '';
-                isset ( $object ['adminEmail'] )		? $this->setEmail( $object ['adminEmail'] ) 		: '';
+	public function setTitle($title) {
+		$this->name = $title;
 	}
-	
+
 	function validate() {
-	  $status = true;
-	  if ($this->name == "") {
-	   $this->message .= " title can not be blank!";
-	   $status = false;
-	  }
-	  return $status;
-	 }
-}
+		return true;
+	}
 
-?>
+	function getGroups() {
+		return array ();
+	}
+
+	function addGroup() {
+		return array ();
+	}
+
+	function checkPermission($permissionName) {
+		global $bw;
+		$groups = $this->getGroupList ();
+		if ($groups [$bw->vars ['root_admin_groups']])
+			return 1;
+		$this->getPerList ();
+		if ($this->perlist [$permissionName])
+			return true;
+		return false;
+	}
+	private $perlist = NULL;
+
+	function getPerList() {
+		if ($this->perlist === NULL) {
+			$this->perlist = array ();
+			$admins = new admins ();
+			$gs = $admins->getGroupForAdmin ( $this->getId () );
+			foreach ( $gs as $g ) {
+				$groups = new admingroups ();
+				$this->perlist = array_merge ( $this->perlist, $groups->getPermissionForGroup ( $g->getId () ) );
+			}
+			unset ( $groups );
+			unset ( $admins );
+		}
+		return $this->perlist;
+	}
+	private $group = NULL;
+
+	function getGroupList() {
+		if ($this->group === NULL) {
+			$admins = new admins ();
+			$this->group = $admins->getGroupForAdmin ( $this->getId () );
+		}
+		return $this->group;
+	}
+
+	function __destruct() {
+		unset ( $this );
+	}
+	var $id;
+	var $name;
+	var $address;
+	var $email;
+	var $phone;
+	var $password;
+	var $lastLogin;
+	var $joinDate;
+	var $status;
+	var $index;
+}

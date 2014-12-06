@@ -1,0 +1,40 @@
+<?php 
+require_once(CORE_PATH."orders/Order.class.php");
+
+class orders extends VSFObject {
+
+
+	/**
+	*Enter description here ...
+	**/
+	public	function __construct($category=''){
+			$this->primaryField 	= 'id';
+		$this->basicClassName 	= 'Order';
+		$this->tableName 		= 'order';
+		//$this->categoryField='catId';
+		//$this->categoryName=$category?$category:"orders";
+		$this->createBasicObject();		parent::__construct();
+
+	}
+
+	function onDeleteObjectById($id){
+		require_once CORE_PATH.'orders/order_items.php';
+		$order_items=new order_items();
+		$order_items->setCondition("`orderId`='$id'");
+		$order_items->deleteObjectByCondition();
+	}
+	function onDeleteObjectByCondition($condition){
+		require_once CORE_PATH.'orders/order_items.php';
+		$order_items=new order_items();
+		$order_items->setCondition("`orderId` in (select `id` from vsf_order_item where $condition )");
+		$order_items->deleteObjectByCondition();
+	}
+
+
+	
+	/**
+	*Enter description here ...
+	*@var Order
+	**/
+	var		$obj;
+}

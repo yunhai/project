@@ -25,10 +25,10 @@ return $BWHTML;
 }
 
 function comListHTML($com,$message=""){
-global $vsLang;
+$vsLang = VSFactory::getLangs();
 $BWHTML = <<<EOF
 <div class="ui-dialog ui-widget ui-widget-content ui-corner-all">
-<div class="ui-dialog-titlebar ui-widget-header ui-helper-clearfix ui-corner-all-inner">
+<div >
 <span class="ui-icon ui-icon-triangle-1-e"></span>
 <span class="ui-dialog-title">{$vsLang->getWords('component_list','Current Component')}</span>
 </div>
@@ -49,7 +49,8 @@ return $BWHTML;
 }
 
 function addComList($com,$format_class,$install){
-global $vsLang,$bw;
+global $bw;
+$vsLang = VSFactory::getLangs();
 $BWHTML = <<<EOF
 <tr class="$format_class">
 <td>{$com->getComName()}
@@ -66,13 +67,12 @@ return $BWHTML;
 }
 
 function addEditForm($com=array(),$form=""){
-global $vsLang;
-
+$vsLang = VSFactory::getLangs();
 $BWHTML = <<<EOF
 <form action="javascript:vsf.submitForm($('#addmodule'),'components/addEditComponent','comCurrent'); javascript:vsf.get('components/addComponent/','comForm');" method="post" name="form" id="addmodule">
 <input type="hidden" name="comId" value="" />
 <div class="ui-dialog ui-widget ui-widget-content ui-corner-all vs-lbox">
-    <div class="ui-dialog-titlebar ui-widget-header ui-helper-clearfix ui-corner-all-inner">
+    <div >
         <span class="ui-icon ui-icon-triangle-1-e"></span><span class="ui-dialog-title">{$form['title']}</span>
     </div>
     <table cellpadding="0" cellspacing="1" width="100%">

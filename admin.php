@@ -25,6 +25,7 @@ require_once LIBS_PATH."Debug.class.php";
 
 require_once LIBS_PATH."Info.class.php";
 
-require_once ROOT_PATH."main.php";
+require_once ROOT_PATH."Main.php";
+
 
 ?>

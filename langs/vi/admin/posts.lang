@@ -1,0 +1,34 @@
+<?php
+$lang = array (
+  'tab_module_posts' => 'posts',
+  'tab_module_posts_subject' => 'Chủ đề',
+  'tab_user_SS' => 'SystemSetting',
+  'tab_position' => 'Position',
+  'visible_obj_confirm_hide' => 'You haven\'t choose any items to hide!',
+  'visible_obj_confirm_noitem' => 'You haven\'t choose any items to visible!',
+  'delete_obj_confirm_noitem' => 'You haven\'t choose any items to delete!',
+  'obj_delete_confirm' => 'Are you sure want to delete this posts?',
+  'posts_list' => 'List of posts',
+  'pending' => 'Pending',
+  'Publish' => 'Publish',
+  'add_obj_bt' => 'Add posts',
+  'hide_obj_alt_bt' => 'Hide selected posts',
+  'hide_obj_bt' => 'Hide',
+  'visible_obj_alt_bt' => 'Visible selected posts ',
+  'visible_obj_bt' => 'Visible',
+  'delete_obj_alt_bt' => 'Delete selected posts',
+  'delete_obj_bt' => 'Delete',
+  'posts_id_head_text' => 'id',
+  'posts_img_head_text' => 'Hình',
+  'posts_title_head_text' => 'Tên bài viết',
+  'posts_owner_head_text' => 'người đăng',
+  'posts_cat_head_text' => 'Mục',
+  'posts_position_head_text' => 'Vị trí',
+  'posts_postdate_head_text' => 'Ngày đăng',
+  'posts_publish_head_text' => 'Xuất bản',
+  'posts_action_head_text' => 'Thao tác',
+  'newsItem_EditObjTitle' => 'Click here to edit this posts',
+);
+$userLang = array (
+);
+?>

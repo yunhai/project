@@ -1,7 +1,0 @@
-<?php
-$lang = array (
-  'pageTitle' => 'Chi nhánh',
-  'main_title' => 'Chi nhánh',
-);
-$userLang = array();
-?>

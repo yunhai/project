@@ -265,7 +265,9 @@ qq.FileUploaderBasic = function(o){
         // return false to cancel submit
         onSubmit: function(id, fileName){},
         onProgress: function(id, fileName, loaded, total){},
-        onComplete: function(id, fileName, responseJSON){},
+        onComplete: function(id, fileName, responseJSON){
+        	
+        },
         onCancel: function(id, fileName){},
         // messages                
         messages: {
@@ -279,6 +281,9 @@ qq.FileUploaderBasic = function(o){
             alert(message);
         }               
     };
+//    var option = $.extend(this._options,  o);
+    	//var complete=o['onComplete'];
+//    this._options.onComplete(1,1,1);
     qq.extend(this._options, o);
         
     // number of files being uploaded
@@ -359,7 +364,7 @@ qq.FileUploaderBasic.prototype = {
     _onProgress: function(id, fileName, loaded, total){        
     },
     _onComplete: function(id, fileName, result){
-        this._filesInProgress--;                 
+        this._filesInProgress--;
         if (result.error){
             this._options.showMessage(result.error);
         }             
@@ -387,7 +392,12 @@ qq.FileUploaderBasic.prototype = {
         for (var i=0; i<files.length; i++){
             this._uploadFile(files[i]);        
         }        
-    },       
+    }, 
+    _uploadUrlSubmit: function(url){
+    	this._addToList('abc', 'url');
+    	this._onComplete('abc', 'abc.jpg', {success:1});
+    	alert("OK");
+    },
     _uploadFile: function(fileContainer){      
         var id = this._handler.add(fileContainer);
         var fileName = this._handler.getName(id);
@@ -475,10 +485,16 @@ qq.FileUploaderBasic.prototype = {
  * @inherits qq.FileUploaderBasic
  */
 qq.FileUploader = function(o){
+	
     // call parent constructor
     qq.FileUploaderBasic.apply(this, arguments);
+    //this._options = $.extend({}, this._options,  o);
+    
+    
+    
     
     // additional options    
+    
     qq.extend(this._options, {
         element: null,
         // if set, will be used instead of qq-upload-list in template
@@ -486,7 +502,7 @@ qq.FileUploader = function(o){
                 
         template: '<div class="qq-uploader">' + 
                 '<div class="qq-upload-drop-area"><span>Drop files here to upload</span></div>' +
-                '<div class="qq-upload-button">Upload files</div>' +
+                '<div class="qq-upload-button">Upload hình ảnh</div>' +
                 '<ul class="qq-upload-list"></ul>' + 
              '</div>',
 
@@ -558,15 +574,26 @@ qq.extend(qq.FileUploader.prototype, {
                 e.stopPropagation();
             },
             onLeave: function(e){
+            	//alert("ra");
                 e.stopPropagation();
             },
             onLeaveNotDescendants: function(e){
                 qq.removeClass(dropArea, self._classes.dropActive);  
             },
             onDrop: function(e){
+            	
                 dropArea.style.display = 'none';
                 qq.removeClass(dropArea, self._classes.dropActive);
-                self._uploadFileList(e.dataTransfer.files);    
+                //console.log(e.dataTransfer.getData('text/x-moz-url'));
+                console.log(e.dataTransfer.files);
+                if(e.dataTransfer.files.length>0){
+                	self._uploadFileList(e.dataTransfer.files);
+                }else{
+                	if(e.dataTransfer.getData('text/x-moz-url')){
+                		self._uploadUrlSubmit(e.dataTransfer.getData('text/x-moz-url'));
+                	}
+                }
+                    
             }
         });
                 
@@ -574,8 +601,7 @@ qq.extend(qq.FileUploader.prototype, {
 
         qq.attach(document, 'dragenter', function(e){     
             if (!dz._isValidFileDrag(e)) return; 
-            
-            dropArea.style.display = 'block';            
+            dropArea.style.display = 'block';
         });                 
         qq.attach(document, 'dragleave', function(e){
             if (!dz._isValidFileDrag(e)) return;            
@@ -615,9 +641,9 @@ qq.extend(qq.FileUploader.prototype, {
         qq.remove(this._find(item, 'cancel'));
         qq.remove(this._find(item, 'spinner'));
         
-        if (result.success){           
+        if (result.success){
             qq.addClass(item, this._classes.success);    
-        } else {          
+        } else {
             qq.addClass(item, this._classes.fail);
         }         
     },
@@ -719,7 +745,9 @@ qq.UploadDropZone.prototype = {
         });
         
         qq.attach(self._element, 'dragleave', function(e){
-            if (!self._isValidFileDrag(e)) return;
+            if (!self._isValidFileDrag(e)){
+            	return;
+            }
             
             self._options.onLeave(e);
             
@@ -732,7 +760,6 @@ qq.UploadDropZone.prototype = {
                 
         qq.attach(self._element, 'drop', function(e){
             if (!self._isValidFileDrag(e)) return;
-            
             e.preventDefault();
             self._options.onDrop(e);
         });          
@@ -743,9 +770,11 @@ qq.UploadDropZone.prototype = {
             isWebkit = navigator.userAgent.indexOf("AppleWebKit") > -1;                        
 
         // dt.effectAllowed is none in Safari 5
-        // dt.types.contains check is for firefox            
+        // dt.types.contains check is for firefox  
+            //if(dt.dropEffect=='copy') return true;
+            //console.log( e);
         return dt && dt.effectAllowed != 'none' && 
-            (dt.files || (!isWebkit && dt.types.contains && dt.types.contains('Files')));
+            (dt.files || (!isWebkit && dt.types.contains &&( dt.types.contains('Files')||dt.types.contains('text/x-moz-url'))));
         
     }        
 }; 
@@ -801,8 +830,11 @@ qq.UploadButton.prototype = {
                 
         input.setAttribute("type", "file");
         input.setAttribute("name", this._options.name);
-        input.setAttribute("id", "file-uploadsạng");
-        
+        var maxZ = Math.max.apply(null,$.map($('body > *'), function(e,n){
+	           if($(e).css('position')=='absolute')
+	                return parseInt($(e).css('z-index'))||1 ;
+	           })
+	    );
         qq.css(input, {
             position: 'absolute',
             // in Opera only 'browse' button
@@ -816,8 +848,8 @@ qq.UploadButton.prototype = {
             margin: 0,
             padding: 0,
             cursor: 'pointer',
-           // z-index: 9998 ,
-            opacity: 0
+            opacity: 0,
+            zIndex:maxZ
         });
         
         this._element.appendChild(input);
@@ -942,7 +974,7 @@ qq.UploadHandlerAbstract.prototype = {
                 
         var max = this._options.maxConnections;
         
-        if (this._queue.length >= max && i < max){
+        if (this._queue.length >= max){
             var nextId = this._queue[max-1];
             this._upload(nextId, this._params[nextId]);
         }
@@ -1022,7 +1054,7 @@ qq.extend(qq.UploadHandlerForm.prototype, {
                 qq.remove(iframe);
             }, 1);
         });
-
+//alert($(form).html());
         form.submit();        
         qq.remove(form);        
         
@@ -1213,11 +1245,11 @@ qq.extend(qq.UploadHandlerXhr.prototype, {
         var size = this.getSize(id);
         
         this._options.onProgress(id, name, size, size);
-                
+              
         if (xhr.status == 200){
             this.log("xhr - server response received");
             this.log("responseText = " + xhr.responseText);
-                        
+                      
             var response;
                     
             try {
@@ -1225,10 +1257,10 @@ qq.extend(qq.UploadHandlerXhr.prototype, {
             } catch(err){
                 response = {};
             }
-            
             this._options.onComplete(id, name, response);
                         
-        } else {                   
+        } else {       
+        	
             this._options.onComplete(id, name, {});
         }
                 

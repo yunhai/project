@@ -96,7 +96,6 @@ class Skin extends BasicObject {
 	}
 
 	function convertToObject($object) {
-		global $vsMenu;
 		isset ( $object ['skinId'] ) ? $this->setId ( $object ['skinId'] ) : '';
 		isset ( $object ['skinTitle'] ) ? $this->setTitle ( $object ['skinTitle'] ) : '';
 		isset ( $object ['skinIsAdmin'] ) ? $this->setIsAdmin( $object ['skinIsAdmin'] ) : '';
@@ -109,7 +108,7 @@ class Skin extends BasicObject {
 	}
 
 	function validate() {
-		global $vsLang;
+		$vsLang = VSFactory::getLangs();
 		$status = true;
 		if ($this->getTitle () == "") {
 			$status = false;
