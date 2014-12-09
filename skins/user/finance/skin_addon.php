@@ -31,7 +31,7 @@ class skin_addon extends skin_board_public {
 		
 		<div class="collapse navbar-collapse">
                 <ul class="nav navbar-nav navbar-right">
-                  <li <if="$bw->input[0]=='home'">class="active "</if>><a href="{$bw->base_url}" >{$this->vsLang->getWords("home","Trang chủ")}</a></li>                
+                  <li <if="$bw->input[0]=='home'">class="active "</if>><a href="{$bw->base_url}" >{$this->vsLang->getWords("global_menu_home", "Trang chủ")}</a></li>                
                   <foreach="$option['menu'] as $mn ">
                   	<if="$mn->getUrl() =='projects'  ">
                   	 
@@ -51,7 +51,6 @@ class skin_addon extends skin_board_public {
                              <li><a href="{$bw->base_url}resumes">{$option['resumes']->getTitle()}</a></li>                    
                         </ul>
                         </if>
-                        
                     </li>
                     
                   	<else />
@@ -85,40 +84,19 @@ function getMenuBottom($option = array()) {
 		$vsLang = VSFactory::getLangs();
 	
 		$BWHTML .= <<<EOF
-		
 					<ul class="pull-right">
-                                          <li <if="$bw->input[0]=='home'">class="active "</if>><a <if="$bw->input[0]=='home'">class="active "</if>  href="{$bw->base_url}" >{$this->vsLang->getWords("home","Trang chủ")}</a></li>                
+                       <li <if="$bw->input[0]=='home'">class="active "</if>><a <if="$bw->input[0]=='home'">class="active "</if>  href="{$bw->base_url}" >{$this->vsLang->getWords("global_menu_home","Trang chủ")}</a></li>                
                        <foreach="$option['menu'] as $mn ">
 							<li class="{$mn->active}" ><a href="{$this->bw->base_url}{$mn->getUrl()}" title="" class="{$mn->active} ">{$mn->getTitle()}</a></li>
 					   </foreach>
-                        
-                        <li><a id="gototop" class="gototop" href="#"><i class="icon-chevron-up"></i></a></li><!--#gototop-->
+                       <li><a id="gototop" class="gototop" href="#"><i class="icon-chevron-up"></i></a></li><!--#gototop-->
                     </ul>
-		
-                            
-                            
 EOF;
 		return $BWHTML;
 	}	
 
 
-function getAnalytic($option = array()) {
-		global $bw;
-		$this->vsLang = VSFactory::getLangs();
-			
-		
-		$BWHTML .= <<<EOF
-		
- 	<p>Đang truy cập: <span style="color: #666666">{$option['online']}</span>  |  Tổng truy cập: <span style="color: #666666">{$option['total']}</span></p>
-EOF;
-		return $BWHTML;
-	}
 function getContact($option = array()) {
-//		print  "<pre>";
-//		print_r ($option['obj']);
-//		print  "<pre>";
-//		exit();
-		
 		global $bw,$vsPrint;
 		
 		$vsLang = VSFactory::getLangs();
@@ -134,26 +112,27 @@ function getContact($option = array()) {
         <div class="container">
             <div class="row">
                 <div class="col-sm-3">
-                    <h4>{$this->vsLang->getWords("address_footer","Address")}</h4>
+                    <h4>{$this->vsLang->getWords("global_address_footer","Address")}</h4>
+                    <p>{$option['obj']->getTitle()}</p>
                     <p>{$option['obj']->getContent()}</p>
                 </div><!--/.col-sm-3-->
                 
                 <div class="col-sm-5">
-                    <h4>{$this->vsLang->getWords("contact_form_footer","Contact Form")}</h4>
+                    <h4>{$this->vsLang->getWords("global_contact_form_footer","Contact Form")}</h4>
                     <form id="main-contact-form" class="contact-form" name="contact-form" method="post" action="" role="form">
                         <div class="row">
                             <div class="col-sm-12">
                                 <div class="form-group">
-                                    <input name="email_contacts" id="email_contacts" type="text" class="form-control" required="required" placeholder="{$this->vsLang->getWords("email_address","Email address")}">
+                                    <input name="email_contacts" id="email_contacts" type="text" class="form-control" required="required" placeholder="{$this->vsLang->getWords("global_contact_email", "Email address")}" />
                                 </div>
                                 <div class="form-group">
-                                    <input name="name_contacts" id="full_name_contacts" type="text" class="form-control" required="required" placeholder="{$this->vsLang->getWords("full_name","Full Name")}">
+                                    <input name="name_contacts" id="full_name_contacts" type="text" class="form-control" required="required" placeholder="{$this->vsLang->getWords("global_contact_fullname", "Full Name")}" />
                                 </div>
                                 <div class="form-group">
-                                    <textarea name="message_contacts" id="message_contacts" required="required" class="form-control" rows="3" placeholder="{$this->vsLang->getWords("message_contacts","Message")}"></textarea>
+                                    <textarea name="message_contacts" id="message_contacts" required="required" class="form-control" rows="3" placeholder="{$this->vsLang->getWords("global_contact_message", "Message")}"></textarea>
                                 </div>
                                 <div class="form-group">
-                                    <button id="submit_form_mail" type="button" class="btn btn-primary btn-lg">{$this->vsLang->getWords("send_message","Send Message")}</button>
+                                    <button id="submit_form_mail" type="button" class="btn btn-primary btn-lg">{$this->vsLang->getWords("global_send_contact","Send Message")}</button>
                                 </div>
                             </div>
                         </div>
@@ -161,68 +140,92 @@ function getContact($option = array()) {
                     </form>
                 </div><!--/.col-sm-8-->
                 <div class="col-sm-4">
-                    <h4>{$this->vsLang->getWords("our_location_footer","Our Location")}</h4>
+                    <h4>{$this->vsLang->getWords("global_our_location_footer","Our Location")}</h4>
                     <div style="width:100%; height: 215px;" class="map" id="map_canvas"></div>
                     
                 </div><!--/.col-sm-4-->
             </div>
         </div>
 
-        	<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-        <h4 class="modal-title" id="myModalLabel">{$this->vsLang->getWords("warrning","Thông Báo")}</h4>
-		<hr/>
+        <h4 class="modal-title">{$this->vsLang->getWords("global_warrning","Thông Báo")}</h4>
+		<hr />
       </div>
       <div class="modal-body">
-        <div id="return"></div>
       </div>
-      
     </div>
   </div>
 </div>
 	
+
+
 <script type="text/javascript">
 $("#submit_form_mail").click(function(){
-
-	$('#myModal').modal({
-	  backdrop: true
-	});
 	var x = document.forms["contact-form"]["email_contacts"].value;
     var atpos = x.indexOf("@");
     var dotpos = x.lastIndexOf(".");
     if (atpos<1 || dotpos<atpos+2 || dotpos+2>=x.length) {
-        document.getElementById("return").innerHTML = '<p style="font-size: 17px; color: rgb(255, 0, 0); font-family: arial;">{$this->vsLang->getWords("Mmail_error","Vui lòng điền email chính xác")}</p>';
+        $('#myModal .modal-body').text('{$this->vsLang->getWords("global_contact_error_email", "Vui lòng cung cấp thông tin email")}');
+    	$('#myModal').modal({
+    	    backdrop: true
+    	});
+    	
         return false;
     }
 	
 	if($("#full_name_contacts").val().length<1){
-		
+	    $('#myModal .modal-body').text('{$this->vsLang->getWords("global_contact_error_fullname", "Vui lòng cung cấp thông tin họ tên")}');
+    	$('#myModal').modal({
+    	    backdrop: true
+    	});
+    	
 		return false;
 	}
-	 var message_contacts = document.getElementById("message_contacts").value;
-	 if(message_contacts.length<1){
-		document.getElementById("return").innerHTML = '<p style="font-size: 17px; color: rgb(255, 0, 0); font-family: arial;">{$this->vsLang->getWords("error_mess","Please enter Message!!!")}</p>';
-		
+	
+	 if($('#message_contacts').length<1){
+	    $('#myModal .modal-body').text('{$this->vsLang->getWords("global_contact_error_message", "Vui lòng cung cấp nội dung liên hệ")}');
+    	$('#myModal').modal({
+    	    backdrop: true
+    	});
+    	
 		return false;
-	}
-	var email = document.forms["contact-form"]["email_contacts"].value;
-    var name = document.getElementById("full_name_contacts").value;
-	var content = document.getElementById("message_contacts").value;
-	$.ajax({
-			type:'POST',			
-			url: baseUrl+'pages/sendcontacts',
-			data:'ajax=1&json=1&name_contacts='+name+'&email_contacts='+email+'&message_contacts='+content+'',
-			success: function(data) {	
-					
-				//$('#return').html(data);
-				
-			}
-		});
-		document.getElementById("return").innerHTML = '<p style="font-size: 17px; color: rgb(255, 0, 0); font-family: arial;">{$this->vsLang->getWords("mess_oki","Gởi Nội dung liên hệ thành công!!")}</p>';	
-		document.getElementById('main-contact-form').reset();
+	}    
+
+
+    var url = baseUrl+'pages/sendcontacts';
+    
+    var params = {'ajax':1, 'json':1};
+    
+    $('#main-contact-form')
+	.find("input[type='radio']:checked, input[checked], input[type='text'], input[type='hidden'], input[type='password'], input[type='submit'], option[selected], textarea")
+	.each(function() {
+		params[ this.name || this.id || this.parentNode.name || this.parentNode.id ] = this.value;
+	});
+    
+    
+    $.post(
+        url, 
+        params, 
+        function(data) {
+            if(data.flag == 1) {
+               $('#main-contact-form')
+            	.find("input[type='radio']:checked, input[checked], input[type='text'], input[type='hidden'], input[type='password'], input[type='submit'], option[selected], textarea")
+            	.each(function() {
+            		this.value = '';
+            	}); 
+            }
+            
+            $('#myModal .modal-body').text(data.message);
+        	$('#myModal').modal({
+        	    backdrop: true
+        	});
+		}, 
+		'json'
+	);
 	});
 </script>  
                      
@@ -264,55 +267,7 @@ init();
 EOF;
 		return $BWHTML;
 	}
-function getAbouts($option = array()) {
-
-
-		global $bw;
-		$BWHTML .= <<<EOF
-		
-      <if="$bw->input[0]!='home'">
-      					<div class="wt_content">
-                                <div class="intelegan_in">
-                                    <div class="footer_title">
-                                        <h5>nội thất thông minh</h5>
-                                    </div>
-                                    <div class="footer_info">
-                                        <ul class="media-list">
-                                        	<foreach="$option['news'] as $value">
-                                            <li class="media">
-                                            	 <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 padding_f">	
-                                                <a class="pull-left" href="{$value->getUrl($value->getModule())}" title="">
-                                                    <img style="width: 100%; class="media-object" src="{$value->getCacheImagePathByFile($value->getImage(),1,1,1,1)}" alt="">
-                                                </a>
-                                                </div>
-                                                <div class="media-body media_fo">
-                                                    <a href="{$value->getUrl($value->getModule())}" title="">
-                                                        <h4 class="media-head-fo">{$value->getTitle()}</h4>
-                                                    </a>
-                                                    <p>{$this->cut($value->getIntro(), 100)}</p>
-                                                </div>
-                                                <div class="clear"></div>
-                                            </li>
-                                            </foreach>
-
-                                            
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-     <else />
-     <div class="wt_content intro_footer">
-                                <div class="footer_title">
-                                    <h5>giới thiệu</h5>
-                                </div>
-                                <div class="footer_info">
-                                    <p>{$this->cut($option['abouts']?$option['abouts']->getIntro():"",600)}</p>
-                                </div>
-                            </div>
-     </if>
-EOF;
-		return $BWHTML;
-	}
+	
 function getSupports($option = array()) {
 	global $bw;	
 		

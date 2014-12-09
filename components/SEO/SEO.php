@@ -31,7 +31,7 @@ class COM_SEO extends VSFObject{
 		$pageIndex = $bw->input['vs_page_index']?'-'.$bw->input['vs_page_index']:'';
 		
 		if($this->basicObject->getTitle()!="") {
-			$pageTitle = $this->basicObject->getTitle()." ".$bw->input['vs_page_index']." | ".VSFactory::getSettings()->getSystemKey('global_websiteaddress','','global');
+			$pageTitle = $this->basicObject->getTitle()." ".$bw->input['vs_page_index']." | ".VSFactory::getSettings()->getSystemKey('global_websitename', '','global');
 			$vsSkin->wrapper = str_replace("<title>".$vsPrint->pageTitle."</title>","<title>".$pageTitle."</title>", $vsSkin->wrapper);
 			$vsSkin->wrapper = str_replace("</title>","</title><meta name='title' content='".$pageTitle."' />", $vsSkin->wrapper);		
 		}

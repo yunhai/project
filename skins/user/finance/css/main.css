@@ -1059,6 +1059,8 @@ ul.faq {
 }
 ul.faq li {
   margin-top: 30px;
+  min-height: 50px;
+  display: block;
 }
 ul.faq li:first-child {
   margin-top: 0;
@@ -1148,4 +1150,33 @@ h4.map_intro{
     text-decoration: none;
     width: 23px;
     z-index: 2;
+}
+
+#myModal {
+	color: #000 !important;
+}
+
+#myModal h4.modal-title{
+	font-weight: bold;
+	margin-bottom: 10px;
+}
+
+#myModal hr{
+    margin: 5px 0;
+}
+
+#myModal .modal-body{
+	font-size: 14px;
+    padding-top: 10px;
+}
+
+.navbar-fixed-top{
+  background: linear-gradient(to right, rgb(255, 255, 255) 25%, rgb(5, 5, 5)) repeat scroll 0% 0% transparent;
+}
+.faq h4{
+	margin-top: 0px;
+	margin-bottom: 0px;
+}
+.faq h4 a{
+    line-height: 50px;
 }

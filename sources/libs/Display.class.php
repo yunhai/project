@@ -216,7 +216,7 @@ class VSFDisplay {
 		$this->_check_debug();
 		$stats = $this->_show_debug ();
 		// Page title
-		$this->pageTitle .= " | " . VSFactory::getSettings()->getSystemKey('global_websiteaddress','','global');// $bw->vars ['global_websitename'];
+		$this->pageTitle .= " | " . VSFactory::getSettings()->getSystemKey('global_websitename','','global');
 		// Main title
 		$this->mainTitle = $this->mainTitle ? $vsTemplate->getGlobal()->global_main_title () : "";
 		
@@ -273,7 +273,7 @@ class VSFDisplay {
 		$this->_check_debug();
 		$stats = $this->_show_debug ();
 		// Page title
-		$this->pageTitle .= " | " .VSFactory::getSettings()->getSystemKey('global_websiteaddress','','global');// $bw->vars ['global_websitename'];
+		$this->pageTitle .= " | " .VSFactory::getSettings()->getSystemKey('global_websitename','','global');// $bw->vars ['global_websitename'];
 		// Main title
 		$this->mainTitle = $this->mainTitle ? $vsTemplate->getGlobal()->global_main_title () : "";
 		

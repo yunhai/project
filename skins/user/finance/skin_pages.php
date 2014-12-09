@@ -2,6 +2,7 @@
 class skin_pages extends skin_objectpublic{
 	function showDefault($option = array()) {
 		global $bw,$vsPrint;
+		
 		$this->bw=$bw;
 		//$option['cate'] = VSFactory::getMenus ()->getCategoryGroup ( $bw->input [0] )->getChildren();
 		//$option['title'] = VSFactory::getLangs()->getWords($bw->input[0]."s");
@@ -56,7 +57,7 @@ EOF;
 	
 	function showDetail($obj,$option = array()) {
 		global $bw,$vsPrint;
-//		echo "vuong"; exit();
+
 		$vsLang = VSFactory::getLangs();
 		$this->bw=$bw;
 		
@@ -141,7 +142,6 @@ EOF;
 							      <img class="img-responsive" src="{$value->getPathView()}" width="100%" alt="" />
 							    </div>
 							    </foreach>
-							    
 							  </div>
 							
 							  <!-- Controls -->
@@ -153,14 +153,11 @@ EOF;
 							  </a>
 							</div><!-- gallery -->
 							<script type="text/javascript">
-							$( document ).ready(function() {
-								$('ol.carousel-indicators >li:first-child').addClass('active');
-								$('.carousel-inner >div:first-child').addClass('active');
-								
-							});							    
+    							$( document ).ready(function() {
+    								$('ol.carousel-indicators >li:first-child').addClass('active');
+    								$('.carousel-inner >div:first-child').addClass('active');
+    							});							    
 							</script>
-							
-							
                             </if>
                             <p>&nbsp;</p>
                         </div>
@@ -173,7 +170,7 @@ EOF;
 EOF;
 	}
 	
-function showSearch($option = array()) {
+    function showSearch($option = array()) {
 		global $bw,$vsPrint;
 		$this->bw=$bw;
 		//$option['cate'] = VSFactory::getMenus ()->getCategoryGroup ( $bw->input [0] )->getChildren();
@@ -278,17 +275,70 @@ function showSearch($option = array()) {
 			
 EOF;
 	}
-function showSendcontact($option=null){
-		global $bw,$vsLang,$vsMenu,$vsSettings,$urlcate,$vsExperts,$vsTemplate,$vsPrint;
-		
-		$BWHTML .= <<<EOF
 
-		{$option['reset']}
-EOF;
-						
+
+	function showAboutDefault($option = array()) {
+	    global $bw,$vsPrint;
+	    $this->bw=$bw;
 	
+	    $cateId = $option['obj']?$option['obj']->getId():0;
+	
+	    $vsLang = VSFactory::getLangs();
+	    $this->vsLang = VSFactory::getLangs();
+	    $count =9;
+	    
+	    $BWHTML .= <<<EOF
+	
+	<section id="title" class="emerald">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-6">
+                    <h1>{$this->vsLang->getWords("{$bw->input[0]}_title","{$bw->input[0]}")}</h1>
+                    <p>{$this->vsLang->getWords("{$bw->input[0]}_intro","Pellentesque habitant morbi tristique senectus et netus et malesuada")}</p>
+                </div>
+                <div class="col-sm-6">
+	
+                 <ul class="breadcrumb pull-right">
+                        {$option['breakcrum']}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section><!--/#title-->
+	
+    <section id="faqs" class="container">
+        <div class='col-md-8'>
+            <ul class="faq unstyled">
+                <foreach="$option['pageList'] as $value">
+                    <li>
+                        <span class="number">{$value->count}</span>
+                        <div>
+                            <h4><a href='{$value->getUrl($value->getModule())}'>{$value->getTitle()}</a></h4>
+                            <p>{$this->cut($value->getIntro(),850)}</p>
+                        </div>
+                    </li>
+                </foreach>
+             </ul>
+             <if="$option['paging']">
+                <div class="page">
+    					{$option['paging']}
+    			</div>
+    		</if>
+        </div>
+        <div class='col-md-4'>
+    	   <div class="list-group">
+    	   <!--
+              <a href="#" class="list-group-item active">
+                {$this->vsLang->getWords("{$bw->input[0]}_category_list", "Giới thiệu về Weicovina chúng tôi")}
+              </a>
+              -->
+	          <foreach="$option['category'] as $value">
+                <a href="{$value->getCatUrl()}" class="list-group-item <if="$option ['idcate'] == $value->getId()">active</if>" title="{$value->getTitle()}">{$value->getTitle()}</a>
+              </foreach>
+            </div>				        
+    					        
+        </div>
+    </section><!--#faqs-->
+EOF;
 	}
 }
-?>
-	
-

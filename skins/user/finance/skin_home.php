@@ -6,7 +6,6 @@ class skin_home extends skin_objectpublic{
 		global $bw, $vsTemplate, $vsPrint, $vsUser,$menu;
 		$vsLang = VSFactory::getLangs();
 		$this->vsLang = VSFactory::getLangs();
-	$pagpage = VSFactory::getSettings ()->getSystemKey ( "Links Panpage", "https://www.facebook.com/FacebookDevelopers", "configs" );
 
 		$BWHTML .= <<<EOF
 		<section id="services" class="emerald">
@@ -34,8 +33,8 @@ class skin_home extends skin_objectpublic{
         <div class="container">
             <div class="row">
                 <div class="col-md-3">
-                    <h3>{$this->vsLang->getWords("Our_Latest_Project_title","Our Latest Project")}</h3>
-                    <p>{$this->vsLang->getWords("Our_Latest_Project_intro","Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.")}</p>
+                    <h3>{$this->vsLang->getWords("our_latest_project_title","Our Latest Project")}</h3>
+                    <p>{$this->vsLang->getWords("our_latest_project_intro","Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.")}</p>
                     <div class="btn-group">
                         <a class="btn btn-danger" href="#scroller" data-slide="prev"><i class="icon-angle-left"></i></a>
                         <a class="btn btn-danger" href="#scroller" data-slide="next"><i class="icon-angle-right"></i></a>

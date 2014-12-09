@@ -1,9 +1,0 @@
-<?php
-$lang = array (
-  'group_global_module' => 'global',
-  'main_title' => 'HOME',
-  'pageTitle' => 'HOME',
-);
-$userLang = array (
-);
-?>

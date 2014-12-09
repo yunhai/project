@@ -47,7 +47,7 @@ class VSFPath {
 					$bw->input ['vs'] = str_replace ( $vsLang->currentLang->getCode () . "/", '', $bw->input ['vs'] );
 				}
 		}
-		
+	
 		$this->initPath ();
 		$vs_nohtml = str_replace ( '.html', '', $bw->input ['vs'] );
 		$clean_url = explode ( "/", trim ( $vs_nohtml, "/" ) );

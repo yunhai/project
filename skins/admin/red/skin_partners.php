@@ -175,24 +175,6 @@ class skin_partners extends skin_objectadmin {
 						</td>
 					</tr>
 				</if>
-				<tr>
-					<td></td>
-					<td><if="$this->getSettings()->getKeyGroup($bw->input[0].'_'.$this->modelName.'_seo_option','SEO Option',$bw->input[0].'_'.$this->modelName.'_form')">
-						<button onclick="$('#seo').toggle();return false;">Seo option</button>
-					</if>
-				</tr></td>	
-
-				<if="$this->getSettings()->getKeyGroup($bw->input[0].'_'.$this->modelName.'_seo_option','SEO Option',$bw->input[0].'_'.$this->modelName.'_form')">
-					<tr id="seo" $seo>
-						<td><label>{$this->getLang()->getWords('seo')}</label></td>
-						<td>
-							<label>Slug:<input type="text" style="width:100%" value="{$obj->getSlug()}" name="{$this->modelName}[slug]" /></label>
-							<label>Meta Title:<input type="text" style="width:100%" value="{$obj->getMTitle()}" name="{$this->modelName}[mTitle]" /></label>
-							<label>Meta Description:<textarea style="width:100%"   name="{$this->modelName}[mIntro]" >{$obj->getMIntro()}</textarea></label>
-							<label>Meta Keyword:<textarea style="width:100%"   name="{$this->modelName}[mKeyword]" >{$obj->getMKeyword()}</textarea></label>
-						</td>
-					</tr>
-				</if>
 				<tr style="border:none">
 					<td class="vs-button" colspan="2" >
 					

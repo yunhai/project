@@ -111,8 +111,10 @@ class VSFLanguage {
 		/*if($_REQUEST['test']){
 			print_r($this->currentKeys);exit;
 		}*/
+		
+		
 		$fileName = explode ( "_", $key );
-		if ($fileName [0] == 'global') $module = "global";
+		if ($fileName [0] == 'global' || in_array($module, array('cn', 'en'))) $module = "global";
 		
 		if (! $this->currentKeys [$module]) {
 			if(!file_exists ( CACHE_PATH . "langs/" . APPLICATION_TYPE . "/". $this->getArea ()  )){

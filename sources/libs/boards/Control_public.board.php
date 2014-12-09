@@ -203,7 +203,7 @@ function createBreakCrum($obj){
 function createBreakCrum($obj){
 		global $bw;
 		$lang = VSFactory::getLangs ();
-		$html = '<li>' . " <a class='first' href='{$bw->base_url}' itemprop='url'><span itemprop='title'>{$lang->getWords('home','Trang chủ')}</span></a>" . '</li>';
+		$html = '<li>' . " <a class='first' href='{$bw->base_url}' itemprop='url'><span itemprop='title'>{$lang->getWords('global_breadcrumb_home','Trang chủ')}</span></a>" . '</li>';
 		$html .= '<li>' . " <a  href='{$bw->base_url}{$bw->input[0]}' itemprop='url'><span itemprop='title'>{$lang->getWords($bw->input[0],$bw->input[0])}</span></a>" . '</li>';
 		//$html.=" <a href='{$bw->base_url}{$bw->input[0]}'>{$lang->getWords($bw->input[0],$bw->input[0])}</a>";
 		

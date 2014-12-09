@@ -66,17 +66,13 @@ function auto_run() {
 		
 		 
 		$this->email->setTo($bw->input['contacts']['email']);				
-		$this->email->setFrom (VSFactory::getSettings ()->getSystemKey ( "email_admin", "vuongnguyen0712@gmail.com", "configs" ));
+		$this->email->setFrom (VSFactory::getSettings ()->getSystemKey ( "email_admin", "mclchuang@weicovina.com.vn", "configs" ));
 		$this->email->setSubject ($this->vsLang->getWords("title_email_reply","Hồi đáp ý kiến của khách hàng"));
 		
 		$content=$bw->input['contacts']['content'];
 		$this->email->setBody ($content);
 		$this->email->sendMail ();
 		 
-		  print  "<pre>";
-         print_r ($this->email);
-         print  "<pre>";
-         exit(); 
 		// $this->email->setTo($bw->input['contacts']['email']);
 		
 		// $this->email->setFrom(VSFactory::getSettings()->getSystemKey("smtp_user","customer@vstatic.net","configs"));

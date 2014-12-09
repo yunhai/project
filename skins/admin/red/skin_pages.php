@@ -10,14 +10,7 @@ class skin_pages extends skin_objectadmin {
 			$seo = "";
 		}
 		
-		if($obj->getOption()){
-			$this->option=explode(",",$obj->getOption());
-		}
-		
-		
 		$BWHTML .= <<<EOF
-		
-		
 
 		<div class="vs_panel" id="vs_panel_{$this->modelName}">
 		<div class="ui-dialog">
@@ -56,7 +49,6 @@ class skin_pages extends skin_objectadmin {
 						<input  name="{$this->modelName}[website]" id="{$this->modelName}_website" type="text" value="{$obj->getWebsite()}" style='width:99%' />
 					</td>
 				</tr>
-				
 				</if>
 
 				
@@ -89,24 +81,6 @@ class skin_pages extends skin_objectadmin {
 				</tr>
 				</if>
 				
-				
-				
-				
-				
-				
-				
-				
-				
-			
-				
-				
-				
-				
-				
-				
-				
-				
-				
 				<if="$this->getSettings()->getKeyGroup($bw->input[0].'_'.$this->modelName.'_category_list','Category',$bw->input[0].'_'.$this->modelName.'_form') and $this->model->getCategories()->getChildren()">
 				<tr>
 					<td><label>{$this->getLang()->getWords("category",'Danh mục')}</label></td>
@@ -119,46 +93,6 @@ class skin_pages extends skin_objectadmin {
 				</tr>
 				</if>
 				
-				
-				
-			
-				
-				<if="$this->getSettings()->getKeyGroup($bw->input[0].'_'.$this->modelName.'_price','price',$bw->input[0].'_'.$this->modelName.'_price',0)">
-				<tr>
-					<td><label>{$this->getLang()->getWords("price","Giá")}</label></td>
-					<td>
-					<input  name="{$this->modelName}[price]" type="text" value="{$obj->getPrice()}" style="width:50%" />
-					</td>
-				</tr>
-				</if>
-				
-				<if="$this->getSettings()->getKeyGroup($bw->input[0].'_'.$this->modelName.'_phone','phone',$bw->input[0].'_'.$this->modelName.'_phone',0)">
-					<tr>
-						<td><label>{$this->getLang()->getWords("phone","Điện thoại")}</label></td>
-						<td>
-						<input  name="{$this->modelName}[phone]" type="text" value="{$obj->getPhone()}" style="width:50%" />
-						</td>
-					</tr>
-				</if>
-				
-				<if="$this->getSettings()->getSystemKey($bw->input[0].'_'.$this->modelName."_number",0,$bw->input[0])">
-					<tr>
-						<td><label>Số lượng:</label></td>
-						<td>
-						<input  name="{$this->modelName}[number]" type="text" value="{$obj->getNumber()}" style="width:50%" />
-						
-						</td>
-					</tr>
-				</if>
-				<if="$this->getSettings()->getSystemKey($bw->input[0].'_'.$this->modelName."_deadline",0,$bw->input[0])">
-					<tr>
-						<td><label>{$this->getLang()->getWords("deadline","Thời hạn nộp ")}</label></td>
-						<td>
-						<input  name="{$this->modelName}[deadline]" type="text" value="{$obj->getDeadline()}" style="width:50%" />
-						
-						</td>
-					</tr>
-				</if>		
 				
 				<if="$this->getSettings()->getKeyGroup($bw->input[0].'_'.$this->modelName.'_index','index',$bw->input[0].'_'.$this->modelName.'_form')">
 				<tr>
@@ -244,29 +178,8 @@ class skin_pages extends skin_objectadmin {
 					</td>
 				</tr>  
 				</if>
-				
-				<tr>
-					<td></td>
-					<td><if="$this->getSettings()->getKeyGroup($bw->input[0].'_'.$this->modelName.'_seo_option','SEO Option',$bw->input[0].'_'.$this->modelName.'_form')">
-						<button onclick="$('#seo').toggle();return false;">Seo option</button>
-					</if>
-					</td>	
-				</tr>
-
-				<if="$this->getSettings()->getKeyGroup($bw->input[0].'_'.$this->modelName.'_seo_option','SEO Option',$bw->input[0].'_'.$this->modelName.'_form')">
-					<tr id="seo" $seo>
-						<td><label>{$this->getLang()->getWords('seo')}</label></td>
-						<td>
-							<label>Slug:<input type="text" style="width:100%" value="{$obj->getSlug()}" name="{$this->modelName}[slug]" /></label>
-							<label>Meta Title:<input type="text" style="width:100%" value="{$obj->getMTitle()}" name="{$this->modelName}[mTitle]" /></label>
-							<label>Meta Description:<textarea style="width:100%"   name="{$this->modelName}[mIntro]" >{$obj->getMIntro()}</textarea></label>
-							<label>Meta Keyword:<textarea style="width:100%"   name="{$this->modelName}[mKeyword]" >{$obj->getMKeyword()}</textarea></label>
-						</td>
-					</tr>
-				</if>
 				<tr style="border:none">
 					<td class="vs-button" colspan="2" >
-					
 						<button type="submit" ><span><img src="{$bw->vars['img_url']}/pixel-vfl3z5WfW.gif" class="icon-wrapper-vs vs-icon-accept"></span><span>{$this->getLang()->getWords('global_accept')}</span></button>
 						<button type="button" id="frm_close" class="btnCancel frm_close"><span><img src="{$bw->vars['img_url']}/pixel-vfl3z5WfW.gif" class="icon-wrapper-vs vs-icon-cancel"></span><span>{$this->getLang()->getWords("global_cancel")}</span></button>
 					</td>
@@ -274,11 +187,8 @@ class skin_pages extends skin_objectadmin {
 				</tbody>
 			</table>
 		</form>
-		
-		
-		</div>
-		<script>
-			
+	</div>
+	<script type='text/javascript'>
 		$("#frm_add_edit_obj").submit(function(){
 				var flag=false;
 				var message="";

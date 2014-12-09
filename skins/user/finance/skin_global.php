@@ -18,31 +18,29 @@ class skin_global extends skin_board_public{
 		$vsLang = VSFactory::getLangs();
 		$this->vsLang = VSFactory::getLangs();
 		
-		$this->car=Object::getObjModule("pages","car",">0");
 		ksort($this->car);
 		
 		
 		
 		
 		
-		$fb = VSFactory::getSettings ()->getSystemKey ( "facebook", "https://www.facebook.com/", "configs" );	
-		$google = VSFactory::getSettings ()->getSystemKey ( "googleplus", "http://google.com.vn/", "configs" );
-		$tw = VSFactory::getSettings ()->getSystemKey ( "twitter", "http://twitter.com/", "configs" );
-		$pinterest = VSFactory::getSettings ()->getSystemKey ( "pinterest", "https://www.pinterest.com/", "configs" );
-		$youtube = VSFactory::getSettings ()->getSystemKey ( "youtube", "https://www.youtube.com/", "configs" );	
-		$slogan = VSFactory::getSettings ()->getSystemKey ( "slogan", "Slogan here", "configs" );
-		$like_Fanpage = VSFactory::getSettings ()->getSystemKey ( "like_Fanpage", "https://www.facebook.com/FacebookDevelopers", "configs" );
-		$hotline = VSFactory::getSettings ()->getSystemKey ( "hotline", "0933 340 436", "configs" );
+// 		$fb = VSFactory::getSettings ()->getSystemKey ( "facebook", "https://www.facebook.com/", "configs" );	
+// 		$google = VSFactory::getSettings ()->getSystemKey ( "googleplus", "http://google.com.vn/", "configs" );
+// 		$tw = VSFactory::getSettings ()->getSystemKey ( "twitter", "http://twitter.com/", "configs" );
+// 		$pinterest = VSFactory::getSettings ()->getSystemKey ( "pinterest", "https://www.pinterest.com/", "configs" );
+// 		$youtube = VSFactory::getSettings ()->getSystemKey ( "youtube", "https://www.youtube.com/", "configs" );	
+// 		$like_Fanpage = VSFactory::getSettings ()->getSystemKey ( "like_Fanpage", "https://www.facebook.com/FacebookDevelopers", "configs" );
+// 		$hotline = VSFactory::getSettings ()->getSystemKey ( "hotline", "0933 340 436", "configs" );
 		
 		
-		$hotline = VSFactory::getSettings ()->getSystemKey ( "email_admin", "vuongnguyen0712@gmail.com", "configs" );
+// 		$hotline = VSFactory::getSettings ()->getSystemKey ( "email_admin", "vuongnguyen0712@gmail.com", "configs" );
 		
 
 
 		$BWHTML .= <<<EOF
 		
 <header class="navbar navbar-inverse navbar-fixed-top wet-asphalt">
-        <div class="container" style="background: linear-gradient(to right, rgb(255, 255, 255) 5%, rgb(52, 73, 94)) repeat scroll 0% 0% transparent;">
+        <div class="container">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                     <span class="sr-only">Toggle navigation</span>
@@ -72,7 +70,7 @@ class skin_global extends skin_board_public{
         <div class="container">
             <div class="row">
                 <div class="col-sm-6">
-                  {$this->vsLang->getWords("coppyright","  &copy; 2013 Weicovina. All Rights Reserved.")}
+                  {$this->vsLang->getWords("global_coppyright","  &copy; 2013 Weicovina. All Rights Reserved.")}
                 </div>
                 <div class="col-sm-6">
                     
