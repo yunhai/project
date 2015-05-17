@@ -50,9 +50,6 @@ class pages_controler_public extends VSControl_public {
         $category = VSFactory::getMenus ()->getCategoryGroup ( $bw->input [0] );
         $option ['cate_list'] = VSFactory::getMenus ()->getCategoryGroup ( $bw->input [0] )->getChildren ();
         $_SESSION ['active'] = 0;
-        if (! $category || $bw->input [1]) {
-            $vsPrint->boink_it ( $bw->base_url . "404.html" );
-        }
 
         if($bw->input['module'] == 'abouts') {
             $tmp = $category->getChildren();
@@ -108,10 +105,6 @@ class pages_controler_public extends VSControl_public {
             $category = VSFactory::getMenus ()->getCategoryGroup ( $bw->input [0] );
             $option ['cate_list'] = VSFactory::getMenus ()->getCategoryGroup ( $bw->input [0] )->getChildren ();
 
-            if (! $category2) {
-                $vsPrint->boink_it ( $bw->base_url . "404.html" );
-            }
-
 
             $ids = VSFactory::getMenus ()->getChildrenIdInTree ( $category );
             $this->model->setCondition ( "status>0 and catId in ($ids)" );
@@ -145,9 +138,6 @@ class pages_controler_public extends VSControl_public {
             $category = VSFactory::getMenus ()->getCategoryGroup ( $bw->input [0] );
             $idcate = $this->getIdFromUrl ( $catId );
             $category = VSFactory::getMenus ()->getCategoryById ( $idcate );
-            if (! $category) {
-                $vsPrint->boink_it ( $bw->base_url . "404.html" );
-            }
             $_SESSION ['active'] = $category->getId ();
 
             $ids = VSFactory::getMenus ()->getChildrenIdInTree ( $category );
@@ -185,10 +175,6 @@ class pages_controler_public extends VSControl_public {
 
         $idcate = $this->getIdFromUrl ( $catId );
         $category2 = VSFactory::getMenus ()->getCategoryById ( $idcate );
-
-        if (! $category2) {
-            $vsPrint->boink_it ( $bw->base_url . "404.html" );
-        }
 
         $ids = VSFactory::getMenus ()->getChildrenIdInTree ( $category2 );
         $this->model->setCondition ( "status>0 and catId in ($ids)" );
@@ -242,9 +228,6 @@ class pages_controler_public extends VSControl_public {
         global $vsPrint, $bw, $vsTemplate, $vsStd, $DB;
         $category = VSFactory::getMenus ()->getCategoryGroup ( $bw->input [0] );
         $obj = $this->model->getObjectById ( $this->getIdFromUrl ( $objId ) );
-        if (! $obj->getId () || $obj->getStatus () <= 0) {
-            $vsPrint->boink_it ( $bw->base_url . "404.html" );
-        }
         $obj->createSeo ();
         $option ['breakcrum'] = $this->createBreakCrum ( $obj );
         $option ['other'] = $this->model->getOtherList ( $obj );
