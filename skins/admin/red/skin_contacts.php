@@ -34,9 +34,7 @@ class skin_contacts extends skin_objectadmin {
 		<div id="{$this->modelName}_item_panel">
 		{$option['table']}
 		</div>
-		<div class="more_action">
-			<img width="38" height="22" alt="With selected:" src="{$bw->vars['img_url']}/arrow_ltr.png" class="selectallarrow">
-		</div>
+		
 		</form>
 		</div>
 		<script>
@@ -232,7 +230,7 @@ EOF;
 				        	<td class='left' width="100">{$this->getLang()->getWords('contactTime','Thời gian')}:</td>
 				            <td>{$this->dateTimeFormat($contact->getPostDate(),"d/m/Y")}</td>
 						</tr>
-				         <tr>
+				        <tr>
 				        	<td valign="top" class="smalltitle">{$this->getLang()->getWords('contactMessage','Message')}:</td>
 				            <td class="ui-dialog-buttonpanel smalltitle">
 				            	<input id='replyButton' value="{$this->getLang()->getWords('contactReply','Reply')}" type="button" />
@@ -266,23 +264,20 @@ EOF;
 	function replyContactForm($obj, $option){
 		global $bw;
 		
-			$prehtml = <<<EOF
+			$this->prehtml = <<<EOF
 				{$this->dateTimeFormat($obj->getPostDate(),"d/m/Y")} <strong>{$obj->getName()} <i>&lt;{$obj->getEmail()}&gt;</i></strong>:<br />
 				<blockquote style="border-left: 2px solid rgb(16, 16, 255); margin: 0pt 0pt 0pt 0.8ex; padding-left: 1ex; background:#F4F4F4;">
-		        	{$this->getLang()->getWords('reply_from','From')}: 
-					{$obj->getEmail()} <{$obj->getEmail()}><br />
-		        	
-					{$this->getLang()->getWords('reply_subject','Subject')}:
-					{$obj->getTitle()}<br />
-					
-		        	{$this->getLang()->getWords('reply_to','To')}:
-		        	
+		        	<b>{$this->getLang()->getWords('reply_from','From')}:</b>
+					{$obj->getEmail()} <{$obj->getEmail()}> <br />
+					<b>{$this->getLang()->getWords('reply_subject','Subject')}:</b> 
+					{$obj->getTitle()}	<br />
+		        	<b>{$this->getLang()->getWords('reply_to','To')}:</b> 
 					{$this->getSettings()->getSystemKey ( "email_admin", "vuongnguyen0712@gmail.com", "configs" )}<br />
-		        	{$obj->getContent()}
-		        </blockquote><br /><br />
+		        	<b>{$this->getLang()->getWords('content', 'Content')}:</b><br />
+					{$obj->getContent()}
+		        </blockquote><br/><br/>
 EOF;
-			$obj->setContent($prehtml);
-			//echo 124;exit();
+			
 			$BWHTML .= <<<EOF
 				<div class='ui-dialog ui-widget ui-widget-content ui-corner-all'>
 					<form id="formReply" method="post">
@@ -302,7 +297,7 @@ EOF;
 						</p>
 						</div>
 						<br />
-						{$this->createEditor($obj->getContent(), "{$this->modelName}[content]", "100%", "500px")}
+						{$this->createEditor($this->prehtml, "{$this->modelName}[content]", "100%", "500px")}
 					</form>
 					<input id="reply" type="submit" class="btnOk" value="{$this->getLang()->getWords('contacts_replyForm_Send','Send Reply')}">
 						

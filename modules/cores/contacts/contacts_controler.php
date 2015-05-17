@@ -71,7 +71,7 @@ function auto_run() {
         $recipientAlias = $this->model->obj->getTitle();
 
         $from = VSFactory::getSettings ()->getSystemKey ( "email_admin", "mclchuang@gmail.com", "configs" );
-        $fromName = $vsSettings->getSystemKey('global_websitename', 'Weicovina', 'global', 1, 1);
+        $fromName = VSFactory::getSettings()->getSystemKey('global_websitename', 'Weicovina', 'global', 1, 1);
 
         $subject = $this->vsLang->getWords("title_email_reply", "Hồi đáp ý kiến của khách hàng");
 
