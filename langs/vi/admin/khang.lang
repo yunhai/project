@@ -1,0 +1,7 @@
+<?php
+$lang = array (
+  'pageTitle' => 'Khách Hàng',
+  'main_title' => 'Khách Hàng',
+);
+$userLang = array();
+?>

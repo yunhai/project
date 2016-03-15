@@ -1,0 +1,7 @@
+<?php
+$lang = array (
+  'pageTitle' => 'noidung',
+  'main_title' => 'noidung',
+);
+$userLang = array();
+?>

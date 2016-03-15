@@ -1,0 +1,6 @@
+<?php
+$lang = array (
+  'tab_abouts_setting' => 'Giới thiệu Settings',
+);
+$userLang = array();
+?>

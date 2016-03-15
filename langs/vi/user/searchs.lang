@@ -1,0 +1,9 @@
+<?php
+$lang = array (
+  'pageTitle' => 'searchs',
+  'main_title' => 'searchs',
+  'searchs_search_emty' => 'Không tìm thấy dữ liệu theo yêu cầu. Vui lòng nhập từ khóa khác!',
+);
+$userLang = array (
+);
+?>

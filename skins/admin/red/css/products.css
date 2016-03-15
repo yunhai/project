@@ -1,0 +1,164 @@
+@CHARSET "UTF-8";
+#menus-categoryrealareas{
+	width:356px !important;
+}
+input, textarea, button{
+	padding: 3px
+}
+
+
+#form_new_relate label{
+	display: block;
+    padding: 3px;
+    width: 200px;
+}
+
+#form_new_relate input{
+	 border: 1px solid #54686E;
+    padding: 3px;
+    width: 95%;
+} 
+#form_new_relate .submit,
+#form_new_relate #click_cancel{
+	 float: right;
+    font-weight: bold;
+    margin-top: 10px;
+    text-align: center;
+    width: 75px;
+}
+#form_new_relate #click_cancel{
+	width: auto !important;
+	margin-left: 10px;
+}
+#list_news_relate img{
+	display: block;
+    float: left;
+}
+
+#list_news_relate{
+	height: 215px;
+    overflow: auto;
+    width: 200px;
+}
+#list_news_relate a{
+	color: #7A991A;
+    display: block;
+    font-style: italic;
+    height: 22px;
+    overflow: hidden;
+}
+#list_news_relate .class_title{
+	width:175px;
+}
+#list_news_relate .class_img{
+	float:left;
+}
+#table_news_relate{
+	
+}
+#table_news_relate a span, .rm_img{
+	text-decoration: underline;
+	color:red;
+}
+.status{
+	border: 1px solid;
+    height: 27px;
+    margin-top: 15px;
+}
+
+#remove_all_real_news{
+	display: block;
+    padding-bottom: 5px;
+}
+#obj-squareUse, #obj-square, #obj-Index, #obj-price, #realNewsRIndex1, 
+#obj-squarebuild, #obj-squareUse, #obj-squareSan{
+	text-align:right;
+}
+#searchinfo span{
+	color: #222222 !important;
+    display: block !important;
+    line-height: 20px !important;
+    margin-bottom: -6px !important;
+    padding-left: 10px !important;
+}
+
+/* begin import */
+
+#filterForm{
+	width: 955px;
+	margin: 10px;
+	float:left;
+}
+.field_tr{
+    width:226px;
+    float: left;
+}
+#criteriaForm{
+    margin-left: 10px;
+}
+#filterForm_content{
+    display: none;
+}
+.cbox{
+	float:left;
+	width: 20px;
+	padding-top: 5px;
+}
+.fieldname{
+	float:left;
+	font-weight: bold;
+	margin-left: 5px;
+	width: 200px;
+	cursor: pointer;
+}
+.tr{
+	border: 1px solid #A8211D;
+	border-top: 0px;
+	padding: 4px;
+	margin-right: 2px;
+}
+
+.header{
+	background-color: #A8211D;
+	color: #FFF;
+	font-weight: bold;
+}
+.submit{
+	padding: 5px 0px;
+}
+.submit input{
+	cursor: pointer;
+}
+
+#filterdata{
+	padding: 5px;
+}
+
+#filter-criterion{
+	width: 500px;
+	float:left;
+	margin: 10px 0px;
+}
+label.title{
+	width: 100px;
+	float:left;
+	margin-right: 10px;
+	font-weight: bold;
+}
+label.time{
+	width: 30px;
+	float:left;
+	margin: 0px 5px;
+	font-weight: bold;
+}
+.input input.time{
+	width: 100px;
+	float:left;
+}
+#ui-datepicker-div{
+	z-index: 1000 !important;
+}
+.ui-datepicker .ui-datepicker-header{
+	background: #CCC !important;
+}
+/* end import */

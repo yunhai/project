@@ -1,0 +1,22 @@
+<?php
+$lang = array (
+  'pageTitle' => 'modules',
+  'main_title' => 'modules',
+  'newsItem_UinstallObjTitle' => 'Click here to uninstall database for this module',
+  'newsItem_EditObjTitle' => 'Click here to edit this modules',
+  'module_list_title' => 'Module list',
+  'module_list_name' => 'Module name',
+  'module_list_admin' => 'Run in admin',
+  'module_list_user' => 'Run in public',
+  'module_list_option' => 'Option',
+  'module_list_module' => 'Chức năng',
+  'module_list_desc' => 'Mô tả',
+  'module_ask' => 'Are you sure uninstall this module',
+  'modules_install_success' => 'You have successfully installed modules [%s]',
+  'develop_get_obj_success' => 'Execute successful',
+  'modules_install_object_not_exist' => 'The install object is not existed!',
+  'err_module_existed' => 'This module is already existed!<br>',
+);
+$userLang = array (
+);
+?>

@@ -1,0 +1,13 @@
+<?php
+$lang = array (
+  'gia' => ' Giá: ',
+  'dathang' => '+ Đặt hàng',
+  'sanphamkhac' => 'Sản Phẩm Khác',
+  'callprice' => 'Call',
+  'giohang' => 'Giỏ Hàng',
+  'chitiet' => 'Chi tiết',
+  '' => 'Quà Tặng',
+);
+$userLang = array (
+);
+?>

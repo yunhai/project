@@ -1,0 +1,7 @@
+<?php
+$lang = array (
+  'pageTitle' => 'Banner pages',
+  'main_title' => 'Banner pages',
+);
+$userLang = array();
+?>

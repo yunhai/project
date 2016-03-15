@@ -1,0 +1,155 @@
+
+
+/*
+@font-face {
+    font-family: 'UVNLacLongQuanRegular';
+    src: url('../javascripts/uvnlaclongquan_r-webfont.eot');
+    src: url('../javascripts/uvnlaclongquan_r-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../javascripts/uvnlaclongquan_r-webfont.woff') format('woff'),
+         url('../javascripts/uvnlaclongquan_r-webfont.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+*/
+@font-face {
+    font-family: 'UVNTinTucHepBold';
+    src: url('../javascripts/uvntintuchep_b-webfont.eot');
+    src: url('../javascripts/uvntintuchep_b-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../javascripts/uvntintuchep_b-webfont.woff') format('woff'),
+         url('../javascripts/uvntintuchep_b-webfont.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+@font-face {
+    font-family: 'utm_amerika_sansregular';
+    src: url('../javascripts/utm_amerika_sans-webfont.eot');
+    src: url('../javascripts/utm_amerika_sans-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../javascripts/utm_amerika_sans-webfont.woff') format('woff'),
+         url('../javascripts/utm_amerika_sans-webfont.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+
+
+
+
+
+
+
+
+*{
+	padding:0px;
+	margin:0px;
+}
+html{
+
+}
+body{
+	font-size:12px;
+	color:#333;
+	line-height:18px;
+	text-align:justify;
+	font-family:Arial, Helvetica, sans-serif;
+	background:#85af28 url(../images/background.jpg) center top no-repeat;
+
+}
+#wrapper-intro{
+	/*background:url(../images/background.jpg) center top;*/
+	background:url(../images/bg_intro_01.png) repeat;
+	width:100%;
+	height:auto;
+
+}
+.clear{
+	clear:both;
+}
+.clear_left{
+	clear:left;
+	height:0px;
+}
+.clear_right{
+	clear:right;
+}
+.fload_left{
+float:left;
+}
+.fload_right{
+float:right;
+}
+h1, h2, h3, h4, h5, h6{
+	font-size:12px;
+}
+img, p, ul{
+	border:0px;
+}
+ul,ol{
+	list-style:none;
+}
+a{
+	text-decoration:none;
+	outline: none;
+}
+select{
+	outline:none;
+}
+table{
+	border-collapse:collapse;
+}
+/*---------- Má»™t sá»‘ chuáº©n khi cáº¯t css vĂ  trĂ¡nh lá»—i IE6-------------
+- Khi thĂªm thuá»™c tĂ­nh margin cho tháº» pháº£i thĂªm thuá»™c tĂ­nh display:inline (trá»« nhá»¯ng tháº» khĂ´ng cĂ³ chiá»�u cao, rá»™ng cá»‘ Ä‘á»‹nh thĂ¬ khĂ´ng cáº§n thiáº¿t)
+- Khi thĂªm padding chiá»�u nĂ o cá»§a má»™t tháº» pháº£i giáº£m Ä‘á»™ rá»™ng, cao tÆ°Æ¡ng á»©ng náº¿u tháº» cĂ³ chiá»�u rá»™ng hoáº·c cao cá»‘ Ä‘á»‹nh.
+- Táº¥t cáº£ cĂ¡c link pháº£i cĂ³ hover
+- Nhá»¯ng button nhÆ° Há»§y,Gá»­i Ä‘áº·t trong tháº» input pháº£i cĂ³ thuá»™c tĂ­nh cursor:pointer .
+- Nhá»¯ng Title chá»‰ cĂ³ má»™t dĂ²ng thĂ¬ trĂ¡nh dĂ¹ng padding-left khi muá»‘n cĂ¡ch Ä‘áº§u dĂ²ng_ nĂªn dĂ¹ng text-indent:px vĂ  nĂªn sĂ©t chiá»�u rá»™ng vĂ  thuá»™c tĂ­nh overflow:hidden.
+- Náº¿u tháº» <img/> Ä‘áº·t trong má»™t tháº» khĂ¡c mĂ  hĂ¬nh áº£nh quĂ¡ nhá»� thĂ¬ pháº£i cĂ³ thuá»™c tĂ­nh font-size:1px trong tháº» chá»©a <img/>
+
+* ---------------------------Qui táº¯c Ä‘áº·t tĂªn--------------*/
+
+.page{
+	height:20px;
+	float:right;
+	margin:10px;
+}
+
+.page a{
+	padding:1px 7px;
+	color:#666;
+	font-weight:bold;
+	font-size:12px;
+	text-align:center;
+	float:left;
+	margin:0px 1px;
+  border: 1px solid #bbb;
+  padding: 0 5px;
+}
+.page a:hover,
+.page a.active{
+  background: #789101;
+  color: #fff;
+}
+.page a img{
+	vertical-align:middle;
+}
+a.page_prev,a.page_next{
+	background:none;
+	padding:0px;
+}
+
+.page .page_prev:hover,
+.page .page_prev:hover{
+  background: #789101;
+  color: #fff;
+}
+.page .none{
+	display: none !important;
+}
+.page .bg-right,
+.page .bg-left{
+	margin:0px;
+  padding:0px;
+  border: 0;
+}

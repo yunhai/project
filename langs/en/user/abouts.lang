@@ -1,0 +1,9 @@
+<?php
+$lang = array (
+  'pageTitle' => 'About us',
+  'main_title' => 'About us',
+  'group_global_module' => 'global',
+);
+$userLang = array (
+);
+?>

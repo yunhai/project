@@ -1,0 +1,7 @@
+<?php
+$lang = array (
+  'pageTitle' => 'linkshome',
+  'main_title' => 'linkshome',
+);
+$userLang = array();
+?>

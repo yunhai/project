@@ -1,0 +1,14 @@
+#   backward compatibility ruleset for rewriting document.html to document.php
+#   when and only when document.php exists but no longer document.html
+<IfModule mod_rewrite.c>
+  RewriteEngine on	
+  RewriteBase /
+
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+ 
+  RewriteRule ^(.*)$ index.php?vs=$1 [L,QSA]
+
+  
+</IfModule>
+

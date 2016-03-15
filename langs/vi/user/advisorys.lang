@@ -1,0 +1,36 @@
+<?php
+$lang = array (
+  'pageTitle' => 'Hỏi đáp',
+  'main_title' => 'Hỏi đáp',
+  'xemchitiet' => 'xem chi tiết',
+  'advisory_pagetitle' => 'Tư vấn',
+  'hoivatraloi' => 'câu hỏi & trả lời',
+  'cauhoi' => 'Câu hỏi',
+  'advisorys_form' => 'Gửi câu hỏi',
+  'advisory_full_name' => 'Họ tên',
+  'advisory_phone' => 'Điện thoại',
+  'advisory_email' => 'Email',
+  'if_have' => 'Nếu có',
+  'advisory_title' => 'Câu hỏi',
+  'advisory_message' => 'Noi dung',
+  'advisory_captcha' => 'Mã bảo vệ',
+  'advisory_security' => 'Tạo mã mới',
+  'button_send' => 'Gửi',
+  'button_reset' => 'Làm lại',
+  'err_advisory_name_blank' => 'Vui lòng nhập họ tên!',
+  'err_advisory_phone_blank' => 'Vui lòng nhập điện thọai!',
+  'err_advisory_title_blank' => 'Vui lòng nhập câu hỏi!',
+  'err_advisory_message_blank' => 'Thông tin quá ngắn!',
+  'err_advisory_security_blank' => 'Vui lòng nhập mã bảo vệ!',
+  'datcauhoi' => 'đặt câu hỏi',
+  'muondatcauhoi' => 'Bạn muốn đặt câu hỏi cho chúng tôi, vui lòng điền đầy đủ vào form dưới đây. Chúng tôi sẽ trả lời sớm nhất cho bạn!!!',
+  'traloi' => 'Trả lời',
+  'cauhoikhac' => 'các câu hỏi khác',
+  'thank_message' => 'Security code doesnot match',
+  'advisory_redirectText' => 'Câu hỏi của bạn đã được gửi',
+  'redirect_title' => 'Chuyển trang...',
+  'redirect_immediate' => 'Click vào đây nếu không muốn chờ lâu',
+);
+$userLang = array (
+);
+?>

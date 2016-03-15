@@ -1,0 +1,15 @@
+<?php
+$lang = array (
+  'pageTitle' => 'Bình luận',
+  'main_title' => 'Bình luận',
+  'delete_confirm' => 'Are you sure to delete these information?',
+  'obj_list' => 'Danh sách bình luận',
+  'status_label' => 'Trạng thái',
+  'title_label' => 'Tiêu đề',
+  'content_label' => 'Bình luận',
+  'name_label' => 'Người gửi',
+  'email_label' => 'Email',
+);
+$userLang = array (
+);
+?>

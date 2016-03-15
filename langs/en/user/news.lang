@@ -1,0 +1,14 @@
+<?php
+$lang = array (
+  'pageTitle' => 'News',
+  'main_title' => 'News',
+  'news_other' => 'Other news',
+  'news_ngay' => 'Date',
+  'news_chuyenmuc' => 'Category',
+  'xemchitiet' => 'Detail',
+  'tinmoi' => 'News news',
+  'tinlienquan' => 'Others news',
+);
+$userLang = array (
+);
+?>

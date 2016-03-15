@@ -1,0 +1,10 @@
+<?php
+$lang = array (
+  'pageTitle' => 'Tìm Hiểu Về Hoa',
+  'main_title' => 'Tìm Hiểu Về Hoa',
+  'news' => 'Tìm Hiểu Về Hoa',
+  'baivietkhac' => 'Bài viết khác',
+);
+$userLang = array (
+);
+?>

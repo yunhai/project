@@ -1,0 +1,7 @@
+<?php
+$lang = array (
+  'pageTitle' => 'payment',
+  'main_title' => 'payment',
+);
+$userLang = array();
+?>

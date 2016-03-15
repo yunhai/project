@@ -1,0 +1,7 @@
+<?php
+$lang = array (
+  'pageTitle' => 'videos',
+  'main_title' => 'videos',
+);
+$userLang = array();
+?>

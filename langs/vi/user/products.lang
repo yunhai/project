@@ -1,0 +1,18 @@
+<?php
+$lang = array (
+  'pageTitle' => 'Shop Hoa',
+  'main_title' => 'Shop Hoa',
+  'model_css' => '',
+  'spcungloai' => '',
+  'callprice' => 'Call',
+  'xemchitiet' => 'xem chi tiết',
+  'chitiet' => 'Chi tiết',
+  'giohang' => '+ Giỏ hàng',
+  'xemtatca' => '..Xem tất cả',
+  'dathang' => '+ Đặt hàng',
+  'gia' => ' Giá : ',
+  'sanphamkhac' => 'Sản phẩm khác',
+);
+$userLang = array (
+);
+?>

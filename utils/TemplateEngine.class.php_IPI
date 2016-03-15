@@ -1,0 +1,183 @@
+<?php
+
+/*
++--------------------------------------------------------------------------
+|   Invision Power Board
+|   =============================================
+|   by Matthew Mecham
+|   (c) 2001 - 2006 Invision Power Services, Inc.
+|   
+|   =============================================
+|   
+|   
++---------------------------------------------------------------------------
+|   > $Date: 2005-10-10 14:03:20 +0100 (Mon, 10 Oct 2005) $
+|   > $Revision: 22 $
+|   > $Author: matt $
++---------------------------------------------------------------------------
+|
+|   > Template Engine module NEW (KERNEL)
+|   > Module written by Matt Mecham
+|   > Date started: Wednesday 23rd February 13:53
+|
+|    > Module Version Number: 1.0.0
++--------------------------------------------------------------------------
+|   New template module to build, rebuild and generate caches of templates
+|   which include the new IPB HTML Logic system.
+|   Example:
+|   
+|    <if='ibf.vars['threaded_per_page'] == 10'>
+|       html here
+||    <else />
+|       html here
+|    </if>
+|   
++--------------------------------------------------------------------------
+*/
+
+define ( 'IPS_TEMPLATE_DEBUG', 0 );
+define ( 'IPS_TEMPLATE_DEBUG_FILE', dirname ( __FILE__ ) . '/../cache/template_debug.cgi' );
+class VSFTemplate {
+	# The basics
+	var $root_path = './';
+	var $cache_dir = '';
+	var $cache_id = '1';
+	var $database_id = '1';
+	var $rebuilcache = '0';
+	var $cache_path = '';
+	var $arrayTemplate = array ();
+	var $skin_path = '';
+	var $extends = '';
+	var $foreach_blocks = array ();
+	var $allow_php_code = 1;
+	var $xmlfile ="config.xml";
+	public $global_template;
+	
+	function __construct($templatePath = "", $rebuild = 0) {
+		$this->skin_path = $this->root_path . $templatePath;
+		$this->cache_path = $this->root_path . "cache/" . $templatePath;
+		$this->rebuilcache = $rebuild;
+		$this->create_xml_config();
+		$this->global_template = $this->load_template ( 'skin_global' );
+	}
+	function write_cache($cache_content, $cache_path) {
+		$file_content = "<?php\n" . $cache_content . "?>";
+		$file = fopen ( $cache_path, "w" );
+		fwrite ( $file, $file_content );
+		fclose ( $file );
+	}
+	function get_last_modify($file_name){
+		$configfile=$this->cache_path."/".$this->xmlfile;
+		$doc = new DOMDocument("1.0","utf-8");
+        $doc->formatOutput = true;
+		try {
+  			$doc->load( $configfile );
+        }catch (Exception $e){
+        	
+        }
+        $root=$doc->getElementsByTagName("templates")->item(0);
+        if($root->getElementsByTagName($file_name)->length>0){
+        	return $root->getElementsByTagName($file_name)->item(0)->nodeValue;
+        }
+        return 0;
+        
+	}
+	function update_last_modify($file_name,$value){
+		$configfile=$this->cache_path."/".$this->xmlfile;
+		$doc = new DOMDocument("1.0","utf-8");
+        $doc->formatOutput = true;
+		try {
+  			$doc->load( $configfile );
+        }catch (Exception $e){
+        	
+        }
+        $root=$doc->getElementsByTagName("templates")->item(0);
+        if($root->getElementsByTagName($file_name)->length>0){
+        	$root->getElementsByTagName($file_name)->item(0)->nodeValue=$value;
+        	$doc->save($configfile);
+        	return;
+        }
+        $newnode=$doc->createElement( $file_name,$value );
+        $root->appendChild($newnode);
+        $doc->save($configfile);
+        return 0;
+	}
+	function create_xml_config() {
+		$configfile=$this->cache_path."/".$this->xmlfile;
+        $doc = new DOMDocument("1.0","utf-8");
+        $doc->formatOutput = true;
+        if(!file_exists($configfile)){
+        	$tplnode=$doc->createElement("templates");
+        	$doc->appendChild($tplnode);
+        	$doc->save( $configfile );
+        }
+
+	}
+	function load_template($template_file_name = "") {
+		if ($this->arrayTemplate [$template_file_name])
+			return new $template_file_name ();
+		if (file_exists ( $this->cache_path . "/" . $template_file_name . ".php" )) {
+			$lmf=filemtime($this->skin_path . "/" . $template_file_name . ".php");
+			if($this->get_last_modify($template_file_name)==$lmf){
+				require_once ($this->cache_path . "/" . $template_file_name . ".php");
+				if(class_exists($template_file_name)){
+					$this->arrayTemplate [$template_file_name] = $template_file_name;
+					return new $template_file_name ();
+				}
+			}
+			
+		}
+		if (! is_dir ( $this->cache_path ))
+			mkdir ( $this->cache_path, 0777, true );
+		
+		if (! file_exists ( $this->skin_path . "/" . $template_file_name . ".php" )) {
+			print $this->skin_path . "/" . $template_file_name . ".php không tồn tại";
+			exit ();
+		}
+		$strTemplateContent = file_get_contents ( $this->skin_path . "/" . $template_file_name . ".php" );
+		$strTemplateContent = str_replace ( "\t", "", $strTemplateContent );
+		$result = $this->getTemplate ( $strTemplateContent, $template_file_name );
+		eval ( $result );
+		$this->write_cache ( $result, $this->cache_path . "/" . $template_file_name . ".php" );
+		$lmf=filemtime($this->skin_path . "/" . $template_file_name . ".php");
+		$this->update_last_modify($template_file_name, $lmf);
+		$this->arrayTemplate [$template_file_name] = $template_file_name;
+		return new $template_file_name ();
+	}
+	function getTemplate($strTemplateContent, $template_file_name) {
+		global $bw;
+		$apiserver = 'http://api.vietsol.net/ws/templates/?wsdl';
+		require_once (UTILS_PATH . 'nusoaps/nusoap.php');
+		// Create the client instance
+		$client = new nusoap_client ( $apiserver );
+		$client->soap_defencoding = "UTF-8";
+		$client->decode_utf8 = false;
+		;
+		$agent=array();
+		$agent['username']=isset($bw->vars['client_user'])?$bw->vars['client_user']:"vietsol";
+		$agent['password']=isset($bw->vars['client_pass'])?$bw->vars['client_pass']:"&(&^$$%*YT%$#@!^%**&%&((*^";
+		$login=$client->call ( 'login', $agent );
+		if(!$login['status']){
+			print $login['message'];
+			exit;
+		}
+		// Call the SOAP method
+		$result = $client->call ( 'parseTemplate', array ('template' => $strTemplateContent, 'class' => $template_file_name ) );
+		if(!$result['status']){
+			print $result['message'];
+			exit;
+		}
+		if($result['extendList']){
+			foreach ($result['extendList'] as $value) {
+				$this->load_template($value);
+			}
+				
+		}
+		$tmp = str_replace ( "(,", "(", $result['template'] );
+		return $tmp;
+	}
+}
+
+?>
+
+

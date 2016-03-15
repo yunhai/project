@@ -1,0 +1,9 @@
+<?php
+$lang = array (
+  'pageTitle' => 'Promotions',
+  'main_title' => 'Promotions',
+  'promotions_other' => 'Other news',
+);
+$userLang = array (
+);
+?>

@@ -1,0 +1,17 @@
+<?php
+$lang = array (
+  'pageTitle' => 'components',
+  'main_title' => 'components',
+  'newsItem_EditObjTitle' => 'Click here to edit this components',
+  'component_list' => 'Current Component',
+  'component_name' => 'Component name',
+  'component_package' => 'Package',
+  'component_option' => 'Options',
+  'component_add_bt' => 'Add',
+  'component_add_title' => 'Add Component',
+  'component_name_form' => 'Name',
+  'component_Description' => 'Description',
+);
+$userLang = array (
+);
+?>

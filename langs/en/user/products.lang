@@ -1,0 +1,27 @@
+<?php
+$lang = array (
+  'pageTitle' => 'Product List',
+  'main_title' => 'Product',
+  'product_model' => 'Model',
+  'product_manu' => 'Manufacturer',
+  'products_search_result' => 'Search Results',
+  'products_search_emty' => 'Unable to find required data. Please enter keywords&#33;',
+  'product_mauda' => 'The rock samples',
+  'products_price' => 'Price',
+  'callprice' => 'Call',
+  'products_status' => 'Status',
+  'status_dangcohang' => 'Đang có hàng',
+  'products_model' => 'Model',
+  'products_baohanh' => 'Warranty',
+  'products_tax' => 'Tax',
+  'products_hangsx' => 'Manufacturer',
+  'products_phucvu' => 'Service',
+  'products_chitietkythuat' => 'SPECIFICATIONS',
+  'products_other' => 'Other products',
+  'products_lienhe' => 'Contact to order',
+  'products_info' => 'product infomation',
+  'spcungloai' => 'Related',
+);
+$userLang = array (
+);
+?>

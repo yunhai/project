@@ -1,0 +1,22 @@
+<?php
+$lang = array (
+  'pageTitle' => 'Trang chủ',
+  'main_title' => 'Trang chủ',
+  'tintuc' => 'tin tức',
+  'xemsp' => 'Xem sản phẩm',
+  'callprice' => 'Call',
+  'gioithieu' => 'Giới Thiệu',
+  'cungungdichvu' => 'Cung ứng dịch vụ',
+  'tuvanmoitruong' => 'Tư vấn môi trường',
+  'muabanthietbi' => 'Mua bán thiết bị',
+  'thietbikhac' => 'Thiết bị khác',
+  'muabanhoachat' => 'Mua bán hóa chất',
+  'hoachatkhac' => 'Hóa chất khác',
+  'sanphamtieubieu' => 'Sản phẩm tiêu biểu',
+  'chitiet' => 'Chi tiết',
+  'quatang' => 'Quà tặng',
+  'giohang' => '+ Giỏ hàng',
+);
+$userLang = array (
+);
+?>

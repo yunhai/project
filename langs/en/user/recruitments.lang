@@ -1,0 +1,36 @@
+<?php
+$lang = array (
+  'pageTitle' => 'Recruitments',
+  'main_title' => 'Recruitments',
+  'recruitments_other' => 'Other recruitments',
+  'recruitment_goimail' => 'Send mail online',
+  'recruitment_form' => 'Recruitment Form',
+  'recruitment_full_name' => 'Fullname',
+  'recruitment_address' => 'Address',
+  'recruitment_phone' => 'Phone',
+  'recruitment_email' => 'Email',
+  'recruitment_title' => 'Title',
+  'recruitment_message' => 'Content',
+  'recruitment_sends' => 'Submit',
+  'recruitment_reset' => 'Reset',
+  'err_contact_name_blank' => 'Please enter your name!',
+  'err_contact_address_blank' => 'Please enter your adress!',
+  'err_contact_phone_blank' => 'Please enter your phone!',
+  'err_contact_email_blank' => 'Please enter correct email!',
+  'err_contact_title_blank' => 'Please enter your title!',
+  'err_contact_message_blank' => 'Information is too short!',
+  'err_contact_security_blank' => 'Please enter security code!',
+  'contacts_redirectText' => 'Thank you! Your message has been sent.',
+  'redirect_title' => 'Transferpage...',
+  'redirect_immediate' => 'Click here if you do not want to wait',
+  'recruitment_captcha' => 'Security code',
+  'recruitment_security' => 'Refresh',
+  'recruitments_form' => 'Recruitments Online',
+  'button_send' => 'Submit',
+  'button_reset' => 'Reset',
+  'thank_message' => 'Security code doesnot match',
+  'recruitments_redirectText' => 'Thankyou! Your message have been sent.',
+);
+$userLang = array (
+);
+?>

@@ -1,0 +1,33 @@
+.video_home{
+	width:620px !important;
+	overflow:hidden;
+	margin-left:37px;
+	padding:12px 0px;
+	height:117px !important;
+}
+.video_home ul li{
+	margin:0px 10px;	
+	width:141px;
+	height:117px;
+}
+.prev_video{
+	display:block;	
+	width:15px;
+	height:27px;
+	background:url(../images/nav_jc.jpg) left center no-repeat;
+	float:left;
+	font-size:0px;
+	margin:50px 0px 0px 15px;
+	cursor:pointer;
+}
+.next_video{
+	display:block;	
+	width:15px;
+	height:27px;
+	background:url(../images/nav_jc.jpg) right center no-repeat;
+	font-size:0px;
+	position:absolute;
+	bottom:50px;
+	right:15px;
+	cursor:pointer;
+}

@@ -1,0 +1,160 @@
+ul.menu_top{
+    clear:both;	
+    width:100%;
+    background:url(../images/bg_menu.jpg) left top repeat-x;
+    height:48px;
+}
+.menu_top li{
+    float:left;
+    /*height:48px;*/
+    line-height:38px;
+    position:relative;
+}
+.menu_top li a{
+    height:48px;
+    display:block;
+    float: left;
+    text-align:left;
+    text-indent:-9999px;
+}
+.menu_top span{
+	display: block;;
+	width: 2px;
+	float: left;
+	height: 48px;
+	background:url(../images/bg_menu_span.png) left center no-repeat;
+	
+}
+.menu_top .menu1 a{
+	width:108px;
+	background:url(../images/bg_menu_home.jpg) left top no-repeat;
+	font-size: 0px;
+}
+.menu_top .menu2 a{
+	width:95px;
+	background:url(../images/bg_menu_abouts.jpg) left top no-repeat;
+	font-size: 0px;
+}
+.menu_top .menu3 a{
+	width:100px;
+	background:url(../images/bg_menu_shop.jpg) left top no-repeat;
+	font-size: 0px;
+	
+}
+.menu_top .menu4 a{
+	width:94px;
+	background:url(../images/bg_menu_gif.jpg) left top no-repeat;
+	font-size: 0px;
+}
+.menu_top .menu5 a{
+    width:86px;
+    background:url(../images/bg_menu_services.jpg) left top no-repeat;
+    font-size: 0px;
+}
+.menu_top .menu6 a{
+    width:153px;
+    background:url(../images/bg_menu_search.jpg) left top no-repeat;
+    font-size: 0px;
+}
+.menu_top .menu7 a{
+    width:80px;
+    background:url(../images/bg_menu_contacts.jpg) left top no-repeat;
+    font-size: 0px;
+}
+.menu_left{
+    width:10px;
+    height:48px;
+    background:url(../images/menu_left.jpg) left top no-repeat;	
+}
+
+.menu_top .menu1 a:hover,.menu_top .menu1 .active{
+    width:108px;
+    background:url(../images/bg_menu_home_active.jpg) left top no-repeat;	
+}
+.menu_top .menu2 a:hover,.menu_top .menu2 .active{
+    width:95px;
+    background:url(../images/bg_menu_abouts_active.jpg) left top no-repeat;	
+}
+.menu_top .menu3 a:hover,.menu_top .menu3 .active{
+    width:100px;
+    background:url(../images/bg_menu_shop_active.jpg) left top no-repeat;	
+}
+.menu_top .menu4 a:hover,.menu_top .menu4 .active{
+    width:94px;
+    background:url(../images/bg_menu_gif_active.jpg) left top no-repeat;	
+}
+.menu_top .menu5 a:hover,.menu_top .menu5 .active{
+    width:86px;
+    background:url(../images/bg_menu_services_active.jpg) left top no-repeat;	
+}
+.menu_top .menu6 a:hover,.menu_top .menu6 .active{
+    width:153px;
+    background:url(../images/bg_menu_search_active.jpg) left top no-repeat;	
+}
+.menu_top .menu7 a:hover,.menu_top .menu7 .active{
+    width:153px;
+    background:url(../images/bg_menu_contacts_active.jpg) left top no-repeat;	
+}
+.menu_top li{
+    position:relative;	
+}
+.menu_top ul{
+    position:absolute;
+    top:48px;
+    z-index:99999;
+    display:none;
+}
+.menu_top li:hover ul{
+    display:block;	
+}
+
+.menu_top ul li{
+    background:none;	
+    margin:0px;
+}
+.menu_top ul li a{
+    height:40px !important;
+    font-size:14px !important;
+    background:url(../images/bg_menu.jpg) left center repeat-x !important;
+    color:#FFF;
+    line-height:40px !important;
+    text-indent:15px;
+    width:210px !important;
+    border-bottom:1px solid #5c7701;
+}
+.menu_top ul li a:hover{
+    background:url(../images/bg_menu_top_chi_hover.jpg) left center repeat-x !important;	
+}
+.menu_left{
+    width:10px;
+    height:48px;
+    background:url(../images/menu_left.jpg) left top no-repeat;	
+}
+
+.menu_right{
+    width:10px;
+    height:48px;
+    float:right !important;
+    background:url(../images/menu_right.jpg) right top no-repeat;
+}
+
+.menu_bot{
+    height:36px;
+    width:100%;
+    position:relative;
+    background:url(../images/bg_menu_bot.jpg) left center repeat-x;
+    line-height:36px;
+}
+.menu_bot ul li a{
+    color:#91a54b;
+    font-size:15px;
+    font-family: 'utm_amerika_sansregular';
+    margin:0px 10px;
+}
+.menu_bot ul li a:hover,.menu_bot ul li .active{
+    color:#264900;	
+}
+.menu-full{
+    background: rgba(0, 0, 0, 0) url("../images/bg_menu.jpg") repeat-x scroll left top;
+}
+

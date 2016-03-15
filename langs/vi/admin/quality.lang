@@ -1,0 +1,7 @@
+<?php
+$lang = array (
+  'pageTitle' => 'Chất lượng sản phẩm',
+  'main_title' => 'Chất lượng sản phẩm',
+);
+$userLang = array();
+?>

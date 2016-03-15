@@ -1,0 +1,10 @@
+<?php
+$lang = array (
+  'pageTitle' => 'Home',
+  'main_title' => 'Home',
+  'tintuc' => 'News',
+  'xemsp' => 'View Products',
+);
+$userLang = array (
+);
+?>

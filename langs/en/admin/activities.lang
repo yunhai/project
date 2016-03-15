@@ -1,0 +1,7 @@
+<?php
+$lang = array (
+  'pageTitle' => 'Hoạt động',
+  'main_title' => 'Hoạt động',
+);
+$userLang = array();
+?>
