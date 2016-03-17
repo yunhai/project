@@ -233,19 +233,21 @@
 }
 
 /****** san pham hoa ********/
-
 .img_pro img {
-  border: 12px solid #fafafa;
+  padding: 3px;
 }
 .img_pro {
   border: 1px solid #999;
   overflow: hidden;
-  float: left;
-  -webkit-border-radius: 3px;
-  -moz-border-radius: 3px;
-  border-radius: 3px;
-  margin-right: 12px;
+
 }
+@media (min-width: 768px) {
+  .img_pro {
+    margin-right: 12px;
+    float: left;
+  }
+}
+
 h3.title_pro_detail {
   color: #656565;
   font-size: 19px;

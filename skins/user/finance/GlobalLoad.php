@@ -16,6 +16,7 @@ class GlobalLoad {
             $vsPrint->addCurentJavaScriptFile("jquery.nivo.slider.pack");
             $vsPrint->addCurentJavaScriptFile("popup-window");
             $vsPrint->addCurentJavaScriptFile("main");
+            $vsPrint->addCurentJavaScriptFile("thickbox");
 
             $vsPrint->addCurentJavaScriptFile("m-extend/jquery.mobile-events.min");
             $vsPrint->addCurentJavaScriptFile("m-extend/m-extend");

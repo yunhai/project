@@ -29,7 +29,11 @@ function showObj($obj, $module){
 		<div class="item-list col-lg-4 col-md-4 col-sm-4 col-xs-12">
 				<div class='item'>
 					<h3><a class="title" title="{$obj->getTitle()}" href="{$obj->getUrl('products')}">{$obj->getTitle()}</a></h3>
-					<a title="{$obj->getTitle()}" class="thickbox"  href="{$obj->getUrl('products')}" title="{$obj->getTitle()}">
+					<if=" $bw->isMobile ">
+					<a title="{$obj->getTitle()}" href="{$obj->getUrl('products')}" title="{$obj->getTitle()}">
+					<else />
+					<a title="{$obj->getTitle()}" class="thickbox" href="{$obj->getCacheImagePathByFile($obj->getImage(),1,1,1,1,$obj->getTitle())}" title="{$obj->getTitle()}">
+					</if>
 						{$obj->createImageCache($obj->getImage(),187,189,1,0,$obj->getTitle())}
 					</a>
 					<span class='product-price'>{$obj->getPrice()}</span>

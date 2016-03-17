@@ -65,7 +65,12 @@ function showDetail($obj,$option){
             <h3 class="title_cate">{$option['cate']->getTitle()}</h3>
                 <div class="main_item main_detail_h">
                     <if="$obj->file">
-                        <div class="img_pro"><a tittle="{$obj->getTitle()}"  class="thickbox"  href="{$obj->getCacheImagePathByFile($obj->file,1,1,1,1,$obj->getTitle())}">{$obj->createImageCache($obj->file,302,235,1,0,$obj->getTitle())}</a></div>
+                        <if="$bw->isMobile">
+                        <div class="img_pro">{$obj->createImageCache($obj->file,302,235,1,0,$obj->getTitle())}</div>
+                        </if>
+                        <if="!$bw->isMobile">
+                        <div class="img_pro"><a tittle="{$obj->getTitle()}" class="thickbox" href="{$obj->getCacheImagePathByFile($obj->file,1,1,1,1,$obj->getTitle())}">{$obj->createImageCache($obj->file,302,235,1,0,$obj->getTitle())}</a></div>
+                        </if>
                     </if>
                     <h3 class="title_pro_detail" >{$obj->getTitle()}</h3>
                     <div class="price">Mã: <span>{$obj->getCode()}</span></br>
