@@ -1,15 +1,15 @@
 <?php
 class skin_products extends skin_objectadmin{
 
-	
-	
+
+
 function addEditObjForm($objItem, $option = array()) {
 	global $vsLang, $bw,$vsSettings,$tableName,$langObject,$vsPrint,$vsMenu;
 	$this->model = $vsMenu->getCategoryGroup('model')->getChildren();
 	//$this->congsuatlientuc = $vsMenu->getCategoryGroup('congsuatlientuc')->getChildren();
-               
+
 		$BWHTML .= <<<EOF
-		
+
 			<div id="error-message" name="error-message"></div>
 			<form id='add-edit-obj-form' name="add-edit-obj-form" method="POST" enctype='multipart/form-data'>
 				<input type="hidden" id="obj-cat-id" name="{$tableName}CatId" value="{$option['categoryId']}" />
@@ -31,7 +31,7 @@ function addEditObjForm($objItem, $option = array()) {
                                             </p>
 					</div>
 					<table class="ui-dialog-content ui-widget-content" style="width:98%;">
-						
+
 						<tr class='smalltitle'>
 							<td class="label_obj" width="75">{$langObject['itemListTitle']}:</td>
 							<td colspan="3">
@@ -45,10 +45,10 @@ function addEditObjForm($objItem, $option = array()) {
 							<td width="170" colspan="3">
 								<input size="10" class="numeric" name="{$tableName}Index" value="{$objItem->getIndex()}" />
 							</td>
-						</tr>                
-				
+						</tr>
 
-							
+
+
 						<if="$vsSettings->getSystemKey($bw->input['sett'].'_author',0, $bw->input['sett'])">
 						<tr class='smalltitle'>
 							<td class="label_obj"  width="75">
@@ -91,30 +91,25 @@ function addEditObjForm($objItem, $option = array()) {
 						</tr>
 						</if>
 
-						
-						
-						
 						<tr class='smalltitle'>
 							<td class="label_obj"  width="75">
 								{$langObject['itemObjStatus']}:
 							</td>
 							<td width="170" colspan="3">
-                               	<label>{$langObject['itemObjDisplay']}</label>
+                <label>{$langObject['itemObjDisplay']}</label>
 								<input name="{$tableName}Status" id="{$tableName}Status1" value='1' class='c_noneWidth' type="radio" checked />
 
 								<label>{$langObject['itemListHide']}</label>
 								<input name="{$tableName}Status" id="{$tableName}Status0" value='0' class='c_noneWidth' type="radio" />
-								
-								<if=" $vsSettings->getSystemKey($bw->input['sett'].'_home',0, $bw->input['sett']) ">
+
 								<label>{$langObject['itemListHome']}</label>
 								<input name="{$tableName}Status" id="{$tableName}Status2" value='2' class='c_noneWidth' type="radio" />
-								</if>
+
+								<label>Khuyến mãi</label>
+								<input name="{$tableName}Status" id="{$tableName}Status3" value='3' class='c_noneWidth' type="radio" />
 							</td>
 						</tr>
-						
-						
 
-						
 						<if="$vsSettings->getSystemKey($bw->input['sett'].'_image',1, $bw->input['sett'])">
 						<tr class='smalltitle'>
 							<td class="label_obj">
@@ -144,7 +139,7 @@ function addEditObjForm($objItem, $option = array()) {
 								<input size="27" type="file" name="{$tableName}IntroImage" id="{$tableName}IntroImage" /><br />
 								 <!--{$vsSettings->getSystemKey($bw->input['sett']."_image_timthumb_size","(size:100x100px)", $bw->input['sett'])}-->
 							</td>
-						</tr>						
+						</tr>
 						</if>
 						<if=" $vsSettings->getSystemKey($bw->input['sett'].'_urlvideo',0, $bw->input['sett']) ">
 						<tr class='smalltitle'>
@@ -157,7 +152,7 @@ function addEditObjForm($objItem, $option = array()) {
 						</tr>
 						</if>
 
-						
+
 						<if=" $vsSettings->getSystemKey($bw->input['sett'].'_intro',1, $bw->input['sett']) ">
 						<tr class='smalltitle'>
 							<td class="label_obj" width="75">
@@ -168,7 +163,7 @@ function addEditObjForm($objItem, $option = array()) {
 							</td>
 						</tr>
 						</if>
-						
+
 						<if="$vsSettings->getSystemKey($bw->input['sett'].'_content',1, $bw->input['sett'])">
 						<tr class='smalltitle'>
 							<td colspan="4" align="center">{$objItem->getContent()}</td>
@@ -195,7 +190,7 @@ function addEditObjForm($objItem, $option = array()) {
 					</table>
 				</div>
 			</form>
-			
+
 			<script language="javascript">
 				$(window).ready(function() {
                                         $('#obj-category option').each(function(){
@@ -206,19 +201,19 @@ function addEditObjForm($objItem, $option = array()) {
 					vsf.jRadio('{$objItem->getStatus()}','{$tableName}Status');
 					vsf.jSelect('{$objItem->getCatId()}','obj-category');
                                         vsf.jSelect('{$objItem->getModel()}','productModel');
-										
+
 				});
-				
+
 				$('#txtlink').change(function() {
-					var img_html = '<img src="'+$(this).val()+'" style="width:100px; max-height:115px;" />'; 
+					var img_html = '<img src="'+$(this).val()+'" style="width:100px; max-height:115px;" />';
 					$('#td-obj-image').html(img_html);
 				});
-				
+
 				$('#{$tableName}IntroImage').change(function() {
 					var img_name = '<input type="hidden" id="image-name" name="image-name" value="'+$(this).val() +'"/>';
 					$('#td-obj-image').html(img_name);
 				});
-				
+
 				function checkedLinkFile(value){
 					if(value=='link'){
 						$("#txtlink").removeAttr('disabled');
@@ -228,7 +223,7 @@ function addEditObjForm($objItem, $option = array()) {
 						$("#{$tableName}IntroImage").removeAttr('disabled');
 					}
 				}
-				
+
 				$('#add-edit-obj-form').submit(function(){
 					var flag  = true;
 					var error = "";
@@ -241,12 +236,12 @@ function addEditObjForm($objItem, $option = array()) {
 					});
 
 					$('#obj-cat-id').val(categoryId);
-					
+
 					if(categoryId == 0 && count>1){
 						error = "<li>{$langObject['itemListChoiseCate']}</li>";
 						flag  = false;
 					}
-					
+
 					var title = $("#obj-title").val();
 					if(title == 0 || title == ""){
 						error += "<li>{$langObject['notItemObjTitle']}</li>";
@@ -260,16 +255,16 @@ function addEditObjForm($objItem, $option = array()) {
 					vsf.uploadFile("add-edit-obj-form", "{$bw->input[0]}", "add-edit-obj-process", "obj-panel","{$bw->input[0]}");
 					return false;
 				});
-              	$('#closeObj').click(function(){                                       
+              	$('#closeObj').click(function(){
 					vsf.get('{$bw->input[0]}/display-obj-list/{$bw->input['pageCate']}/&pageIndex={$bw->input['pageIndex']}','obj-panel');
 				});
 			</script>
 EOF;
 	}
-//	
+//
 //function addEditOptionForm($objItem = '', $option = array()) {
 //		global $bw, $vsLang,$langObject,$tableName;
-//               
+//
 //		$active = $objItem->getStatus () != '' ? $objItem->getStatus () : 1;
 //		$BWHTML .= <<<EOF
 //			<div id="error-message" name="error-message"></div>
@@ -314,7 +309,7 @@ EOF;
 //			<script language="javascript">
 //				vsf.jRadio('{$active}','optStatus');
 //				$("input.numeric").numeric();
-//								
+//
 //				$('#add-edit-opt-form').submit(function(){
 //					var title = $("#optTitle").val();
 //					var flag = true;
@@ -323,7 +318,7 @@ EOF;
 //						error += "<li>{$vsLang->getWords('null_title', 'TiÃªu Ä‘á»� khÃ´ng Ä‘Æ°á»£c trá»‘ng !!!')}</li>";
 //						flag  = false;
 //					}
-//					
+//
 //					if(!flag){
 //						error = "<ul class='ul-popu'>" + error + "</ul>";
 //						vsf.alert(error);
@@ -337,7 +332,7 @@ EOF;
 //EOF;
 //		return $BWHTML;
 //	}
-//	
+//
 //	function mainProductOpt($option) {
 //		$BWHTML .= <<<EOF
 //			<div id="opt-form">{$option['objForm']}</div>
@@ -346,7 +341,7 @@ EOF;
 //EOF;
 //		return $BWHTML;
 //	}
-//	
+//
 //	function displayListOption($objItems) {
 //		global $vsLang;
 //		if(count($objItems)>9) $height = "235px";
@@ -377,7 +372,7 @@ EOF;
 //									<td>
 //										{$obj->getTitle()}
 //									</td>
-//									
+//
 //									<td algin="center">{$obj->getIndex()}</td>
 //									<td align="center">
 //										<a class="ui-state-default ui-corner-all ui-state-focus" href="javascript:;" onclick="vsf.get('products/editOption/{$obj->getProductId()}/{$key}','opt-form')">Sá»­a</a>
@@ -394,7 +389,7 @@ EOF;
 //			<div class="clear" id="file"></div>
 //EOF;
 //	}
-//	
+//
 //function advanceTab($option) {
 //		global $bw, $vsSettings,$vsPrint;
 //		$vsPrint->addCSSFile ( 'products' );
@@ -406,32 +401,32 @@ EOF;
 //EOF;
 //		return $BWHTML;
 //	}
-//	
+//
 //	function filterList($option = array()) {
 //		global $bw, $vsLang, $vsSettings, $vsUser;
 //
 //		$note1 = $vsLang->getWords('file_not_match','Vui lÃ²ng chá»�n file excel 2003 [.xls] Ä‘á»ƒ import !!!');
 //		$BWHTML .= <<<EOF
-//			
+//
 //				<div class="red">{$option['message']}</div>
 //				<div class='ui-dialog ui-widget ui-widget-content ui-corner-all'>
 //					<div class="ui-dialog-titlebar ui-widget-header ui-helper-clearfix ui-corner-all-inner">
 //						<span class="ui-icon ui-icon-note"></span>
-//						
+//
 //						<form id="obj-list-form" name="objlistform" method="post" enctype='multipart/form-data' >
 //								<div class="import_file" style="float:right; padding-right: 5px;" style="width:600px;">
-//								
+//
 //								<a href='{$bw->vars['board_url']}/uploads/sample/import_data_sample.xls' style='color: #FFF;' title='{$vsLang->getWords('download_sample_file','Sample file')}'>
 //									[{$vsLang->getWords('download_sample_file',"Sample file")}]
 //								</a>
 //								<label>{$vsLang->getWords('obj_import_file_Title',"Import file")}</label>
 //								<input type="file" name="file_document" id="file_document" />
 //								<input id="buttonImport" name="buttonImport" type="button" value="{$vsLang->getWords('obj_submit_file_Title',"Import")}" />
-//								
+//
 //							</div>
 //							<div class="clear"></div>
 //						</form>
-//						
+//
 //						<script type="text/javascript">
 //							$(document).ready(function(){
 //								$("#buttonImport").click(function(){
@@ -475,10 +470,10 @@ EOF;
 //								<input type='button' id='exportallgo' name='exportallgo' value='{$vsLang->getWords('field_exportall','Xuáº¥t táº¥t cáº£ thÃ´ng tin dá»¯ liá»‡u')}' />
 //							</div>
 //						</form>
-//						
+//
 //						<div id='filter-criterion'></div>
 //						<div class='clear'></div>
-//						
+//
 //						<script type='text/javascript'>
 //							$(document).ready(function(){
 //								$('#showFieldList').click(function(){
@@ -502,13 +497,13 @@ EOF;
 //									vsf.submitForm($('#filterForm'), 'products/export/', 'filterdata');
 //									return false;
 //								}
-//								
+//
 //								$('#filterForm').append($('#pForm').children());
 //								$('#filterForm').attr('action','{$bw->base_url}products/export/');
 //								$('#filterForm').submit();
 //								return true;
 //							});
-//							
+//
 //							$('#exportallgo').click(function(){
 //								$('#fieldcheckall').checked = true;
 //								$("#filterForm input[type=checkbox]").each(function(){
@@ -519,21 +514,21 @@ EOF;
 //									vsf.submitForm($('#filterForm'), 'products/export/', 'filterdata');
 //									return false;
 //								}
-//								
+//
 //								$('#filterForm').append($('#pForm').children());
 //								$('#filterForm').attr('action','{$bw->base_url}products/export/');
 //								$('#filterForm').submit();
 //								return true;
-//								
+//
 //							});
 //						</script>
 //					</div>
-//					
+//
 //					<div id='filterdata'></div>
 //				</div>
 //EOF;
 //	}
-	
+
 //function managerObjHtml() {
 //		global $bw, $vsLang,$vsSettings,$langObject;
 //		$BWHTML .= <<<EOF
@@ -558,9 +553,9 @@ EOF;
 //			        <li class="ui-state-default ui-corner-top">
 //                                        <a href="{$bw->base_url}menus/display-category-tab/model/&ajax=1">
 //                                        <span>Chất Liệu</span></a>
-//                                </li>            
-//								
-//								
+//                                </li>
+//
+//
 //			        <if="$vsSettings->getSystemKey($bw->input['sett'].'_setting_tab',0, "{$bw->input['sett']}", 1, 1)">
 //				        <li class="ui-state-default ui-corner-top">
 //				        	<a href="{$bw->base_url}settings/moduleObjTab/{$bw->input[0]}/&ajax=1">

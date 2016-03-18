@@ -32,7 +32,7 @@ function showDetail($obj,$option){
     				<h3 class="title_cate">{$vsLang->getWords($option['cate']->getTitle(), "Giới Thiệu")}</h3>
                 	<div class="main_abouts">
                     	<if="$obj->file">
-        				<div class="img_abouts">{$obj->createImageCache($obj->file,161,157,1,0)}</div>
+        				<div class="img_abouts">{$obj->createImageCache($obj->file,182,80,3,0)}</div>
         				</if>
                         <h3 class="title_abouts">{$obj->getTitle()}</h3>
                     	<p>{$obj->getContent()} </p>
