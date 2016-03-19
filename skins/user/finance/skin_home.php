@@ -5,20 +5,27 @@ function showDefault($option){
 	global $bw,$vsLang,$vsPrint,$vsTemplate,$vsSettings;
 
 		$BWHTML .= <<<EOF
-            <h3 class="title_cate">{$vsLang->getWords("sanphamtieubieu","Sản phẩm tiêu biểu")}</h3>
-            <div class="main_item">
-                <foreach="$option['products'] as $obj">
-                    {$this->showObj($obj,'products')}
-                </foreach>
-                <div class="clear"></div>
-            </div>
-            <h3 class="title_cate">{$vsLang->getWords("quatang","Quà tặng")}</h3>
-            <div class="main_item">
-                <foreach="$option['quatang'] as $obj">
-                    {$this->showObj($obj,'quatang')}
-                </foreach>
-            </div>
-
+		<if=" $option['promote']">
+		<h3 class="title_cate">{$vsLang->getWords("promote", "Khuyến mãi")}</h3>
+		<div class="main_item">
+				<foreach="$option['promote'] as $i => $product">
+						{$this->showObj($product, 'products')}
+				</foreach>
+				<div class="clear"></div>
+		</div>
+		</if>
+		<foreach="$option['category'] as $key => $item">
+		<if=" $option['product'][$key] ">
+		<h3 class="title_cate">{$item->getTitle()}</h3>
+		<div class="main_item">
+				<foreach="$option['product'][$key] as $i => $product">
+						{$this->showObj($product,'products')}
+				</foreach>
+				<div class="clear"></div>
+				<div class="views_all"><a href="{$item->getCatUrl('products')}" >{$vsLang->getWords("xemtatca","..Xem tất cả")}</a></div>
+		</div>
+		</if>
+					</foreach>
 EOF;
 	}
 
@@ -26,7 +33,7 @@ function showObj($obj, $module){
 		global $bw,$vsLang,$vsPrint,$vsTemplate,$vsMenu;
 
 		$BWHTML .= <<<EOF
-		<div class="item-list col-lg-4 col-md-4 col-sm-4 col-xs-12">
+		<div class="item-list col-lg-4 col-md-4 col-sm-6 col-xs-6">
 				<div class='item'>
 					<h3><a class="title" title="{$obj->getTitle()}" href="{$obj->getUrl('products')}">{$obj->getTitle()}</a></h3>
 					<if=" $bw->isMobile ">

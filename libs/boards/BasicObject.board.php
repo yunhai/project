@@ -16,9 +16,9 @@ class BasicObject {
         protected $author = NULL;
          protected $price = NULL;
           protected $hotPrice = NULL;
-        
 
-       
+
+
 	public function getAuthor() {
 		return $this->author;
 	}
@@ -36,7 +36,7 @@ class BasicObject {
 	function getCleanTitle(){
 		return strtolower(VSFTextCode::removeAccent(str_replace("/", '-', trim($this->title)),'-'));
 	}
-	
+
 	function setImage ($imag) {
 		return $this->image = $imag;
 	}
@@ -79,7 +79,7 @@ class BasicObject {
 		$parser = new PostParser ();
 		$parser->pp_do_html = 1;
 		$parser->pp_nl2br = $br;
-		
+
 		$content = $parser->post_db_parse($this->content);
 		if($size){
 			if($tags) $content = strip_tags($content, $tags);
@@ -119,19 +119,19 @@ class BasicObject {
 
 	function getStatus($type=null) {
 		global $bw, $vsLang;
-		
+
 		if(!$type) return isset($this->status) ? $this->status : 1;
-		
+
 		if($type=="image"){
-			$imgArray = array('disabled.png', 'enable.png', 'home.png','hethang.png','khuyenmai.gif','special.gif','new.png', 'coming.png','special.png');			
-			return $this->status = "<img src='{$bw->vars ['img_url']}/{$imgArray[$this->getStatus()]}' alt='{$this->getStatus()}' />";
+			$imgArray = array('disabled.png', 'enable.png', 'home.png','promote.png','khuyenmai.gif','special.gif','new.png', 'coming.png','special.png');
+			return $this->status = "<img src='{$bw->vars ['img_url']}/{$imgArray[$this->getStatus()]}' alt='{$this->getStatus()}' style='height: 12px;'/>";
 		}
 		if($type=="text")
 			$text = array($vsLang->getWords('global_enable', 'Enable'), $vsLang->getWords('global_disable', 'Disbale'), $vsLang->getWords('global_home', 'Home'));
 			return $text['$this->status'];
 	}
 
-	
+
 	function getPostDate($format = NULl, $standard = false){
 		if($format) {
 			$datetime= new VSFDateTime();
@@ -143,23 +143,23 @@ class BasicObject {
 	function setPostDate($postDate){
 		$this->postdate = $postDate;
 	}
-	
+
 	function setId($id) {
 		$this->id = $id;
 	}
-        
+
         function setCode($id) {
 		$this->code = $id;
 	}
-	
+
 	function setUrl($url) {
 		$this->url = $url;
 	}
-	
+
 	function setStatus($status) {
 		$this->status = $status;
 	}
-	
+
 	function setContent($content, $parse = 0, $br = 0) {
 		if($parse){
 	        $parser = new PostParser ();
@@ -193,7 +193,7 @@ class BasicObject {
 		if(TIMTHUMB==1) return $bw->vars['board_url']."/cache/images/{$width}x{$height}-{$type}/uploads/{$path}";
 		return "{$bw->vars['board_url']}/utils/timthumb.php?src={$path}&w={$width}&h={$height}&zc={$type}";
 	}
-	
+
 	function getResizeImagePathScale($fileObject,$width = 130, $height = 100,$type=0) {
 		global $bw,$vsStd;
 		$size = $vsStd->scaleImage($fileObject->getPathView(0), $width, $height);
@@ -203,21 +203,21 @@ class BasicObject {
 		if(TIMTHUMB==1) return $bw->vars['board_url']."/cache/images/{$width}x{$height}-{$type}/uploads/{$path}";
 		return "{$bw->vars['board_url']}/utils/timthumb.php?src={$path}&w={$width}&h={$height}&zc={$type}";
 	}
-	
+
 	function getCacheImagePathByFile($fileObject, $width = 130, $height = 100, $type=0, $timthumb=0) {
 		global $vsFile, $vsSettings, $bw;
-	
+
 		if(!is_object($fileObject)){
             $vsFile = new files();
             /*ghu chu*/
-            
+
 			$fileObject = $vsFile->getObjectById(intval($fileObject));
                 }
 		if(!is_a($fileObject,"File")){
-			$noimage = $vsSettings->getSystemKey('system_noimage_img_path','styles/images/noimage.gif', 'global', 0, 1);	
+			$noimage = $vsSettings->getSystemKey('system_noimage_img_path','styles/images/noimage.gif', 'global', 0, 1);
 			return $this->getResizeImagePath($noimage,$width,$height);
 		}
-		
+
 		if($timthumb || $fileObject->getType()=="gif" || $fileObject->getType()=="flv")
 			return $fileObject->getPathView();
 		return
@@ -233,7 +233,7 @@ class BasicObject {
  * test ra loi xin lien he : sangpm@vietsol.net
  */
 
-	
+
 
 function createImageCache($fileObject, $width=100, $height=100, $type=0, $noimage=0, $alt="") {
 		global $vsFile, $bw,$vsStd;
@@ -244,7 +244,7 @@ function createImageCache($fileObject, $width=100, $height=100, $type=0, $noimag
 				$vsFile = new files();
 				$fileObject = $vsFile->getObjectById(intval($fileObject));
          }
-       
+
 		if(!is_a($fileObject, "File")){
 			if($noimage)
 				return $this->imageCache="<img title='{$bw->vars['global_websitename']} alt='{$bw->vars['global_websitename']} Image' src='{$this->getCacheImagePathByFile($fileObject,$width,$height)}'/>";
@@ -258,7 +258,7 @@ function createImageCache($fileObject, $width=100, $height=100, $type=0, $noimag
 		if($fileObject->getType()=="gif"){
 			if($height!=0)
 				return $this->imageCache="<img title='{$alt}' alt='{$alt}' src='{$this->getCacheImagePathByFile($fileObject,$width,$height,$type)}' width='$width' height='$height'/>";
-			else 
+			else
 				return $this->imageCache="<img title='{$alt}' alt='{$alt}' src='{$this->getCacheImagePathByFile($fileObject,$width,$height,$type)}' width='$width'/>";
 		}
 		if($fileObject->getType()=="flv"){
@@ -267,14 +267,14 @@ function createImageCache($fileObject, $width=100, $height=100, $type=0, $noimag
 		}
         if($type == 2){
 			$size = $vsStd->scaleImage($fileObject->getPathView(0), $width, $height);
-			
+
 			return $this->imageCache="<img title='{$alt}' alt='{$alt}' src='{$this->getCacheImagePathByFile($fileObject,round($size['width']),round($size['height']),0)}' style='padding-top:{$size['padding-top']}px;'/>";
 		}
 
         if($type == 3){
 			return $this->imageCache="<img title='{$alt}' alt='{$alt}' src='{$this->getCacheImagePathByFile($fileObject,$width,$height,2)}'/>";
 		}
-		
+
 		if($type == 4){
 			$size = $vsStd->scaleImage($fileObject->getPathView(0), $width, $height);
 			return $this->imageCache="<img title='{$alt}' alt='{$alt}' src='{$this->getCacheImagePathByFile($fileObject,round($size['width']),round($size['height']),0)}' />";
@@ -299,12 +299,12 @@ function createImageCache($fileObject, $width=100, $height=100, $type=0, $noimag
                                     {$this->createImageCache($fileObject, $width, $height, $type, $noimage)}
                 </a>
                 {$endDiv}
-                
+
 EOF;
 
                                     return $RET;
         }
-        
+
 	function showImageVideo( $fileObject="",$width=100, $height=100, $thumbwidth=100,$thumbheight=100 , $type=0){
             global $vsFile, $bw,$vsStd;
            $RET ="";
@@ -312,12 +312,12 @@ EOF;
             $convertimg = str_replace(".flv", ".png", $this->getCacheImagePathByFile($fileObject,$width,$height,$type));
             $RET .= <<<EOF
                 <a href="javascript:;" onclick="vsf.get('files/view/{$fileObject->getId()}/&width={$width}&height={$height}','video');" title="{$fileObject->getTitle()}"><img alt='{$fileObject->getTitle()}' src='{$convertimg}' width='$thumbwidth' height='$thumbheight'/></a>
-                
+
 EOF;
 
 	 return $RET;
         }
-        
+
         function createSeo(){
 		global $vsCom,$bw,$vsPrint;
 		$exac_url=strtr($this->getUrl($bw->input['module']), $vsCom->SEO->aliasurl);
@@ -330,9 +330,9 @@ EOF;
 				$intro = $this->intro?$this->getIntro(100):$this->getContent(100);
 				$oTitle = strip_tags($this->title);
 				$specialchar = "&acute; &grave; &circ; &tilde; &cedil; &ring; &uml; &amp; &quot;";
-				$specialchar .= " , . ? : ! < > & * ^ % $ # @ ; ' ( ) { } [ ] + ~ = - 39 / 33";				
+				$specialchar .= " , . ? : ! < > & * ^ % $ # @ ; ' ( ) { } [ ] + ~ = - 39 / 33";
 				$specialcharArr = explode(" ",$specialchar);
-				$oTitle = str_replace($specialcharArr,'',$oTitle);				
+				$oTitle = str_replace($specialcharArr,'',$oTitle);
 				$oIntro = $oTitle.": ".VSFTextCode::cutString(strip_tags($intro),100);
 				$vsCom->SEO->obj->setIntro($oIntro);
 			}
@@ -391,7 +391,7 @@ EOF;
                 }
 
         }
-         public function convertToDB($tableName="news") {                
+         public function convertToDB($tableName="news") {
 		isset ( $this->catId )      ? ($dbobj ["{$tableName}CatId"] = $this->getCatId ()) : "";
 		isset ( $this->id )         ? ($dbobj ["{$tableName}Id"] = $this->id) : "";
 		isset ( $this->title )      ? ($dbobj ["{$tableName}Title"] = $this->title) : "";
@@ -402,10 +402,10 @@ EOF;
 		isset ( $this->status )     ? ($dbobj ["{$tableName}Status"] = $this->status) : "";
 		if($this->author)       $dbobj ["{$tableName}Author"]   = $this->author;
                 if( $this->code )       $dbobj ["{$tableName}Code"]     = $this->code;
-                
+
 		return $dbobj;
 	}
-        
+
         public function convertSearchDB(){
                 global $bw,$vsLang;
 		isset ( $this->id )         ? ($dbobj ["searchId"]      = $this->id) : "";
@@ -423,7 +423,7 @@ EOF;
                     $dbobj ["searchContent"] = $this->getCleanSearch123();
                     $dbobj ["searchCatId"] =$vsLang->currentLang->getId();
                     $dbobj ["searchIntro"] =$this->intro ? $this->intro : $this->getContent(300);
-                 
+
                 return $dbobj;
         }
 
@@ -446,5 +446,5 @@ EOF;
 		}
 		return $status;
 	}
-        
+
 }

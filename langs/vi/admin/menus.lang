@@ -91,6 +91,9 @@ $lang = array (
   'category_image_bt' => 'Hình ảnh',
   'category_constructions_value' => 'Value',
   'category_products_value' => 'Value',
+  'products_category_form_header_status' => 'Trang chủ',
+  'products_yes' => 'Yes',
+  'products_no' => 'No',
 );
 $userLang = array (
 );

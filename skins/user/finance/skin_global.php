@@ -107,7 +107,7 @@ class skin_global {
                 {$this->SITE_MAIN_CONTENT}
 
                 <if="$bw->input['module']==orders "> </div "></if>
-                <if=" !$bw->isMobile && ($bw->input['module']==home || $bw->input['module']==abouts)">
+                <if=" !$bw->isMobile && ($bw->input['module']==abouts)">
                     {$this->addVideo($this->wl['videos'])}
                 </if>
             </div>

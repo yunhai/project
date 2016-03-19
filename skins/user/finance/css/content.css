@@ -52,7 +52,7 @@
 .main_item .item {
 		padding-left: 23px;
 		padding-right: 23px;
-		height: 310px;
+		max-height: 310px;
 }
 
 @media (min-width: 768px) {

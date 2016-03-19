@@ -1,7 +1,7 @@
 <?php
 // Handle all error of application
 try {
-
+// error_reporting(E_ALL);
 	// Initialize configuration
 	$INFO = array ();
 	require ROOT_PATH . "conf_global.php";

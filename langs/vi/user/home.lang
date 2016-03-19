@@ -16,6 +16,8 @@ $lang = array (
   'chitiet' => 'Chi tiết',
   'quatang' => 'Quà tặng',
   'giohang' => '+ Giỏ hàng',
+  'xemtatca' => '..Xem tất cả',
+  'promote' => 'Khuyến mãi',
 );
 $userLang = array (
 );

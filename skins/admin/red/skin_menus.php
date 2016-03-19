@@ -12,7 +12,7 @@ $BWHTML .= <<<EOF
     </ul>
 </div>
 EOF;
-return $BWHTML;	
+return $BWHTML;
 }
 
 function addEditMenuForm($form = array(), $message = "", $menu) {
@@ -93,7 +93,7 @@ $BWHTML .= <<<EOF
     <td><textarea name="menuAlt" style="width:230px; height: 75px;">{$menu->alt}</textarea></td>
     <td>{$vsLang->getWords('menu_form_dropdown',"Dropdown")}</td>
     <td>
-         <input type="radio" class="checkbox" name="menuIsDropdown" value="1" /> 
+         <input type="radio" class="checkbox" name="menuIsDropdown" value="1" />
          <label for="menuIsDropDown_first">{$vsLang->getWords('menu_form_yes',"Yes")}</label>
          <div class="clear"></div>
          <input type="radio" class="checkbox" name="menuIsDropdown" value="0"/>
@@ -157,9 +157,9 @@ $BWHTML .= <<<EOF
 			vsf.alert("{$vsLang->getWords('null_title', 'Tiêu đề không được để trống!!!')}");
 			return false;
 		}
-		
+
 		vsf.uploadFile("addEditMenu_{$menu->isAdmin}","{$bw->input[0]}", "addeditmenu/", "addeditform_{$menu->isAdmin}","menus");
-		
+
 		vsf.get('menus/getmenulist/{$menu->isAdmin}','menulist_{$menu->isAdmin}');
 		return false;
 	});
@@ -175,7 +175,7 @@ global $vsLang, $bw;
 $BWHTML = "";
 //--starthtml--//
 
-if($bt_buildCache) 
+if($bt_buildCache)
 $buildCache = <<<EOF
 <a href="#" onclick="vsf.get('menus/buildcache/','menulist_{$bw->typemenu}'); return false;" title="{$vsLang->getWords('menu_form_build_cache',"Build cache")}">
     <img src="{$bw->vars['img_url']}/cache.png" />
@@ -191,8 +191,8 @@ function setValue_{$bw->typemenu}(id) {
 function deleteMenu_{$bw->typemenu}() {
 	if($('#slmenu_{$bw->typemenu}').val() > 0) {
 		jConfirm(
-			'{$vsLang->getWords("pages_deleteConfirm","Are you sure to delete these page information?")}', 
-			'{$bw->vars['global_websitename']} Dialog', 
+			'{$vsLang->getWords("pages_deleteConfirm","Are you sure to delete these page information?")}',
+			'{$bw->vars['global_websitename']} Dialog',
 			function(r){
 				if(r){
 					vsf.get('menus/deletemenu/'+$('#slmenu_{$bw->typemenu}').val()+'/','menulist_{$bw->typemenu}');
@@ -250,7 +250,7 @@ function editMenu_{$bw->typemenu}() {
 EOF;
 //--endhtml--//
 
-return $BWHTML;	
+return $BWHTML;
 }
 
 function objMain($menulist, $addeditform) {
@@ -295,7 +295,7 @@ function getSimpleListCatHtml($data,$categoryGroup) {
 				    currentId += $(this).val() + ',';
 				    parentId = $(this).val();
 				});
-				
+
 				currentId = currentId.substr(0, currentId.length-1);
 				$("#category-message{$categoryGroup->getUrl()}").html('{$vsLang->getWords('category_chosen',"Selected categories")}:'+currentId);
 				$('#category-parent-id').val(parentId);
@@ -306,7 +306,7 @@ EOF;
 
 	function categoryList($data, $categoryGroup) {
 		global $vsLang, $bw, $vsSettings;
-   
+
 		$BWHTML = "";
 		$BWHTML .= <<<EOF
 			<div class="ui-dialog ui-widget ui-widget-content ui-corner-all">
@@ -338,7 +338,7 @@ EOF;
 				</table>
 			</div>
 			<script type="text/javascript">
-                                       
+
 					function setValue_category{$categoryGroup->getUrl()}() {
 						var currentId = '';
 						var parentId = '';
@@ -346,20 +346,20 @@ EOF;
 						    currentId += $(this).val() + ',';
 						    parentId = $(this).val();
 						});
-						
+
 						currentId = currentId.substr(0, currentId.length-1);
 						$("#category-message{$categoryGroup->getUrl()}").html('{$vsLang->getWords('category_chosen',"Selected categories")}:'+currentId);
 						$('#category-parent-id').val(parentId);
 					}
-				
+
 					function deleteCategory{$categoryGroup->getUrl()}() {
 						var currentId = '';
 						$("#menus-category{$categoryGroup->getUrl()} option:selected").each(function () {
 							 currentId += $(this).val() + ',';
-							
+
 						});
 						currentId = currentId.substr(0, currentId.length-1);
-						
+
 						if(!currentId){
 							$('#category-message{$categoryGroup->getUrl()}').html('{$vsLang->getWords('err_chosen_category', 'Please choose category to perform your action!')}');
 							$('#menus-category{$categoryGroup->getUrl()}').addClass('ui-state-error');
@@ -374,14 +374,14 @@ EOF;
 		                        return false;
 	                        }else{
 	                        	jConfirm(
-									'{$vsLang->getWords("category_confirm_delete","Are you sure to delete these categories information?")}', 
+									'{$vsLang->getWords("category_confirm_delete","Are you sure to delete these categories information?")}',
 						 			'{$bw->vars["global_websitename"]} Dialog',
 						 			function(r){
 						 			if(r){
 						 				vsf.get('menus/delete-category/{$categoryGroup->getUrl()}/'+currentId+'/','category-table{$categoryGroup->getUrl()}');
 						 			}
 						 			});
-							} 	
+							}
 	                    }
 	                }
 
@@ -392,7 +392,7 @@ EOF;
 					});
                     return count;
                		}
-					
+
 					function editCategory{$categoryGroup->getUrl()}() {
 						temp = $("#menus-category{$categoryGroup->getUrl()} option:selected");
 						currentId = $(temp[0]).val();
@@ -401,7 +401,7 @@ EOF;
 							$('#menus-category{$categoryGroup->getUrl()}').addClass('ui-state-error');
 							return false;
 						}
-	
+
 						vsf.get('menus/edit-category/{$categoryGroup->getUrl()}/'+currentId+'/','category-form{$categoryGroup->getUrl()}');
 						return false;
 					}
@@ -437,7 +437,7 @@ EOF;
 
 	function MainCategories($categoryForm = "", $categoryTable = "",$str="") {
 		global $vsLang, $bw;
-				
+
 		$BWHTML = "";
 		$BWHTML .= <<<EOF
 			<div id='categoryTabContainer{$str}'>
@@ -476,7 +476,7 @@ EOF;
 			<form id="add-edit-category-form{$option['cate']}" method="post" name='add-edit-category-form{$option['cate']}'>
 			<input type="hidden" name="categoryGroup" value="{$bw->input[2]}" />
 			<input type="hidden" name="categoryId" value="{$category->getId()}" id="categoryId"/>
-                        
+
                         <input type="hidden" name="currentId" value="{$category->getId()}" id="currentId"/>
                         <input type="hidden" id="category-parent-idold" name="categoryParentIdOld" value="{$category->getParentId()}" />
 			<input type="hidden" id="category-parent-id" name="categoryParentId" value="{$category->getParentId()}" />
@@ -491,22 +491,35 @@ EOF;
 				        	<td>{$vsLang->getWords('category_form_header_name','Name')}</td>
 				            <td><input id="category-name{$option['cate']}" type="text" name="categoryName" size="36" value="{$category->getTitle()}" /></td>
 				            </if>
-				            
-				            
+
+
 						</tr>
 						<if=" $vsSettings->getSystemKey($option['cate'].'_cat_status', 0, $option['cate'], 1, 1) ">
-						<tr>
+						<if=" $option['cate'] == 'products' ">
+							<tr>
+				        	<td>{$vsLang->getWords($option['cate'].'_category_form_header_status', 'Trang chủ')}</td>
+				            <td>
+											<input type="radio" class="checkbox" name="categoryIsVisible" {$checkStatus[1]} value="1"/> {$vsLang->getWords($option['cate'] . '_yes','Yes')}
+											<div class="clear"></div>
+											<input type="radio" class="checkbox" name="categoryIsVisible" {$checkStatus[0]} value="0"/> {$vsLang->getWords($option['cate'] . '_no','No')}
+											<div class="clear"></div>
+											</if>
+				            </td>
+							</tr>
+						<if>
+						<if=" $option['cate'] != 'products' ">
+							<tr>
 				        	<td>{$vsLang->getWords('category_form_header_status','Status')}</td>
 				            <td>
-				            	<input type="radio" class="checkbox" name="categoryIsVisible" {$checkStatus[1]} value="1"/> {$vsLang->getWords('global_yes','Yes')}
-				            	<div class="clear"></div>
-				            	<input type="radio" class="checkbox"  name="categoryIsVisible" {$checkStatus[0]} value="0"/> {$vsLang->getWords('global_no','No')}
-				            	<div class="clear"></div>
-				            	<if=" $vsSettings->getSystemKey($option['cate'].'_cat_status_home', 0, $option['cate'], 1, 1) ">
-				            	<input type="radio" class="checkbox"  name="categoryIsVisible" {$checkStatus[2]} value="2"/> {$vsLang->getWords('global_ishome','Trang chủ')}
-				            	</if>
+
+											<input type="radio" class="checkbox" name="categoryIsVisible" {$checkStatus[1]} value="1"/> {$vsLang->getWords('global_yes','Yes')}
+											<div class="clear"></div>
+											<input type="radio" class="checkbox"  name="categoryIsVisible" {$checkStatus[0]} value="0"/> {$vsLang->getWords('global_no','No')}
+											<div class="clear"></div>
+											</if>
 				            </td>
-						</tr>
+										</tr>
+						</if>
 						</if>
 						<tr>
 				    		<if=" $vsSettings->getSystemKey($option['cate'].'_cat_value', 0, $option['cate'], 1, 1) ">
@@ -537,7 +550,7 @@ EOF;
 				            <td><input type="text" name="categoryIndex" size="10" value="{$category->getIndex()}" /></td>
 						</tr>
 						</if>
-						
+
 						<if=" $vsSettings->getSystemKey($option['cate'].'_cat_file', 0, $option['cate'], 1, 1) ">
 						<tr>
 							<td>{$vsLang->getWords('obj_image_image', "Image")}</td>
@@ -568,13 +581,13 @@ EOF;
 				        		{$switchForm}
 			        		</td>
 			        		<td class="ui-dialog-buttonpanel" align="center">
-								
+
 			        		</td>
 						</tr>
 				    </table>
 				</div>
 			</form>
-			
+
 			<script type="text/javascript">
 				function displayDialog(pageId){
 					var opacityDiv='<div id="opacity"></div>';
@@ -585,7 +598,7 @@ EOF;
 				}
 
 				function submitCatForm{$option['cate']}() {
-                                        
+
 					if(!$('#category-name{$option['cate']}').val()) {
 						str = '* {$vsLang->getWords('err_category_name_blank','Please enter the category name!')}<br />';
 						$('#err-category-form-message{$option['cate']}').html(str);
@@ -606,10 +619,10 @@ EOF;
                        }
                     }
                     if(check == id) $('#category-parent-id').val(oldparrent);
-					vsf.uploadFile("add-edit-category-form{$option['cate']}", "{$bw->input[0]}", "add-edit-category", "categoryTabContainer{$option['cate']}", "{$option['cate']}_category");	
-					
+					vsf.uploadFile("add-edit-category-form{$option['cate']}", "{$bw->input[0]}", "add-edit-category", "categoryTabContainer{$option['cate']}", "{$option['cate']}_category");
+
 				}
-                                        
+
                 function checkCategoryParent(idparent,idcheck){
                     var re ="";
                     $('#menus-category{$option['cate']} .parent'+idparent).each(function(){
@@ -623,10 +636,10 @@ EOF;
 			</script>
 EOF;
 	}
-	
+
 	function displayDialog($menulisthtml){
 		global $vsMenu, $vsLang;
-		
+
 		$BWHTML .= <<<EOF
 			<script type='text/javascript'>
 				$(document).ready(
@@ -635,12 +648,12 @@ EOF;
 					$('#dialogOpen').click(function(){
 						var groupTitle = $('#dialogOpen :selected').text();
 						var pageCatId =  $('#dialogOpen :selected').val();
-				
+
 	//					if($('#subTitle').length){
-						    var advanceTitle = "{$vsLang->getWords('selected_item ','Đang chọn: ')}";		
+						    var advanceTitle = "{$vsLang->getWords('selected_item ','Đang chọn: ')}";
 							advanceTitle += groupTitle;
 							var subTitle =  '[' + advanceTitle + ']';
-						
+
 							$('#dialog-subtitle').html(subTitle);
 	//					}
 	//					vsf.get('menus/get-items/'+pageCatId+'/','list-item');
@@ -657,7 +670,7 @@ EOF;
 			    </div>
 			   <div id="subBoxTree"></div>
 			</div>
-			
+
 EOF;
 	}
 }
