@@ -14,6 +14,10 @@ class skin_global {
 
 				$count= count($_SESSION [$_SESSION [APPLICATION_TYPE]['language']['currentLang']['langFolder']] ['cart'] ['item'])?count($_SESSION [$_SESSION [APPLICATION_TYPE]['language']['currentLang']['langFolder']] ['cart'] ['item']):'0';
 
+				$facebook = $vsSettings->getSystemKey("global_facebook", "https://www.facebook.com/shophoa360ngay/", "config");
+				$youtube = $vsSettings->getSystemKey("global_youtube", "https://www.youtube.com/channel/UChtB6J6zTuM9aeKAPtRMkCA", "config");
+				$googleplus = $vsSettings->getSystemKey("global_googleplus", "https://plus.google.com/u/1/114612912152621832929", "config");
+
 		$BWHTML .= <<<EOF
     <!-- <script type="text/javascript" src="https://apis.google.com/js/plusone.js">{lang: 'vi'}</script> -->
     <div class="container top-container">
@@ -101,7 +105,7 @@ class skin_global {
             </div><!--cate_left-->
         </div><!--sidebar-->
 		</if>
-        <div class="primary1 col-lg-9 col-md-9 col-sm-12 col-xs-12">
+        <div class="primary1 col-lg-9 col-md-12 col-sm-12 col-xs-12">
             <div class="item_home">
                 <if="$bw->input['module']==orders "> <div class="div_orders" style="width:100%"></if>
                 {$this->SITE_MAIN_CONTENT}
@@ -113,37 +117,6 @@ class skin_global {
             </div>
         </div><!--primary-->
         <div class="clear"></div>
-		<if=" $bw->isMobile ">
-				<div class="sidebar_left col-lg-3 col-md-3 col-sm-12 col-xs-12">
-            <div class="cate_left cate_left_top">
-                <div class="main_cate_left">
-                    <ul class="cate_top"  id="menu">
-                        <foreach="$this->cateproducts as $obj">
-                            <li><a href="{$obj->getUrlCategory('cateproducts')}">{$obj->getTitle()}</a></li>
-                        </foreach>
-                    </ul>
-                </div>
-            </div><!--cate_left-->
-            <div class="cate_left cate_left_2">
-                <div class="main_cate_left">
-                    <h3>Quà tặng</h3>
-                    <ul class="cate_2">
-                        <foreach="$this->catequatang as $obj">
-                            <li><a href="{$obj->getUrlCategory('catequatang')}">{$obj->getTitle()}</a></li>
-                        </foreach>
-                    </ul>
-                </div>
-            </div><!--cate_left-->
-            <div class="cate_left cate_left_2">
-                <div class="main_cate_left">
-                    <h3>Liên kết banner</h3>
-                    <foreach="$this->wl['khang'] as $obj">
-                        <a title="{$obj->getTitle()}" href="{$obj->getWebsite()}" target= "_blank">{$obj->createImageCache($obj->getImage(),212,344,5,0,$obj->getTitle())}</a>
-                    </foreach>
-                </div>
-            </div><!--cate_left-->
-        </div><!--sidebar-->
-		</if>
     </div><!--enc content-->
 		<div class="menu_bot">
 
@@ -161,7 +134,7 @@ class skin_global {
             <div class="weblinks col-lg-3 col-md-6 col-sm-12 col-xs-12">
                 <div class="social">
                         <a href="$facebook" target="_blank"><i class="zmdi zmdi-hc-2x zmdi-facebook"></i></a>
-                        <a href="$google" target="_blank"><i class="zmdi zmdi-hc-2x zmdi-google-plus"></i></a>
+                        <a href="$googleplus" target="_blank"><i class="zmdi zmdi-hc-2x zmdi-google-plus"></i></a>
                         <a href="$youtube" target="_blank"><i class="zmdi zmdi-hc-2x zmdi-youtube"></i></a>
                 </div>
              	<div class="weblink">

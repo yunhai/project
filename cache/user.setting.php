@@ -1,5 +1,8 @@
 <?php
 $arraySetting = array (
+  'global_googleplus' => 'https://plus.google.com/u/1/114612912152621832929',
+  'global_youtube' => 'https://www.youtube.com/channel/UChtB6J6zTuM9aeKAPtRMkCA',
+  'global_facebook' => 'https://www.facebook.com/shophoa360ngay/',
   'payment_user_list_number_other' => '10',
   'payment_user_item_quality' => '10',
   'google_analysis' => '0',

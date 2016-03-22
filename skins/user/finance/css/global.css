@@ -222,7 +222,9 @@ ul, ol {
   float: left;
 }
 
-
+.sidebar_left {
+  display: none;
+}
 @media (min-width: 768px) {
   .order .payment {
     margin-left: 2px;
@@ -239,11 +241,15 @@ ul, ol {
     float: left;
   }
 }
-.sidebar_left {
-  background: url(../images/bg_top_sidebar.jpg) left top no-repeat;
-  float: left;
-  margin-top: 10px;
+@media (min-width: 992px) {
+  .sidebar_left {
+      background: url(../images/bg_top_sidebar.jpg) left top no-repeat;
+      float: left;
+      margin-top: 10px;
+      display: block;
+    }
 }
+
 .cate_left {
   width: 100%;
 }

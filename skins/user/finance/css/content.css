@@ -40,24 +40,24 @@
 .main_item {
     border: 1px solid #e7e6e6;
     margin: 5px 0px 10px;
-    padding-bottom: 20px;
     overflow: hidden;
 }
 .main_item .item-list {
-		border-bottom: 1px dotted #d9d9d9;
-		padding: 8px 0 10px;
+    border-right: 1px dotted #d9d9d9;
+    border-bottom: 1px dotted #d9d9d9;
+    padding: 8px 0 10px;
     margin: 0;
-
 }
 .main_item .item {
-		padding-left: 23px;
-		padding-right: 23px;
+		padding-left: 10px;
+		padding-right: 10px;
 		max-height: 310px;
 }
 
 @media (min-width: 768px) {
-  .main_item .item {
-		border-right: 1px dotted #d9d9d9;
+  .main_item .item {    
+    padding-left: 23px;
+    padding-right: 23px;
   }
 }
 .main_item .hr {
