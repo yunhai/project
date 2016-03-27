@@ -35,6 +35,8 @@ function showDetail($obj,$option){
       <iframe src="https://docs.google.com/forms/d/1Ul6dhfDwHYTneLkfdb_oLZ5tDIX4Ad3IFUeefSYl8-w/viewform?embedded=true#start=openform" width="760" height="500" frameborder="0" marginheight="0" marginwidth="0">Đang tải...</iframe>
     </if>
 
+	<div class='clear'></div>
+	<br />
     <div class="g-plusone" data-annotation="inline" data-width="300"></div>
     <script type="text/javascript">
       (function() {
