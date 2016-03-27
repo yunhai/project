@@ -55,7 +55,7 @@ class skin_global {
                        {$obj->createImageCache($obj->getImage(), 938, 310, 1, 0, $obj->getTitle())}
                    </foreach>
                </div>
-			   <div class="hotline">Hotline:<span>{$vsSettings->getSystemKey("global_hotline","0","config")}</span></div>
+			   <div class="hotline">Hotline:<span>{$vsSettings->getSystemKey("global_hotline","","config")}</span></div>
             </div>
             <div class="clear"></div>
         </div>
@@ -63,7 +63,7 @@ class skin_global {
 	<else />
 		<div class="container-fluid no-padding slide_top_full">
 			<div class='hotline-button'>
-		Hotline:<span>{$vsSettings->getSystemKey("global_hotline","0","config")}</span>
+		Hotline:<span>{$vsSettings->getSystemKey("global_hotline","","config")}</span>
 		</div>
 		</div>
 	</if>
@@ -76,8 +76,9 @@ class skin_global {
     <div class="content container-fluid no-padding">
 		<if=" !$bw->isMobile ">
         <div class="sidebar_left col-lg-3 col-md-4 col-sm-6 col-xs-12">
+					  {$this->products_filter_portlet}
             <div class="cate_left cate_left_top">
-                <div class="main_cate_left">
+                <div class="main_cate_left category-portlet">
                     <ul class="cate_top" id="menu">
                         <foreach="$this->cateproducts as $obj">
                             <li><a href="{$obj->getUrlCategory('cateproducts')}">{$obj->getTitle()}</a></li>
@@ -154,22 +155,22 @@ class skin_global {
 </div>
 <div class="bg_footer_bottom"></div>
 <script type="text/javascript">
-    $(document).ready( function(){
+    $(document).ready( function() {
+				$('#slider').nivoSlider({
+						controlNav: false,
+						prevText: '',
+						nextText: '',
+				});
+				$('.nivo-controlNav').find('.nivo-control:last').addClass('abc');
+
         $('.cate_top').find('li:first').addClass('cate_top_first');
         $('.cate_top').find('li:last').addClass('cate_top_last');
         $('.link_home').find('a:first').addClass('link_home_first');
-        $(window).load(function() {
-            $('#slider').nivoSlider({
-                controlNav: false,
-                prevText: '',
-                nextText: '',
-            });
-        });
 
         $('.link_home').find('a:last').addClass('active');
         $('.primary').find('.hr:last').remove();
         $('.menu_top').find('span:last').remove();
-        $('.nivo-controlNav').find('.nivo-control:last').addClass('abc');
+
         $('#top').click(function() {
             $('html, body').animate({scrollTop:0},500);
         });

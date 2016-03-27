@@ -86,6 +86,9 @@ function auto_run() {
 			case 'export':
 					$this->export();
 				break;
+			case 'search':
+				$this->search();
+				break;
 			default :
 				$this->loadDefault ();
 				break;
@@ -93,7 +96,7 @@ function auto_run() {
 	}
 
 function addEditObjForm($objId = 0, $option = array()) {
-		global $vsLang, $vsStd, $bw, $vsPrint,$vsSettings,$search_module,$langObject,$vsFile;
+		global $vsLang, $vsStd, $bw, $vsPrint,$vsSettings,$search_module,$langObject,$vsFile,$vsCom;
 
                 $option['skey'] = $bw->input['module'];
 		$obj = $this->model->createBasicObject ();
@@ -104,7 +107,6 @@ function addEditObjForm($objId = 0, $option = array()) {
 			$option ['formSubmit'] = $langObject['itemFormEditButton'];
 			$option ['formTitle'] = $langObject['itemFormEdit'];
 			$obj = $this->model->getObjectById ( $objId ,1);
-
 
 			///////////////////////////
 			if($obj->getImage())
@@ -117,10 +119,6 @@ function addEditObjForm($objId = 0, $option = array()) {
             	$vsFile->setCondition("fileId in ({$file})");
                	$option ['file'] =  $vsFile->getObjectsByCondition();
         	}
-
-
-
-
 		}
 
 
@@ -166,126 +164,58 @@ function addEditObjForm($objId = 0, $option = array()) {
 		return $this->output = $this->html->addEditObjForm ( $obj, $option );
 	}
 
+function search($catId = '', $message = "") {
+		global $bw, $vsSettings;
 
+		$categories = $this->model->getCategories ();
 
-/****function addEditObjProcess() {
-		global $bw, $vsStd, $vsLang, $vsFile,$DB,$vsSettings,$search_module,$langObject;
+		if ($bw->input ['category-id'])
+			$catId = $bw->input ['category-id'];
 
-		$bw->input ["{$this->tableName}Promo"] = $bw->input ["{$this->tableName}HotPrice"] ? 1:0;
+		// Check if the catIds is specified
+		// If not just get all product
+		if (intval ( $catId )) {
+			$result = $this->model->vsMenu->extractNodeInTree ( $catId, $categories->getChildren () );
+			if ($result)
+				$strIds = trim ( $catId . "," . $this->model->vsMenu->getChildrenIdInTree ( $result ['category'] ), "," );
+		}
+		if (!$strIds)
+			$strIds = $this->model->vsMenu->getChildrenIdInTree ( $categories );
+		// Set the condition to get all product in specified category and its chidlren
 
-		$bw->input ["{$this->tableName}Status"] = $bw->input ["{$this->tableName}Status"] ? $bw->input ["{$this->tableName}Status"] : 0;
-
-
-		if (! $bw->input ["{$this->tableName}CatId"])
-			$bw->input ["{$this->tableName}CatId"] = $this->model->getCategories ()->getId ();
-
-		if ($bw->input ['fileId']){
-			$vsFile->setCondition("fileId in ({$bw->input ['fileId']})");
-           	$list =  $vsFile->getObjectsByCondition();
-           	if($list)
-           		foreach($list as $obj){
-                	$bw->input [$obj->getField()] = $obj->getId();
-               	}
-            if($bw->input['txtlink'])
-				$bw->input["{$this->tableName}Image"]=$vsFile->copyFile($bw->input["txtlink"],$bw->input[0]);
+		$search = $bw->input['search'];
+		$condition = $this->model->getCategoryField () . " in (" . $strIds . ")";
+		if ($search['title']) {
+			$condition .= " and {$this->tableName}Title like '%{$search['title']}%'";
+		}
+		if ($search['code']) {
+			$condition .= " and {$this->tableName}Code like '%{$search['code']}%'";
+		}
+		if ($search['status']) {
+			$condition .= " and {$this->tableName}Status In (" . implode(',', $search['status']) . ")";
+		}
+		if ($search['price']['min']) {
+			$condition .= " and {$this->tableName}Price >= (" . abs($search['price']['min']) . ")";
+		}
+		if ($search['price']['max']) {
+			$condition .= " and {$this->tableName}Price <= (" . abs($search['price']['max']) . ")";
 		}
 
+		$this->model->setCondition ($condition);
 
+		$size = $vsSettings->getSystemKey("admin_{$bw->input['sett']}_list_number", 10);
 
-		// If there is Object Id passed, processing updating Object
-		if ($bw->input ["{$this->tableName}Id"]) {
-			$obj = $this->model->getObjectById ( $bw->input ["{$this->tableName}Id"] );
+		$option = $this->model->getPageList("products/search", 2, $size, 1, '');
 
-			$arrayI =  array("IntroImage"=>$obj->getImage (),
-                             "Fileupload"=>$obj->getFileupload (),
-                        );
-            foreach($arrayI as $key => $val){
-            	$vsFile= new files();
-				$imageOld = $val;
-             	if($bw->input["delete".$key]){
-					if($imageOld) $vsFile->deleteFile($imageOld);
-                	if(!$bw->input["{$this->tableName}{$key}"]) $bw->input["{$this->tableName}{$key}"] = 0;
-              	}
-                if($imageOld && $bw->input[$this->tableName.$key])
-                   		$vsFile->deleteFile($imageOld);
-         	}
+		$option ['search'] = true;
+		$option ['message'] = $message;
 
-			$objUpdate = $obj;
+		return $this->output = $this->html->objList($this->model->getArrayObj(), $option);
+	}
 
 
 
 
-
-
-			//$objUpdate = $this->model->createBasicObject ();
-			$objUpdate->convertToObject ( $bw->input );
-
-			if($vsSettings->getSystemKey($bw->input[0].'_tags',0, $bw->input[0])){
-			add tags process
-			require_once CORE_PATH.'tags/tags.php';
-			$tags=new tags();
-			$tags->addTagForContentId($bw->input[0], $this->model->obj->getId(), $bw->input['tags_submit_list']);
-
-			}
-
-			$this->model->updateObjectById ( $objUpdate );
-			if ($this->model->result ['status']) {
-				$alert = $langObject['itemEditSuccess'];
-				$javascript = <<<EOF
-						<script type='text/javascript'>
-							jAlert(
-								"{$alert}",
-								"{$bw->vars['global_websitename']} Dialog"
-							);
-						</script>
-EOF;
-			}
-		} else {
-            $bw->input["{$this->tableName}PostDate"] = time();
-
-
-			$this->model->obj->convertToObject ( $bw->input );
-
-			$this->model->insertObject ( $this->model->obj );
-			if ($this->model->result ['status']) {
-				$confirmContent = $langObject['itemAddSuccess'] . '\n' . $langObject['itemAddAnother'] ." ?";
-				$javascript = <<<EOF
-					<script type='text/javascript'>
-						jConfirm(
-							"{$confirmContent}",
-							'{$bw->vars['global_websitename']} Dialog',
-							function(r){
-								if(r){
-									vsf.get("{$bw->input[0]}/add-edit-obj-form/&pageIndex={$bw->input['pageIndex']}&pageCate={$bw->input['pageCate']}",'obj-panel');
-								}
-							}
-						);
-					</script>
-EOF;
-			}
-		}
-		//if ($imageOld && $bw->input ['fileId']) {
-			///$vsFile->deleteFile ( $imageOld );
-		//}
-
-        //convert to Search
-		if (in_array($bw->input['module'], $search_module)){
-                    if($bw->input['searchRecord']){
-                        $vsStd->requireFile(CORE_PATH."searchs/searchs.php");
-                        $search = new searchs();
-                        $search->setCondition("searchRecord  = ".$bw->input['searchRecord']);
-                        $search->updateObjectByCondition($this->model->obj->convertSearchDB());
-                    }
-                    elseif(isset ($bw->input['searchRecord'])){
-                        $DB->do_insert("search",$this->model->obj->convertSearchDB());
-                    }
-		}
-
-        //end convert to Search
-		$cat = $bw->input ['pageCate'] ? $bw->input ['pageCate'] : $bw->input ['pageCatId'];
-		$vsFile->buildCacheFile ( $bw->input ['module'] );
-		return $this->output = $javascript . $this->getObjList ();
-	}**/
 	function export(){
 		global $bw, $vsMenu;
 

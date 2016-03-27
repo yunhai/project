@@ -6,19 +6,20 @@ class skin_addon {
 
 		$BWHTML .= <<<EOF
         <nav class="visible-lg" id="max-menu-page">
-        <ul class="menu_top">
-            <foreach="$option as $obj">
-                <li class="menu{$vsf_count}"><a title="{$obj->getAlt()}" href="{$obj->getUrl(0)}" class="{$obj->getClassActive()}" >{$obj->getTitle()}</a>
-                    <if="$vsTemplate->global_template->menu_sub[$obj->getUrl()] || $obj->getChildren()">
-                        <ul >
-                            {$vsTemplate->global_template->menu_sub[$obj->getUrl()]}
-                            {$obj->getChildrenLi($vsTemplate->global_template->menu_sub)}
-                        </ul>
-                    </if>
-                </li>
-                <span></span>
-            </foreach>
-     	</ul>
+	        <ul class="menu_top">
+	            <foreach="$option as $obj">
+	                <li>
+						<a title="{$obj->getAlt()}" href="{$obj->getUrl(0)}" class="{$obj->getClassActive()}" >{$obj->getTitle()}</a>
+	                    <if="$vsTemplate->global_template->menu_sub[$obj->getUrl()] || $obj->getChildren()">
+	                        <ul >
+	                            {$vsTemplate->global_template->menu_sub[$obj->getUrl()]}
+	                            {$obj->getChildrenLi($vsTemplate->global_template->menu_sub)}
+	                        </ul>
+	                    </if>
+	                </li>
+	                <span></span>
+	            </foreach>
+	     		</ul>
         </nav>
                 <!-- #max-menu-page -->
                 <nav data-fix-extend="#min-menu-page" class="open-m-extend hidden-lg" id="nav-menu-page">
@@ -30,7 +31,7 @@ class skin_addon {
                 <ul class="lv1">
                     <foreach="$option as $obj">
                         <if="$vsTemplate->global_template->menu_sub[$obj->getUrl()] || $obj->getChildren()">
-                            <li class="have-child"><a title="{$obj->getAlt()}" href="{$obj->getUrl(0)}" class="{$obj->getClassActive()}" >{$obj->getTitle()}</a>
+                            <li class="have-child"><a title="{$obj->getAlt()}" href="javascript:;" class="{$obj->getClassActive()}" >{$obj->getTitle()}</a>
                             <ul class="lv2">
                                 {$vsTemplate->global_template->menu_sub[$obj->getUrl()]}
                                 {$obj->getChildrenLi($vsTemplate->global_template->menu_sub)}
@@ -80,6 +81,54 @@ EOF;
 	EOF;
 		return $BWHTML;
 	}
+
+	function showProductFilterPortlet($option= array()) {
+		global $bw, $vsLang, $vsTemplate;
+
+ 		$this->filter = $bw->input['filter'];
+		$this->priceList = array(
+			'0' => $vsLang->getWords('global_product_filter_price_0', 'Tất cả'),
+			'100-500' => $vsLang->getWords('global_product_filter_price_1', '100,000 ~ 500,000'),
+			'500-1000' => $vsLang->getWords('global_product_filter_price_2', '500,000 ~ 1,000,000'),
+			'1000-2000' => $vsLang->getWords('global_product_filter_price_3', '1,000,000 ~ 2,000,000'),
+			'2000-5000' => $vsLang->getWords('global_product_filter_price_4', '2,00,000 ~ 5,000,000'),
+			'5000' => $vsLang->getWords('global_product_filter_price_5', '5,000,000 trở lên')
+		);
+		$BWHTML .= <<<EOF
+			<div class='products-filter-portlet main_cate_left'>
+				<form action='{$bw->base_url}products/filter' method='post'>
+					<h3 class='header'>{$vsLang->getWords('global_product_filter', 'Tư vấn chọn hoa')}</h3>
+					<div class='body'>
+						<span class='filter-title'>{$vsLang->getWords('global_product_filter_category', 'Chủ đề')}</span>
+						<div class='filter-criteria'>
+							<select name='filter[category]'>
+								<option value='0'> {$vsLang->getWords('global_product_filter_category_all', 'Tất cả')}</option>
+								<foreach="$option['category'] as $obj">
+									<option value='{$obj->getId()}' <if="$obj->getId() == $this->filter['category']">selected</if>>{$obj->getTitle()}</option>
+								</foreach>
+							</select>
+						</div>
+						<span class='filter-title'>{$vsLang->getWords('global_product_filter_price', 'Mức giá')}</span>
+						<div class='filter-criteria'>
+							<select name='filter[price]'>
+								<foreach="$this->priceList as $key => $val">
+									<option value='{$key}' <if="$key == $this->filter['price']">selected</if>>{$val}</option>
+								</foreach>
+							</select>
+						</div>
+						<div class='button-bar text-center'>
+							<input type='submit' class='btn btn-primary' value='{$vsLang->getWords('global_product_filter_submit', 'Gửi')}' />
+						</div>
+					</div>
+				</form>
+			</div>
+EOF;
+		return $BWHTML;
+	}
+
+
+
+
 
 function getvideos($o){
 		global $bw,$vsLang;

@@ -104,7 +104,7 @@ class VSFObject extends Object{
 	function getPageList($url="", $objIndex=3, $size=10, $ajax = 0, $callack=""){
 		global $vsStd,$bw,$DB;
 		$vsStd->requireFile(LIBS_PATH."/Pagination.class.php");
-	
+
 		$total = $this->getNumberOfObject();
 		if($size < $total){
 			$pagination = new VSFPagination();

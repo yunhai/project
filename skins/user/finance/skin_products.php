@@ -24,6 +24,24 @@ function showDefault($option){
 EOF;
 	}
 
+	function filter($option = array()){
+		global $bw, $vsLang;
+
+			$BWHTML .= <<<EOF
+        <h3 class="title_cate">{$vsLang->getWords('global_product_filter', 'Tư vấn chọn hoa')}</h3>
+        <div class="main_item">
+            <foreach="$option['pageList'] as $obj">
+                {$this->showObj($obj, 'products')}
+            </foreach>
+        </div>
+      	<if="$option['paging']">
+          <div class="page">
+              {$option['paging']}
+          </div>
+        </if>
+	EOF;
+}
+
 
 
 function showDefault_cate($option){
@@ -33,6 +51,9 @@ function showDefault_cate($option){
 
 
                 <h3 class="title_cate">{$option['cate']->getTitle()}</h3>
+								<div class='category-description'>
+								{$option['cate']->getAlt()}
+								</div>
                 <div class="main_item">
                     <foreach="$option['pageList'] as $obj">
                         {$this->showObj($obj,'products')}

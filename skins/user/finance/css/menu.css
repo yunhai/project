@@ -1,5 +1,5 @@
 ul.menu_top{
-    clear:both;	
+    clear:both;
     width:100%;
     background:url(../images/bg_menu.jpg) left top repeat-x;
     height:48px;
@@ -10,12 +10,17 @@ ul.menu_top{
     line-height:38px;
     position:relative;
 }
-.menu_top li a{
-    height:48px;
+.menu_top li a {
     display:block;
     float: left;
     text-align:left;
-    text-indent:-9999px;
+    color: #fff;
+    padding: 0 10px;
+    line-height: 48px;
+}
+.menu_top li a.active,
+.menu_top li a:hover{
+  background: #516E00;
 }
 .menu_top span{
 	display: block;;
@@ -23,80 +28,15 @@ ul.menu_top{
 	float: left;
 	height: 48px;
 	background:url(../images/bg_menu_span.png) left center no-repeat;
-	
-}
-.menu_top .menu1 a{
-	width:108px;
-	background:url(../images/bg_menu_home.jpg) left top no-repeat;
-	font-size: 0px;
-}
-.menu_top .menu2 a{
-	width:95px;
-	background:url(../images/bg_menu_abouts.jpg) left top no-repeat;
-	font-size: 0px;
-}
-.menu_top .menu3 a{
-	width:100px;
-	background:url(../images/bg_menu_shop.jpg) left top no-repeat;
-	font-size: 0px;
-	
-}
-.menu_top .menu4 a{
-	width:94px;
-	background:url(../images/bg_menu_gif.jpg) left top no-repeat;
-	font-size: 0px;
-}
-.menu_top .menu5 a{
-    width:86px;
-    background:url(../images/bg_menu_services.jpg) left top no-repeat;
-    font-size: 0px;
-}
-.menu_top .menu6 a{
-    width:153px;
-    background:url(../images/bg_menu_search.jpg) left top no-repeat;
-    font-size: 0px;
-}
-.menu_top .menu7 a{
-    width:80px;
-    background:url(../images/bg_menu_contacts.jpg) left top no-repeat;
-    font-size: 0px;
 }
 .menu_left{
     width:10px;
     height:48px;
-    background:url(../images/menu_left.jpg) left top no-repeat;	
+    background:url(../images/menu_left.jpg) left top no-repeat;
 }
 
-.menu_top .menu1 a:hover,.menu_top .menu1 .active{
-    width:108px;
-    background:url(../images/bg_menu_home_active.jpg) left top no-repeat;	
-}
-.menu_top .menu2 a:hover,.menu_top .menu2 .active{
-    width:95px;
-    background:url(../images/bg_menu_abouts_active.jpg) left top no-repeat;	
-}
-.menu_top .menu3 a:hover,.menu_top .menu3 .active{
-    width:100px;
-    background:url(../images/bg_menu_shop_active.jpg) left top no-repeat;	
-}
-.menu_top .menu4 a:hover,.menu_top .menu4 .active{
-    width:94px;
-    background:url(../images/bg_menu_gif_active.jpg) left top no-repeat;	
-}
-.menu_top .menu5 a:hover,.menu_top .menu5 .active{
-    width:86px;
-    background:url(../images/bg_menu_services_active.jpg) left top no-repeat;	
-}
-.menu_top .menu6 a:hover,.menu_top .menu6 .active{
-    width:153px;
-    background:url(../images/bg_menu_search_active.jpg) left top no-repeat;	
-}
-.menu_top .menu7 a:hover,.menu_top .menu7 .active{
-    width:153px;
-    background:url(../images/bg_menu_contacts_active.jpg) left top no-repeat;	
-}
 .menu_top li{
-    position:relative;	
+    position:relative;
 }
 .menu_top ul{
     position:absolute;
@@ -105,11 +45,11 @@ ul.menu_top{
     display:none;
 }
 .menu_top li:hover ul{
-    display:block;	
+    display:block;
 }
 
 .menu_top ul li{
-    background:none;	
+    background:none;
     margin:0px;
 }
 .menu_top ul li a{
@@ -123,12 +63,12 @@ ul.menu_top{
     border-bottom:1px solid #5c7701;
 }
 .menu_top ul li a:hover{
-    background:url(../images/bg_menu_top_chi_hover.jpg) left center repeat-x !important;	
+    background:url(../images/bg_menu_top_chi_hover.jpg) left center repeat-x !important;
 }
 .menu_left{
     width:10px;
     height:48px;
-    background:url(../images/menu_left.jpg) left top no-repeat;	
+    background:url(../images/menu_left.jpg) left top no-repeat;
 }
 
 .menu_right{
@@ -152,9 +92,8 @@ ul.menu_top{
     margin:0px 10px;
 }
 .menu_bot ul li a:hover,.menu_bot ul li .active{
-    color:#264900;	
+    color:#264900;
 }
 .menu-full{
     background: rgba(0, 0, 0, 0) url("../images/bg_menu.jpg") repeat-x scroll left top;
 }
-

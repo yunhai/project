@@ -456,7 +456,7 @@ EOF;
 					$editor = new tinyMCE();
 					$editor->setWidth('500px');
 					$editor->setHeight('300px');
-					$editor->setToolbar('narrow');
+					$editor->setToolbar('simple');
 					$editor->setTheme("advanced");
 					$editor->setInstanceName('categoryDesc');
 					$editor->setValue($category->getAlt());

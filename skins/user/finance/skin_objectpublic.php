@@ -17,13 +17,12 @@ function showObj($obj,$module){
 EOF;
 	}
 function showDetail($obj,$option){
-//	echo 123;exit();
-        global $bw,$vsLang,$vsPrint,$vsTemplate;
+  global $bw,$vsLang,$vsPrint,$vsTemplate;
 	$count=count($option['other']);
-
 
 		$BWHTML .= <<<EOF
  <h3 class="title_cate">
+    <if="$bw->input['module']=='ho-tro-khach-hang'">{$vsLang->getWords('ho-tro-khach-hang','Hỗ trợ khách khàng')}</if>
     <if="$bw->input['module']==dichvu">{$vsLang->getWords('dichvu','Dịch Vụ')}</if>
     <if="$bw->input['module']==news">{$vsLang->getWords('news','Tìm hiểu Về Hoa')}</if>
 </h3>
@@ -31,6 +30,10 @@ function showDetail($obj,$option){
 <div class="main_item main_th">
     <h1 class="title_detail_th">{$obj->getTitle()}</h1>
     {$obj->getContent()}
+
+    <if="$bw->input['module']==dichvu && $obj->getId() == 5">
+      <iframe src="https://docs.google.com/forms/d/1Ul6dhfDwHYTneLkfdb_oLZ5tDIX4Ad3IFUeefSYl8-w/viewform?embedded=true#start=openform" width="760" height="500" frameborder="0" marginheight="0" marginwidth="0">Đang tải...</iframe>
+    </if>
 
     <div class="g-plusone" data-annotation="inline" data-width="300"></div>
     <script type="text/javascript">
@@ -51,7 +54,7 @@ function showDetail($obj,$option){
         </div>
     </if>
 
-    <if="$bw->input['module']==dichvu">
+    <if="$bw->input['module']=='dichvu' || $bw->input['module']=='ho-tro-khach-hang'">
         <if="$option['pageList']">
             <h3 class="title_cate">Bài viết khác</h3>
         </if>

@@ -1,12 +1,14 @@
 <?php
 $arraySetting = array (
+  'ho-tro-khach-hang_user_list_number_other' => '10',
+  'ho-tro-khach-hang_user_item_quality' => '10',
+  'global_hotline' => '0',
   'global_googleplus' => 'https://plus.google.com/u/1/114612912152621832929',
   'global_youtube' => 'https://www.youtube.com/channel/UChtB6J6zTuM9aeKAPtRMkCA',
   'global_facebook' => 'https://www.facebook.com/shophoa360ngay/',
   'payment_user_list_number_other' => '10',
   'payment_user_item_quality' => '10',
   'google_analysis' => '0',
-  'global_hotline' => '0936 652 727',
   'contact_form_company' => '0',
   'contact_emailrecerver' => 'minhhai@vietsol.net',
   'contact_form_cell' => '0',

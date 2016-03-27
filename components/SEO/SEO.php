@@ -6,7 +6,7 @@ class COM_SEO extends VSFObject{
 	public $aliasurl = array();
         public $aliasurls = array();
 	public $realurl	= array();
-        
+
 	public $obj;
 
 	public $result 	= array();
@@ -26,7 +26,7 @@ $bw->input['vs'] = trim($bw->input['vs'],"/");
 		if($this->obj->getId()){
 			$vsPrint->pageTitle=$vsPrint->mainTitle=$this->obj->getTitle();
 		}
-			
+
 	}
 
 	function lastProcess() {
@@ -35,12 +35,12 @@ $bw->input['vs'] = trim($bw->input['vs'],"/");
 		if($this->obj->getTitle()!="") {
 			$pageTitle = $this->obj->getTitle()." | ".$bw->vars['global_websitename'];
 			$vsSkin->wrapper = str_replace("<title>".$vsPrint->pageTitle."</title>","<title>".$pageTitle."</title>", $vsSkin->wrapper);
-			$vsSkin->wrapper = str_replace("</title>","</title><meta name='title' content='".$pageTitle."' />", $vsSkin->wrapper);		
+			$vsSkin->wrapper = str_replace("</title>","</title><meta name='title' content='".$pageTitle."' />", $vsSkin->wrapper);
 		}
 		else{
 			$vsSkin->wrapper = str_replace("</title>","</title><meta name='title' content='".$vsPrint->pageTitle."' />", $vsSkin->wrapper);
 		}
-		
+
 		if($this->obj->getKeyword()!="") {
 			$pageKeyword = '<meta name="keywords" content="'.$this->obj->getKeyword().'" />';
 			$vsSkin->wrapper = str_replace("</title>","</title>".$pageKeyword, $vsSkin->wrapper);
@@ -61,14 +61,14 @@ $bw->input['vs'] = trim($bw->input['vs'],"/");
 
 		if (APPLICATION_TYPE == 'user'){
 //			if(!$vsSettings->getSystemKey("replace_details_alias_after_process", 0, "urlalias", 1, 1)){
-//				$this->getGlobalSEOObject();			
+//				$this->getGlobalSEOObject();
 //			}
-           
+
 			if(is_array($this->aliasurls)){
 				$vsSkin->wrapper = strtr($vsSkin->wrapper,$this->aliasurls);
 			}
 		}
-			
+
 	}
 
 	function validateSEOObject() {
@@ -100,14 +100,14 @@ $bw->input['vs'] = trim($bw->input['vs'],"/");
 			if($seoObject->getAliasUrl()!=""){
 				$this->realurl[$seoObject->getAliasUrl()] = $seoObject->getRealUrl();
 				$this->realurls[$bw->vars['board_url'].'/'.$seoObject->getAliasUrl()] = $bw->vars['board_url'].'/'.$seoObject->getRealUrl();
-			}			
-		}	
-               
+			}
+		}
+
                 $temp = str_replace(".html", "", $bw->input['vs']);
-                
+
 		if(is_object($this->arrayObj[$temp]))
 			$this->obj = $this->arrayObj[$temp];
-		else 
+		else
 		{
 			$this->obj = new SEO();
 		}
@@ -122,7 +122,7 @@ $bw->input['vs'] = trim($bw->input['vs'],"/");
 		}else{
 			return $url;
 		}
-		
+
 	}
 //	function getGlobalSEOObject() {
 //		global $DB, $bw;
@@ -139,11 +139,11 @@ $bw->input['vs'] = trim($bw->input['vs'],"/");
 //                        $this->aliasurls[$bw->vars['board_url']."/".$seoObject->getRealUrl()] = $bw->vars['board_url']."/".$seoObject->getAliasUrl();
 //                        }
 //			if($seoObject->getAliasUrl()!="")
-//			$this->realurl[$seoObject->getAliasUrl()] = $seoObject->getRealUrl();	
-//                        }	
+//			$this->realurl[$seoObject->getAliasUrl()] = $seoObject->getRealUrl();
+//                        }
 ////		if(is_object($this->arrayObj[$bw->input['vs']]))
 ////			$this->obj = $this->arrayObj[$bw->input['vs']];
-////		else 
+////		else
 ////		{
 ////			$this->setCondition("seoAliasUrl = '{$bw->input['vs']}'");
 ////			$this->obj =$this->getOneObjectsByCondition ( 'getAliasUrl');
@@ -159,7 +159,7 @@ $bw->input['vs'] = trim($bw->input['vs'],"/");
 		print 'dsadsa'.$bw->base_url.$this->aliasurl[$bw->input['vs']];exit;
 		if(in_array($bw->input['vs'],$this->realurl)) {
 			$vsPrint->boink_it($bw->base_url.$this->aliasurl[$bw->input['vs']]);
-				
+
 		}
 	}
 }

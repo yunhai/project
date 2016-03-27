@@ -165,11 +165,12 @@ try {
 		}
 		$thread = "public";
 	}
-$vsStd->requireFile(LIBS_PATH . 'Addon.class.php');
-	$addon = new Addon();
+
 	// Update language for new display
 	$vsLang->setCurrentArea($vsModule->obj->getClass());
 	$runmeFilePath = $vsModule->obj->getClass() . "/" . $vsModule->obj->getClass() . "_".$thread.".php";
+
+
 	if(file_exists(EXTEND_PATH. $runmeFilePath))
 		$runmeFilePath=EXTEND_PATH. $runmeFilePath;
 	elseif(file_exists(CORE_PATH. $runmeFilePath))
@@ -214,6 +215,9 @@ $vsStd->requireFile(LIBS_PATH . 'Addon.class.php');
 	}else {
 		$runme->setOutput($vsTemplate->global_template->PermissionDenied($vsUser->result['message']));
 	}
+
+	$vsStd->requireFile(LIBS_PATH . 'Addon.class.php');
+	$addon = new Addon();
 
 }
 catch (Exception $e) {

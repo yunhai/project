@@ -33,6 +33,8 @@ class Addon {
             $vsTemplate->global_template->menu_sub["quatang"] = $this->buildchildMenu('quatang');
             $vsTemplate->global_template->menu_sub["contacts"] = $this->buildchildMenu('contacts');
 
+			$vsTemplate->global_template->menu_sub["ho-tro-khach-hang"] = $this->getPagemenu('ho-tro-khach-hang');
+
 
             $vsTemplate->global_template->quatangCate = $vsMenu->getCategoryGroup("quatang")->getChildren();
             $vsTemplate->global_template->menu = $this->html->showMenuTopForUser($menu);
@@ -76,6 +78,10 @@ class Addon {
             $vsStd->requireFile(CORE_PATH . 'supports/supports.php');
             $supports = new supports();
             $vsTemplate->global_template->portlet_supports = $supports->portlet();
+
+						$option['category'] = $vsTemplate->global_template->cateproducts;
+						$vsTemplate->global_template->products_filter_portlet = $this->html->showProductFilterPortlet($option);
+
     }
 
 	function getThoiTiet() {
