@@ -15,8 +15,9 @@ ul.menu_top{
     float: left;
     text-align:left;
     color: #fff;
-    padding: 0 10px;
+    padding: 0 15px;
     line-height: 48px;
+    font-size:15px !important;
 }
 .menu_top li a.active,
 .menu_top li a:hover{

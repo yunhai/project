@@ -150,6 +150,7 @@ $lang = array (
   'tab_obj_objes_khang' => 'Khách Hàng',
   'tab_obj_objes_dichvu' => 'Dịch Vụ',
   'tab_obj_objes_noidung' => 'noidung',
+  'tab_obj_objes_ho-tro-khach-hang' => 'ho-tro-khach-hang',
 );
 $userLang = array (
 );

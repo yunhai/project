@@ -116,6 +116,7 @@ EOF;
 								</foreach>
 							</select>
 						</div>
+						<span class='description'>{$vsLang->getWords('global_product_filter_description', '* Bạn có thể gọi nhanh cho chúng tôi theo số 0936 65 27 27 để đặt hoa theo thiết kế riêng')}</span>
 						<div class='button-bar text-center'>
 							<input type='submit' class='btn btn-primary' value='{$vsLang->getWords('global_product_filter_submit', 'Gửi')}' />
 						</div>

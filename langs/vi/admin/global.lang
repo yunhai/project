@@ -145,6 +145,9 @@ $lang = array (
   'global_bt_edit' => 'Sá»­a',
   'global_left' => 'Left',
   'global_right' => 'Right',
+  'global_status_enable1' => 'Current Show',
+  'global_status_disabled1' => 'Not Show',
+  'global_status_show_home' => 'Home Show',
 );
 $userLang = array (
 );

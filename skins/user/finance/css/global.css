@@ -513,6 +513,9 @@ ul.cate_2 li a:hover {
 	background: #fff;
 	margin-bottom: 20px;
 }
+.products-filter-portlet .description {
+  font-style: italic;
+}
 .products-filter-portlet .body {
 	border: solid 1px #789101;
 	border-top: 0;

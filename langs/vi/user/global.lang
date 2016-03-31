@@ -60,6 +60,18 @@ $lang = array (
   'global_file_not_exist' => 'The file <b>%s</b> does not exist!',
   'global_chitiet' => 'chi tiết',
   'global_cannot_write_file' => 'We cannot write file <b>%s</b>. Please check the permission!',
+  'global_product_filter' => 'Tư vấn chọn hoa',
+  'global_product_filter_category' => 'Chủ đề',
+  'global_product_filter_price' => 'Mức giá',
+  'global_product_filter_price_1' => '100,000 ~ 500,000',
+  'global_product_filter_price_2' => '500,000 ~ 1,000,000',
+  'global_product_filter_price_3' => '1,000,000 ~ 2,000,000',
+  'global_product_filter_price_4' => '2,00,000 ~ 5,000,000',
+  'global_product_filter_price_5' => '5,000,000 trở lên',
+  'global_product_filter_submit' => 'Gửi',
+  'global_product_filter_price_0' => 'Tất cả',
+  'global_product_filter_category_all' => 'Tất cả',
+  'global_product_filter_description' => '* Bạn có thể gọi nhanh cho chúng tôi theo số 0936 65 27 27 để đặt hoa theo thiết kế riêng',
 );
 $userLang = array (
 );

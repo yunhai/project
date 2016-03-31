@@ -108,7 +108,10 @@ class skin_global {
 		</if>
         <div class="primary1 col-lg-9 col-md-12 col-sm-12 col-xs-12">
             <div class="item_home">
-                <if="$bw->input['module']==orders "> <div class="div_orders" style="width:100%"></if>
+								<if="$bw->isMobile">
+								{$this->products_filter_portlet}
+								</if>
+								<if="$bw->input['module']==orders"> <div class="div_orders" style="width:100%"></if>
                 {$this->SITE_MAIN_CONTENT}
 
                 <if="$bw->input['module']==orders "> </div "></if>

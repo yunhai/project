@@ -45,7 +45,7 @@ function showDetail($obj,$option){
         var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
       })();
     </script>
-    <iframe src="http://www.facebook.com/plugins/like.php?href=http://shophoa360.com/&amp;layout=standard&amp;show_faces=true&amp;action=like&amp;colorscheme=light&amp" style="overflow:hidden;width:100%;height:80px;" scrolling="no" frameborder="0" allowTransparency="true"><a href="http://www.stromvergleich.bz">stromvergleich.bz</a></iframe>
+    <iframe src="http://www.facebook.com/plugins/like.php?href=http://shophoa360.com/&amp;layout=standard&amp;show_faces=true&amp;action=like&amp;colorscheme=light&amp" style="overflow:hidden;width:100%;height:800px;" height='800px' scrolling="no" frameborder="0" allowTransparency="true"><a href="http://www.stromvergleich.bz">stromvergleich.bz</a></iframe>
     <div class="clear"></div>
   	<if="$bw->input['module']==news && $option['other']">
         <h3 class="title_cate">{$vsLang->getWords('baivietkhac','Bài viết khác')}</h3>
