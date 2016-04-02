@@ -209,7 +209,40 @@ class orders_public {
 
 		$this->output = $this->html->billName($option);
 	}
+	
+	function sendEmail($option = array()) {
+		global $vsStd;
+		try {
+			extract($option);
+			$vsStd->requireFile ( UTILS_PATH . "mailer/PHPMailerAutoload.php", true );
+			$mail = new PHPMailer();
+			
+			$mail->IsSMTP();
+			$mail->SMTPDebug  = 0;                     // enables SMTP debug information (for testing)
+			$mail->SMTPAuth   = true;                  // enable SMTP authentication
+			$mail->SMTPSecure = "tls";                 // sets the prefix to the servier
+			$mail->Host       = "smtp.gmail.com";      // sets GMAIL as the SMTP server
+			$mail->Port       = 587;                   // set the SMTP port for the GMAIL server
+			$mail->Username   = "vietsolsmtp@gmail.com";  // GMAIL username
+			$mail->Password   = "smtp@vietsol";            // GMAIL password
+			
+			if (!empty($bcc)) {
+				$mail->addBcc($bcc);
+			}
+			
+			$mail->AddAddress($to);
+			
+			$mail->SetFrom($from, $fromName);
+			
+			$mail->Subject = $subject;
 
+			$mail->MsgHTML($body);
+			return $mail->Send();
+		} catch (phpmailerException $e) {  
+		} catch (Exception $e) {
+		}
+    }
+	
 	function viewOrder($id=0,$message=""){
 		global $bw,$vsUser,$vsTemplate,$vsLang,$vsStd,$vsSettings,$vsMenu;
 
@@ -229,18 +262,16 @@ class orders_public {
 		$option['message']= $message;
     	$option['total'] = number_format($te ,0,"",",");
 
-     	$htmlsendemail =  $this->html->viewSendEmail($option);
-     	$vsStd->requireFile ( LIBS_PATH . "Email.class.php", true );
-		$this->email = new Emailer ();
-
-   		$this->email->setTo ($bw->input['orderEmail']);
-   		//$this->email->addBCC($vsSettings->getSystemKey("contact_emailrecerver", "sangpm@vietsol.net", $bw->input['module']));
-   		//$this->email->addBCC($vsSettings->getSystemKey("contact_emailrecerver1", "dongkhoi@hotmail.com.vn", $bw->input['module']));
-		//$this->email->setFrom ($vsSettings->getSystemKey("contact_emailrecerver1", "dongkhoi@hotmail.com.vn", $bw->input['module']),$bw->vars['global_websitename']);
-		$this->email->setSubject ($bw->vars['global_websitename']." - ". $vsLang->getWordsGlobal('global_xacnhandonhang','Xác Nhận Đơn hàng') );
-		$this->email->setBody ( $htmlsendemail );
-
-		$this->email->sendMail ();
+		$body = $this->html->viewSendEmail($option);
+		
+		$subject = $bw->vars['global_websitename']." - ". $vsLang->getWordsGlobal('global_xacnhandonhang', 'Xác Nhận Đơn hàng');
+		$to = $bw->input['orderEmail'];
+		$from = array('info@shophoa360.com' => $bw->vars['global_websitename']);
+		$bcc = $vsSettings->getSystemKey("global_systemmail", "tvthuylinh01@gmail.com", "config");
+	
+		$vsStd->requireFile ( LIBS_PATH . "Email.class.php", true );
+		$mailer = new Email(compact('to', 'from', 'subject', 'body', 'bcc'));
+		$mailer->sendEmail();
 
 		$vsStd->requireFile(CORE_PATH."pages/pages.php");
 		$pr_noidung = new pages();

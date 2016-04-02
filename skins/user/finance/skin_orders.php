@@ -660,24 +660,33 @@ EOF;
 		<h3 class="order_title">{$vsLang->getWords('global_xacnhandonhang','Xác nhận đơn hàng')}</h3>
 		<p>{$vsLang->getWords('global_noidungxacnhan','Bạn đã mua thành công sản phẩm của chúng tôi.')}</p>
 		<table border="0" class="thongbao">
-	       		<tr>
-                	<td style="color:#252525">{$vsLang->getWords('user_full_middle','Tên người nhận')}: </td>
-                    <td>{$option['order']->getName()}</td>
-                </tr>
+			<tr align="left">
+					<th>{$vsLang->getWords('order_name','Họ tên người đặt hàng')}:</th>
+					<td>{$option['order']->getName()}</td>
+			</tr>
+			<tr align="left">
+							<th>{$vsLang->getWords('order_phone','Điện thoại người đặt hàng')}:</th>
+							<td>{$option['order']->getPhone()}</td>
+			</tr>
+			<tr align="left">
+							<th >{$vsLang->getWords('order_email','Email người đặt hàng')}:</th>
+							<td>{$option['order']->getEmail()}</td>
+			</tr>
+
+			<tr align="left">
+				<th>{$vsLang->getWords('order_receipt_name','Họ tên người nhận')}:</th>
+							<td>{$option['order']->getU('fullname')}</td>
+			</tr>
+			<tr align="left">
+							<th>{$vsLang->getWords('order_receipt_address','Địa chỉ người nhận')}:</th>
+							<td>{$option['order']->getU('address')}</td>
+			</tr>
+				<tr align="left">
+							<th>{$vsLang->getWords('order_receipt_phone','Điện thoại người nhận')}:</th>
+							<td>{$option['order']->getU('phone')}</td>
+				</tr>
                 <tr>
-                	<td style="color:#252525">{$vsLang->getWords('user_email','Email')}: </td>
-                    <td style="color:#5599bb">{$option['order']->getEmail()}</td>
-                </tr>
-                <tr>
-                	<td style="color:#252525">{$vsLang->getWords('user_address','Địa chỉ')}:</td>
-                    <td>{$option['order']->getAddress()}</td>
-                </tr>
-                <tr>
-                	<td style="color:#252525">{$vsLang->getWords('user_phone','Điện thoại')}: </td>
-                    <td>{$option['order']->getPhone()}</td>
-                </tr>
-                <tr>
-                	<td style="color:#252525">{$vsLang->getWords("user_message","Nội dung")}: </td>
+                	<th>{$vsLang->getWords("user_message","Nội dung")}: </td>
                     <td>{$option['order']->getMessage()}</td>
                 </tr>
 

@@ -144,12 +144,6 @@ EOF;
 					</div>
 					
 					<table cellpadding="1" cellspacing="1" border="0" class="ui-dialog-content ui-widget-content" width="100%">
-						<if=" $vsSettings->getSystemKey("contact_form_company", 1, "contacts", 0, 1)">
-						<tr class="smalltitle">
-							<td class='left' width="100">{$vsLang->getWords('contactCompany','Company:')}</td>
-							<td class='right'>{$contactProfile["contactCompany"]}</td>
-						</tr>
-						</if>
 
 						<if=" $vsSettings->getSystemKey("contact_form_name", 1, "contacts", 0, 1)">
 						<tr class="smalltitle">

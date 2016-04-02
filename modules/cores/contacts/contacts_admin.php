@@ -168,22 +168,20 @@ EOF;
 	function replyProcess($contactId, $contactType=0) {
 		global $bw, $vsLang, $vsStd ,$vsSettings;
 
-		$vsStd->requireFile ( LIBS_PATH . "Email.class.php", true );
-
-		$this->email = new Emailer();
-		$this->email->setTo($bw->input['email']);
+		$to = $bw->input['email'];
 		
-		$this->email->setFrom($vsSettings->getSystemKey("contact_emailrecerver", "minhhai@vietsol.net", "contacts"));
-		$this->email->setSubject($vsSettings->getSystemKey("global_websitename","www.vietsol.net", "global", 0));
+		$from = array('info@shophoa360.com' => $bw->vars['global_websitename']);
+		$subject = $vsSettings->getSystemKey("global_websitename", "www.vietsol.net", "global", 0);
 		
 		$parser = new PostParser ();
 		$parser->pp_do_html = 1;
 		$parser->pp_nl2br = 0;
 		$body =  $parser->post_db_parse($bw->input['contactContent']);
-		$this->email->setBody($body);
-           
-		$this->email->sendMail();
-
+		
+		$vsStd->requireFile ( LIBS_PATH . "Email.class.php", true );
+		$mailer = new Email(compact('to', 'from', 'subject', 'body'));
+		$mailer->sendEmail();
+exit;
 		$option['message'] = $vsLang->getWords('contact_send_fail', 'Send mail fail');
 
 		if(!$this->email->error) {

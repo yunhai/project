@@ -20,7 +20,7 @@ class skin_contacts extends skin_objectpublic{
             </if>
 
             <if=" $vsSettings->getSystemKey("contact_form_address", 1, "contacts", 0, 1)">
-                <input required placeholder="{$vsLang->getWords('contact_address','Địa chỉ')}" class="form-control" id="contactAddress" value="{$bw->input['contactAddress']}" name="contactAddress" title="{$vsLang->getWords('contact_address','Địa chỉ')}"  type="email" />
+                <input required placeholder="{$vsLang->getWords('contact_address','Địa chỉ')}" class="form-control" id="contactAddress" value="{$bw->input['contactAddress']}" name="contactAddress" title="{$vsLang->getWords('contact_address','Địa chỉ')}" />
             </if>
 
             <if=" $vsSettings->getSystemKey("contact_form_email", 1, "contacts", 0, 1)">
@@ -47,7 +47,7 @@ class skin_contacts extends skin_objectpublic{
             </a>
             </div> 
             <div class="clear_left"></div>
-            <p style="color:red;margin-left: 75px;">{$bw->input['message']}</p>
+            <p style="color:red;">{$bw->input['message']}</p>
             <div class="clear_left"></div>
             <input type="reset" class="input_reset btn btn-success" value="{$vsLang->getWords('contact_rs','Làm lại')}" style="width:45%">
             <input type="submit" value="{$vsLang->getWords('contact_sends','Gửi')}" class="input_submit btn btn-success" style="width:45%" />

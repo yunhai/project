@@ -36,12 +36,18 @@ class contacts_public {
 					$this->thankContact();
 				break;
 			
+			case 'test':
+					$this->sendEmail();
+					break;
+			
 			default :
 				$this->showDefault ();
 				
 		}
 	}
 
+	
+	
 	
 	function showDefault() {
 		global $bw, $vsStd, $vsSettings, $vsLang,$vsMenu,$vsPrint;
@@ -53,17 +59,7 @@ class contacts_public {
       	$page->setCondition("pcontactCatId in ({$strIds}) and pcontactStatus > 0");
       	$page->setOrder("pcontactIndex ASC, pcontactId ASC");
 		$option['contact'] = $page->getOneObjectsByCondition();
-//		print "<pre>";
-//		print_r ($option['contact']);
-//		print "</pre>";
-//		exit();
-//		if($option['contact'])
-//        	$this->model->convertFileObject(array($option['contact']),'pcontacts'); 
 
-//          print "<pre>";
-//          print_r ($option['contact']);
-//          print "</pre>";
-//          exit();	
 		$this->model->getNavigator();
 		return $this->output = $this->html->showDefault($option);
 		
@@ -79,10 +75,10 @@ class contacts_public {
 			$vsStd->requireFile ( ROOT_PATH . "vscaptcha/VsCaptcha.php" );
 			$image = new VsCaptcha();
 			if (! $image->check ( $security )) {
-				$bw->input['message'] = $vsLang->getWords('thank_message','Security code doesnot match');
+				//$bw->input['message'] = $vsLang->getWords('thank_message','Security code doesnot match');
 				
 		
-				return $this->showDefault();
+				//return $this->showDefault();
 			}
 		}
 		
@@ -102,7 +98,6 @@ class contacts_public {
 		$result = $this->model->insertObject();
 		if($vsSettings->getSystemKey("contact_sendMail", 1, "contacts")){
 			$this->sentContactByEmail($infoupload['objfile']);
-
 		}
 		if ($this->model->error != "")
 			return $this->sendContactError();
@@ -110,46 +105,44 @@ class contacts_public {
 		else $url = $bw->input['module'];
 		$this->thankcontact($url);
 	}
-
+	
+	
 	function sentContactByEmail($file) {
 		global $vsStd, $vsLang, $bw, $vsSettings;
-		$vsStd->requireFile ( LIBS_PATH . "Email.class.php", true );
-		$this->email = new Emailer ();
-
+		
+		$body = '';
 		if($vsSettings->getSystemKey("contact_form_name", 1, "contacts", 1, 1))
-			$message = "<strong>{$vsLang->getWords('contact_full_name','Họ và tên')}:</strong> {$this->model->obj->getName()}<br />";
+			$body = "<strong>{$vsLang->getWords('contact_full_name','Họ và tên')}:</strong> {$this->model->obj->getName()}<br />";
 
 		if($vsSettings->getSystemKey("contact_form_email", 1, "contacts", 1, 1))
-			$message .= "<strong>{$vsLang->getWords('contact_email','Email')}:</strong> {$this->model->obj->getEmail()}<br />";
+			$body .= "<strong>{$vsLang->getWords('contact_email','Email')}:</strong> {$this->model->obj->getEmail()}<br />";
 
 		if($vsSettings->getSystemKey("contact_form_address", 1, "contacts", 1, 1))
-			$message .= "<strong>{$vsLang->getWords('contact_address','Địa chỉ')}:</strong>" . $this->model->obj->getAddress();
+			$body .= "<strong>{$vsLang->getWords('contact_address','Địa chỉ')}:</strong>" . $this->model->obj->getAddress();
 
 		if($vsSettings->getSystemKey("contact_form_phone", 1, "contacts", 1, 1))
-			$message .= "<br /><strong>{$vsLang->getWords('contact_phone','Điện thoại')}:</strong>" . $this->model->obj->getPhone();
+			$body .= "<br /><strong>{$vsLang->getWords('contact_phone','Điện thoại')}:</strong>" . $this->model->obj->getPhone();
 
 		if($vsSettings->getSystemKey("contact_form_company", 0, "contacts", 1, 1))
-			$message .= "<br /><strong>{$vsLang->getWords('contact_company','Công ty:')}:</strong>" . $this->model->obj->getCompany();
+			$body .= "<br /><strong>{$vsLang->getWords('contact_company','Công ty:')}:</strong>" . $this->model->obj->getCompany();
 
 		if($vsSettings->getSystemKey("contact_form_cell", 0, "contacts", 1, 1))
-			$message .= "<br /><strong>{$vsLang->getWords('contact_mobile','Di động')}:</strong>" . $this->model->obj->getDidong() . "<br />";
+			$body .= "<br /><strong>{$vsLang->getWords('contact_mobile','Di động')}:</strong>" . $this->model->obj->getDidong() . "<br />";
 
 
 		if($vsSettings->getSystemKey("contact_form_title", 1, "contacts", 1, 1))
-			$message .= "<br /><strong>{$vsLang->getWords('contact_title','Tiêu đề')}:</strong> {$this->model->obj->getTitle()}<br />";
+			$body .= "<br /><strong>{$vsLang->getWords('contact_title','Tiêu đề')}:</strong> {$this->model->obj->getTitle()}<br />";
 
-		$message .= "<br /><strong>{$vsLang->getWords('contact_message','Subject')}:</strong>" . $this->model->obj->getContent();
-		$this->email->setTo ( $vsSettings->getSystemKey("contact_emailrecerver", "minhhai@vietsol.net", "contacts"));
-      	if($vsSettings->getSystemKey("contact_form_file", 0, "contacts", 0, 1))	
-			if($file){
-			$f = file_get_contents($bw->base_url."uploads/".$file->getPath().$file->getName()."_{$file->getUploadTime()}".".".$file->getType(), true);
-			$this->email->addAttachment($f,$file->getName()."_{$file->getUploadTime()}".".".$file->getType(),"application/force-download");
-	      	}
-		$this->email->setFrom ( $this->model->obj->getEmail (), $this->model->obj->getName() );
-		$this->email->setSubject ($this->model->obj->getTitle () );
-		$this->email->setBody ( $message );
+		$body .= "<br /><strong>{$vsLang->getWords('contact_message','Subject')}:</strong>" . $this->model->obj->getContent();
+		
+		$to = $vsSettings->getSystemKey("global_systemmail", "tvthuylinh01@gmail.com", "config");
+		$from = array($this->model->obj->getEmail() => $this->model->obj->getName());
 
-		$this->email->sendMail ();
+		$subject = $this->model->obj->getTitle();
+		
+		$vsStd->requireFile ( LIBS_PATH . "Email.class.php", true );
+		$mailer = new Email(compact('to', 'from', 'subject', 'body'));
+		$mailer->sendEmail();
 	}
 
 	function thankcontact($url="contacts") {
