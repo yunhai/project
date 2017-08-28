@@ -1,0 +1,6 @@
+/.phpintel
+/composer.lock
+/public/media/
+/tenant/101/mypham/Tmp/
+/vendor/
+*.ftpconfig

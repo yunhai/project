@@ -1,0 +1,40 @@
+{% set html = load('html', 'helper') %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>{{ meta.title }}</title>
+    <meta name='title' content='{{ meta.title }}' />
+    <meta name='description' content='{{ meta.description }}' />
+    <meta name='keywords' content='{{ meta.keyword }}' />
+    <meta name='canonical' content='{{ meta.canonical }}' />
+
+    {{ html.css(['jquery.nailthumb.1.1.min'], 'package/nailthumb') }}
+    {{ html.css(['normalize', 'bootstrap.min', 'date', 'font-awesome.min', 'owl.carousel', 'owl.theme', 'main', 'media', 'common']) }}
+
+
+    {{ html.js(['jquery-1.11.3.min', 'bootstrap.min', 'bootstrap-toolkit.min', 'moment', 'date']) }}
+    {{ html.js(['jquery.nailthumb.1.1.min'], 'package/nailthumb') }}
+    {% block top %}{% endblock %}
+</head>
+<body>
+    {% include 'element/layout/header.twg' %}
+    {% include 'element/layout/breadcrumb.twg' %}
+    <section id="main-page"><!--main-page-->
+        <div class="container"><!--container-->
+            <div class="row"><!--row-->
+                {% block content %}{% endblock %}
+            </div><!--end row-->
+        </div><!--end container-->
+    </section><!--end main page-->
+
+    {% include 'element/layout/footer.twg' %}
+
+    <!-- #### Import JS File #### -->
+    {{ html.js(['owl.carousel.min', 'jquery.marquee.min', 'main', 'load-more', 'cart']) }}
+    {% block bottom %}{% endblock %}
+</body>
+</html>
