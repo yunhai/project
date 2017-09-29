@@ -269,7 +269,6 @@ class ProductController extends Frontend
         $target['manufacturer_target'] = $manufacturer;
         $this->associate($manufacturer);
 
-
         $this->render('detail', compact('target', 'option', 'manufacturer'));
     }
 

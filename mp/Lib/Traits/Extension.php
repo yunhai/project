@@ -286,7 +286,7 @@ trait Extension
     public function revertExtension($data = [], $default = true)
     {
         $info = [
-            'target_id' => $data['id'],
+            'target_id' => $data['id'] ?? 0,
             'target_model' => $this->alias(),
         ];
 
@@ -298,7 +298,7 @@ trait Extension
     public function afterFind(&$data = [])
     {
         parent::afterFind($data);
-        
+
         if ($this->extension) {
             return $this->extractExtension($data);
         }
